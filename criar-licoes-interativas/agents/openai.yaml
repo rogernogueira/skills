@@ -1,0 +1,4 @@
+interface:
+  display_name: "Licoes Interativas"
+  short_description: "Crie conteudos didaticos e HTMLs interativos"
+  default_prompt: "Use $criar-licoes-interativas para transformar este tema em uma licao curta, visual e interativa."

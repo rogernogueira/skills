@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{TITULO_DA_LICAO}}</title>
+  <link rel="stylesheet" href="../assets/estilo-slides.css">
+  <link rel="stylesheet" href="../assets/componentes-interativos.css">
+</head>
+<body class="new-edition" data-storage-key="licao-{{SLUG}}" style="--art-sheet:url('../assets/illustrations/{{SLUG}}-sprites.png');--art-grid-x:400%;--art-grid-y:400%">
+  <nav class="dot-nav" aria-label="Navegação entre slides"></nav>
+  <div class="visually-hidden" data-announcer aria-live="polite"></div>
+  <div class="salvo" data-saved-notice role="status">Resposta salva neste navegador</div>
+
+  <main class="apresentacao">
+    <section class="slide title-slide master-hero" aria-labelledby="slide-1" data-slide="1">
+      <div class="slide-inner" style="--art-x:0%;--art-y:0%">
+        <div class="slide-counter">01 / 05</div>
+        <span class="crumb animate delay-1">{{TRILHA_OU_MODULO}}</span>
+        <h1 id="slide-1" class="animate delay-2">{{TITULO_DA_LICAO}}</h1>
+        <p class="subtitulo animate delay-3">{{PROMESSA_CURTA}}</p>
+        <p class="pergunta-guia animate delay-4">{{PERGUNTA_GUIA}}</p>
+      </div>
+    </section>
+
+    <section class="slide master-split" aria-labelledby="slide-2" data-slide="2">
+      <div class="slide-inner" style="--art-x:33.333%;--art-y:0%">
+        <div class="slide-counter">02 / 05</div>
+        <h2 id="slide-2" class="animate delay-1">{{MODELO_MENTAL}}</h2>
+        <div class="practice-grid animate delay-2">
+          <article class="practice-card"><h3>{{IDEIA_1}}</h3><p>{{EXPLICACAO_1}}</p></article>
+          <article class="practice-card"><h3>{{IDEIA_2}}</h3><p>{{EXPLICACAO_2}}</p></article>
+        </div>
+        <div class="animate delay-3">
+          <button type="button" class="example-button" data-example="exemplo-1" aria-expanded="false" aria-controls="exemplo-1">Ver exemplo</button>
+          <div id="exemplo-1" class="example-panel"><strong>Exemplo:</strong> {{EXEMPLO_CONCRETO}}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide master-focus no-side-art" aria-labelledby="slide-3" data-slide="3">
+      <div class="slide-inner">
+        <div class="slide-counter">03 / 05</div>
+        <h2 id="slide-3" class="animate delay-1">Prática · {{TITULO_DO_QUIZ}}</h2>
+        <div class="quiz-options animate delay-2" data-quiz>
+          <button type="button" class="quiz-option" data-answer data-incorrect-feedback="{{FEEDBACK_INCORRETO_1}}">{{ALTERNATIVA_1}}</button>
+          <button type="button" class="quiz-option" data-answer data-correct data-correct-feedback="{{FEEDBACK_CORRETO}}">{{ALTERNATIVA_CORRETA}}</button>
+          <button type="button" class="quiz-option" data-answer data-incorrect-feedback="{{FEEDBACK_INCORRETO_2}}">{{ALTERNATIVA_3}}</button>
+          <div class="quiz-feedback" data-feedback role="status" aria-live="polite">Escolha uma alternativa para receber feedback.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide master-dense" aria-labelledby="slide-4" data-slide="4">
+      <div class="slide-inner" style="--art-x:66.667%;--art-y:33.333%">
+        <div class="slide-counter">04 / 05</div>
+        <h2 id="slide-4" class="animate delay-1">Missão · {{TITULO_DA_MISSAO}}</h2>
+        <div class="checklist animate delay-2">
+          <label class="check-item"><input id="passo-1" type="checkbox" data-save><span>{{PASSO_1}}</span></label>
+          <label class="check-item"><input id="passo-2" type="checkbox" data-save><span>{{PASSO_2}}</span></label>
+          <label class="check-item"><input id="passo-3" type="checkbox" data-save><span>{{PASSO_3}}</span></label>
+        </div>
+        <div class="registro animate delay-3"><label for="resposta-missao">Registre sua decisão</label><textarea id="resposta-missao" data-save placeholder="{{PLACEHOLDER_DA_RESPOSTA}}"></textarea></div>
+      </div>
+    </section>
+
+    <section class="slide closing-slide master-hero" aria-labelledby="slide-5" data-slide="5">
+      <div class="slide-inner" style="--art-x:100%;--art-y:100%">
+        <div class="slide-counter">05 / 05</div>
+        <h2 id="slide-5" class="animate delay-1">Síntese</h2>
+        <div class="caixa animate delay-2"><p>{{SINTESE_ESSENCIAL}}</p></div>
+        <div class="exit-ticket animate delay-3"><span class="rotulo">Bilhete de saída</span><p>{{PERGUNTA_DE_SAIDA}}</p></div>
+        <p class="nota animate delay-4">Fonte principal: <a href="{{URL_DA_FONTE}}">{{NOME_DA_FONTE}}</a></p>
+        <div class="button-row animate delay-5"><button type="button" class="btn" data-print>Imprimir</button><button type="button" class="btn btn-secundario" data-reset>Limpar respostas</button></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/licao-runtime.js"></script>
+</body>
+</html>

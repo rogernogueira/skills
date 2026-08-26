@@ -2,7 +2,7 @@
 
 Skill para planejar, criar, revisar e validar lições HTML interativas (slides com
 `scroll-snap`, quizzes com feedback explicativo, simuladores, conclusão verificável,
-persistência local ou SCORM) na identidade visual ESMAT/TJTO.
+persistência local ou SCORM).
 
 Esta pasta é a adaptação da skill para Claude. A pasta `../codex/` mantém a versão original.
 

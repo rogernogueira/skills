@@ -1,0 +1,1011 @@
+/* Folha de estilo dos slides do Módulo VIII (MBA IA · ESMAT / TJTO).
+   Espelha esmat-VIII/assets/estilo.css — mesma identidade "portal público/judiciário":
+   azul-marinho (#07164D) + ciano/turquesa (#18A9D5 / #19B7C8) sobre branco e cinza claro.
+   Aqui a folha do documento vira o card de um slide de 100vh, com scroll-snap. */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+  /* Paleta institucional ESMAT / TJTO */
+  --azul-marinho: #07164D;
+  --azul:         #005EA8;
+  --ciano:        #18A9D5;
+  --turquesa:     #19B7C8;
+  --branco:       #FFFFFF;
+  --cinza-claro:  #F4F6F8;
+  --grafite:      #222222;
+  --cinza-medio:  #6B7280;
+
+  /* Fundos tênues */
+  --azul-suave:   #EEF3F8;
+  --ciano-suave:  #E7F6FA;
+  --ciano-borda:  #BFE6EF;
+  --borda:        #E2E8F0;
+
+  /* Acentos de alerta (uso pontual, herdados das lições) */
+  --alerta:       #B9564E;
+  --alerta-suave: #F4E3E1;
+  --ok:           #7F9B76;
+
+  /* Tipografia */
+  --fonte-titulo: "Montserrat", "Roboto", Arial, Helvetica, sans-serif;
+  --fonte-corpo:  "Roboto", "Open Sans", Arial, Helvetica, sans-serif;
+
+  /* Sombras discretas em azul-marinho */
+  --sombra:       0 1px 2px rgba(7,22,77,.05), 0 8px 24px rgba(7,22,77,.07);
+  --sombra-sm:    0 1px 2px rgba(7,22,77,.05), 0 3px 12px rgba(7,22,77,.06);
+  --sombra-xs:    0 1px 2px rgba(7,22,77,.06);
+  --sombra-hover: 0 6px 26px rgba(7,22,77,.13);
+
+  /* Raios */
+  --r-lg: 14px; --r-md: 10px; --r-sm: 6px; --r-pill: 999px;
+
+  /* Escala tipográfica */
+  --fs-h1:     clamp(1.7rem, 3.2vw, 2.6rem);
+  --fs-h2:     clamp(1.1rem, 1.6vw, 1.4rem);
+  --fs-h3:     clamp(.98rem, 1.25vw, 1.08rem);
+  --fs-corpo:  clamp(.95rem, 1.1vw, 1.06rem);
+  --fs-nota:   .86rem;
+  --fs-rotulo: .72rem;
+  --fs-stat:   clamp(2.4rem, 4.6vw, 3.6rem);
+
+  /* Layout */
+  --slide-max:   66rem;
+  --slide-pad-y: 2.6rem;
+  --slide-pad-x: 3.2rem;
+
+  --transicao: box-shadow .2s ease, transform .2s ease, color .2s ease, border-color .2s ease;
+  --anim-dur:  .55s;
+  --anim-ease: ease-out;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; font-size: 17px; }
+
+body {
+  margin: 0;
+  background: var(--cinza-claro);
+  color: var(--grafite);
+  font-family: var(--fonte-corpo);
+  line-height: 1.58;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; max-width: 100%; }
+
+/* ---------- Casca do slide ---------- */
+
+.slide {
+  position: relative; min-height: 100vh; width: 100%;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  display: grid; place-items: center;
+  padding: 2rem 1.25rem;
+}
+
+/* Card branco com faixa superior azul-marinho — assinatura do portal */
+.slide-inner {
+  position: relative;
+  width: min(var(--slide-max), 100%);
+  background: var(--branco);
+  border-radius: var(--r-lg);
+  border-top: 5px solid var(--azul-marinho);
+  box-shadow: var(--sombra);
+  padding: var(--slide-pad-y) var(--slide-pad-x);
+  display: flex; flex-direction: column; gap: 1.2rem;
+  overflow: hidden;
+}
+
+/* Vinhetas editoriais da Lição 01 — uma cena por slide, recortada de uma
+   prancha única para manter traço, escala e paleta rigorosamente consistentes. */
+.slide-inner[style*="--art-x"]::after {
+  content: "";
+  position: absolute;
+  right: 1.35rem;
+  bottom: 1.15rem;
+  width: clamp(5.25rem, 9vw, 7rem);
+  aspect-ratio: 1;
+  background-image: var(--art-sheet, url("illustrations/0001-ia-map-sprites.png"));
+  background-size: var(--art-grid-x, 400%) var(--art-grid-y, 400%);
+  background-position: var(--art-x) var(--art-y);
+  background-repeat: no-repeat;
+  border: 1px solid var(--ciano-borda);
+  border-radius: var(--r-md);
+  box-shadow: var(--sombra-sm);
+  pointer-events: none;
+  z-index: 0;
+}
+.slide-inner[style*="--art-x"] > * { position: relative; z-index: 1; }
+.slide-inner[style*="--art-x"] > :last-child { padding-right: clamp(6.8rem, 11vw, 8.5rem); }
+.diagram-slide .slide-inner[style*="--art-x"]::after,
+.cards-slide .slide-inner[style*="--art-x"]::after,
+.sources-slide .slide-inner[style*="--art-x"]::after { width: 5.25rem; opacity: .92; }
+
+.crumb {
+  align-self: flex-start;
+  font-family: var(--fonte-titulo); font-weight: 700;
+  font-size: var(--fs-rotulo); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--azul-marinho); background: var(--azul-suave);
+  border-radius: var(--r-sm); padding: .45rem .9rem;
+}
+.crumb a { color: var(--azul); text-decoration: none; border-bottom: 1px dotted var(--azul); }
+.crumb a:hover { color: var(--ciano); border-bottom-color: var(--ciano); }
+
+/* Trilha institucional — rodapé discreto do primeiro slide. Mantém os elos entre
+   lição, glossário e índice sem competir com o título na projeção. */
+.trilha {
+  margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--borda);
+  font-size: .7rem; letter-spacing: .04em; color: var(--cinza-medio);
+}
+.trilha a { color: var(--cinza-medio); text-decoration: none; border-bottom: 1px dotted var(--borda); }
+.trilha a:hover { color: var(--ciano); border-bottom-color: var(--ciano); }
+
+.slide-counter {
+  position: absolute; top: 1.4rem; right: 1.9rem;
+  font-family: var(--fonte-titulo); font-weight: 700;
+  font-size: var(--fs-rotulo); letter-spacing: .08em; color: var(--cinza-medio);
+}
+
+/* ---------- Tipografia ---------- */
+
+h1, h2, h3, p, blockquote, ul, ol, dl, figure, table { margin: 0; }
+
+h1 {
+  font-family: var(--fonte-titulo); font-weight: 800; font-size: var(--fs-h1);
+  line-height: 1.16; letter-spacing: .01em; text-transform: uppercase;
+  color: var(--azul-marinho);
+}
+h2 {
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: var(--fs-h2);
+  text-transform: uppercase; letter-spacing: .03em; color: var(--azul-marinho);
+  border-bottom: 2px solid var(--borda); padding-bottom: .35rem;
+}
+h3 { font-family: var(--fonte-titulo); font-weight: 600; font-size: var(--fs-h3); color: var(--azul); }
+
+p, li { font-size: var(--fs-corpo); line-height: 1.58; }
+p + p { margin-top: .7rem; }
+
+.subtitulo { font-style: italic; color: var(--cinza-medio); font-size: clamp(.98rem, 1.25vw, 1.15rem); }
+
+.rotulo {
+  display: block; font-family: var(--fonte-titulo); font-size: .7rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--azul);
+  font-weight: 700; margin-bottom: .35rem;
+}
+
+.nota { font-size: var(--fs-nota); color: var(--cinza-medio); line-height: 1.52; }
+.nota strong { color: var(--azul-marinho); }
+
+a { color: var(--azul); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--ciano); }
+
+strong { font-weight: 700; color: var(--azul-marinho); }
+em.termo { font-family: var(--fonte-titulo); font-style: normal; font-weight: 700; color: var(--azul); }
+sup.cit { font-size: .68rem; color: var(--ciano); font-weight: 700; }
+
+code {
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: .9em; background: var(--cinza-claro);
+  border: 1px solid var(--borda); border-radius: var(--r-sm); padding: .12em .45em;
+}
+
+.section-heading { display: flex; flex-direction: column; gap: .45rem; }
+
+/* ---------- Selos (iconografia ESMAT) ---------- */
+
+.selo {
+  display: inline-block; flex: none; width: 1.55em; height: 1.55em;
+  border-radius: 50%; object-fit: cover; vertical-align: -.4em;
+  margin-right: .5rem; box-shadow: var(--sombra-xs);
+}
+h1 .selo { width: 1.1em; height: 1.1em; vertical-align: -.16em; }
+h2 .selo, h3 .selo { width: 1.35em; height: 1.35em; vertical-align: -.3em; }
+.selo-inline { width: 1.25em; height: 1.25em; vertical-align: -.3em; margin-right: .35rem; }
+
+.bloco-selo {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--ciano-suave); border: 1px solid var(--ciano-borda);
+  border-left: 4px solid var(--turquesa); border-radius: var(--r-md);
+  padding: 1.2rem 1.4rem;
+}
+.bloco-selo .selo { width: 3em; height: 3em; margin: 0; vertical-align: 0; }
+.bloco-selo .selo-corpo { flex: 1; min-width: 0; }
+.selo-rotulo { font-family: var(--fonte-titulo); font-weight: 700; color: var(--azul-marinho); display: block; margin-bottom: .25rem; }
+
+/* ---------- Cards e grades ---------- */
+
+.card-grid { display: grid; gap: .9rem; }
+.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.caixa {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-left: 4px solid var(--azul-marinho); border-radius: var(--r-md);
+  padding: 1.1rem 1.3rem; box-shadow: var(--sombra-sm); transition: var(--transicao);
+}
+.caixa:hover { box-shadow: var(--sombra-hover); border-color: var(--ciano); }
+.caixa.certo   { border-left-color: var(--ok); }
+.caixa.errado  { border-left-color: var(--alerta); }
+.caixa h3 { margin-bottom: .25rem; }
+
+/* ---------- Objetivos observáveis e pergunta-guia (slide de abertura) ---------- */
+
+.objetivos {
+  background: var(--azul-suave); border: 1px solid var(--borda);
+  border-left: 4px solid var(--ciano); border-radius: var(--r-md);
+  padding: 1.1rem 1.4rem;
+}
+.objetivos ol { margin: .2rem 0 0; padding-left: 1.2rem; }
+.objetivos li { margin-bottom: .3rem; }
+.objetivos li::marker { color: var(--ciano); font-family: var(--fonte-titulo); font-weight: 700; }
+
+.pergunta-guia {
+  font-family: var(--fonte-titulo); font-weight: 600;
+  color: var(--azul); font-size: 1.02rem;
+  border-left: 3px solid var(--turquesa); padding-left: 1rem;
+}
+
+/* ---------- Cartões de conceito comparáveis ---------- */
+
+.cartoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+.cartao {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-left: 4px solid var(--azul-marinho); border-radius: var(--r-md);
+  padding: .85rem 1.05rem; box-shadow: var(--sombra-xs);
+}
+.cartao h3 { margin-bottom: .35rem; }
+.cartao p { font-size: .82rem; line-height: 1.42; margin: 0 0 .25rem; }
+.cartao p:last-child { margin-bottom: 0; }
+.cartao .rot {
+  display: inline-block; min-width: 6.6em; padding-right: .6em;
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .64rem;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--azul);
+}
+.cartao .cuidado { color: var(--cinza-medio); }
+.cartao .cuidado .rot { color: var(--alerta); }
+
+/* ---------- Escada de camadas (modelo → aplicação → produto → sistema) ---------- */
+
+.escada { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.degrau {
+  display: flex; gap: 1rem; align-items: baseline;
+  background: var(--branco); border: 1px solid var(--borda);
+  border-left: 4px solid var(--turquesa); border-radius: var(--r-md);
+  padding: .75rem 1.1rem; box-shadow: var(--sombra-xs);
+}
+.degrau:nth-child(1) { margin-left: 0; }
+.degrau:nth-child(2) { margin-left: 1.4rem; }
+.degrau:nth-child(3) { margin-left: 2.8rem; }
+.degrau:nth-child(4) { margin-left: 4.2rem; }
+.degrau-nome {
+  font-family: var(--fonte-titulo); font-weight: 700; color: var(--azul-marinho);
+  min-width: 7.5rem; flex: none;
+}
+.degrau-desc { font-size: .88rem; color: var(--cinza-medio); }
+
+/* ---------- Blocos de prompt copiáveis ----------
+   Etiqueta textual + símbolo + estilo de borda distinguem fraco de estruturado;
+   a cor é redundante, nunca o único sinal. */
+
+.bloco-codigo {
+  border: 1px solid var(--borda); border-radius: var(--r-md);
+  background: var(--branco); box-shadow: var(--sombra-xs); overflow: hidden;
+}
+.bloco-codigo.certo  { border-left: 4px solid var(--ok); }
+.bloco-codigo.errado { border-left: 4px dashed var(--alerta); }
+
+.codigo-topo {
+  display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+  padding: .5rem .8rem .5rem 1rem; border-bottom: 1px solid var(--borda);
+  background: var(--cinza-claro);
+}
+.badge {
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .68rem;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--azul-marinho);
+}
+.bloco-codigo.certo  .badge { color: #4E6B47; }
+.bloco-codigo.errado .badge { color: var(--alerta); }
+
+.btn-copiar {
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .68rem;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--azul); background: var(--branco);
+  border: 1px solid var(--borda); border-radius: var(--r-sm);
+  padding: .32rem .7rem; cursor: pointer; transition: var(--transicao);
+}
+.btn-copiar:hover { border-color: var(--ciano); color: var(--azul-marinho); }
+.btn-copiar.copiado { background: var(--ciano-suave); border-color: var(--ciano); color: var(--azul-marinho); }
+
+.bloco-codigo pre {
+  margin: 0; padding: .85rem 1.1rem; overflow-x: auto;
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: .78rem; line-height: 1.55; color: var(--grafite);
+  white-space: pre-wrap; word-break: break-word;
+}
+.bloco-codigo code { background: none; border: 0; padding: 0; font-size: inherit; }
+
+/* Faixa de advertência — sinal textual ("Atenção:") + selo, não só cor. */
+.aviso {
+  background: var(--alerta-suave); border: 1px solid #E4BDB8;
+  border-left: 4px solid var(--alerta); border-radius: var(--r-md);
+  padding: .7rem 1rem; font-size: .88rem; color: #6E322D;
+}
+.aviso strong { color: var(--alerta); }
+
+.prompt-completo { margin: 0; }
+.prompt-completo > summary { font-size: .85rem; }
+.prompt-completo .bloco-codigo { border: 0; border-radius: 0; box-shadow: none; }
+/* A versão integral rola dentro de si: aberta, ela não pode empurrar o slide
+   para além do 100vh — quem expande continua na apresentação. */
+.prompt-completo .bloco-codigo pre { max-height: 18vh; overflow-y: auto; }
+@media (max-height: 780px) { .prompt-completo .bloco-codigo pre { max-height: 15vh; } }
+
+.saida {
+  background: var(--azul-suave); border: 1px solid var(--borda);
+  border-left: 4px solid var(--azul); border-radius: var(--r-md);
+  padding: .85rem 1.1rem;
+}
+.saida p { margin: 0; font-size: .92rem; font-style: italic; color: var(--grafite); }
+
+/* ---------- Marcas de estatuto da afirmação ----------
+   Fonte, alegação, evidência, inferência, conclusão, lacuna. O tipo é dito por
+   extenso e reforçado pelo estilo da borda — nunca só pela cor. */
+
+.marca {
+  display: inline-block; margin-right: .4em; vertical-align: .06em;
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .58rem;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: .12em .5em; border-radius: var(--r-sm);
+}
+.marca-fonte      { color: var(--azul-marinho); background: var(--azul-suave);  border: 1px solid var(--azul-marinho); }
+.marca-alegacao   { color: var(--cinza-medio);  background: var(--cinza-claro); border: 1px dashed var(--cinza-medio); }
+.marca-evidencia  { color: #4E6B47;             background: #EEF3EC;           border: 1px solid var(--ok); }
+.marca-inferencia { color: var(--alerta);       background: var(--alerta-suave); border: 1px dashed var(--alerta); }
+.marca-conclusao  { color: var(--branco);       background: var(--azul-marinho); border: 1px solid var(--azul-marinho); }
+.marca-lacuna     { color: #6B5A16;             background: #FFF8E6;           border: 1px dotted #C9A227; }
+
+/* ---------- Notas do apresentador ----------
+   Ocultas na projeção; a tecla N revela. Ressalvas metodológicas e avisos de
+   conferência não devem ser projetados junto com o conteúdo do aluno. */
+
+.alternar-notas {
+  position: fixed; left: 14px; bottom: 14px; z-index: 100;
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .66rem;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--cinza-medio); background: var(--branco);
+  border: 1px solid var(--borda); border-radius: var(--r-pill);
+  padding: .38rem .8rem; cursor: pointer; box-shadow: var(--sombra-xs);
+  opacity: .55; transition: var(--transicao), opacity .2s ease;
+}
+.alternar-notas:hover, .alternar-notas:focus-visible { opacity: 1; border-color: var(--ciano); color: var(--azul-marinho); }
+.alternar-notas .tecla {
+  display: inline-grid; place-items: center; min-width: 1.15rem; height: 1.15rem;
+  border: 1px solid var(--borda); border-radius: 4px; font-size: .62rem; background: var(--cinza-claro);
+}
+.alternar-notas[aria-pressed="true"] {
+  opacity: 1; background: #FFF8E6; border-color: #C9A227; color: #6B5A16;
+}
+@media print { .alternar-notas { display: none; } }
+
+.nota-professor { display: none; }
+body.mostrar-notas .nota-professor {
+  display: block;
+  background: #FFF8E6; border: 1px dashed #C9A227; border-left: 4px solid #C9A227;
+  border-radius: var(--r-md); padding: .8rem 1.1rem;
+}
+body.mostrar-notas .nota-professor p { margin: 0; font-size: .86rem; color: #6B5A16; }
+body.mostrar-notas .nota-professor .rotulo { color: #8A7320; }
+
+/* ---------- Exit ticket ---------- */
+
+.exit-ticket {
+  background: var(--ciano-suave); border: 1px solid var(--ciano-borda);
+  border-left: 4px solid var(--turquesa); border-radius: var(--r-md);
+  padding: .95rem 1.3rem;
+}
+.exit-ticket p { margin: 0; font-family: var(--fonte-titulo); font-weight: 600; color: var(--azul-marinho); }
+
+.link-discreto {
+  align-self: center; font-size: .86rem; color: var(--cinza-medio);
+  text-underline-offset: 3px;
+}
+.link-discreto:hover { color: var(--azul); }
+
+/* ---------- Fontes agrupadas por natureza ---------- */
+
+.grupo-fonte + .grupo-fonte { margin-top: .8rem; }
+.grupo-fonte ul { margin: 0; padding-left: 1.1rem; }
+.grupo-fonte li { margin-bottom: .3rem; font-size: .82rem; }
+
+/* ---------- Comparação ---------- */
+
+.comparison-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.comparison-col {
+  background: var(--branco); border: 1px solid var(--borda); border-radius: var(--r-md);
+  padding: 1.2rem 1.4rem; box-shadow: var(--sombra-xs);
+  display: flex; flex-direction: column; gap: .7rem;
+}
+.comparison-col.muted  { background: var(--cinza-claro); border-top: 3px solid var(--cinza-medio); }
+.comparison-col.accent { background: var(--ciano-suave); border-color: var(--ciano-borda); border-top: 3px solid var(--turquesa); }
+.comparison-col ul { padding-left: 1.05rem; margin: 0; }
+.comparison-col li { margin-bottom: .4rem; }
+.comparison-col li::marker { color: var(--ciano); }
+
+/* ---------- Fluxo de passos ---------- */
+
+.fluxo { display: flex; flex-wrap: wrap; align-items: stretch; gap: .7rem; }
+.fluxo .passo {
+  flex: 1 1 150px; text-align: center;
+  background: var(--branco); border: 1px solid var(--borda);
+  border-top: 3px solid var(--turquesa); border-radius: var(--r-md);
+  padding: 1rem .8rem; box-shadow: var(--sombra-xs); transition: var(--transicao);
+}
+.fluxo .passo:hover { box-shadow: var(--sombra-sm); transform: translateY(-1px); }
+.fluxo .passo b { font-family: var(--fonte-titulo); display: block; color: var(--azul-marinho); font-size: .95rem; margin-bottom: .25rem; }
+.fluxo .passo span { font-size: .8rem; color: var(--cinza-medio); }
+
+/* ---------- Etapas numeradas ---------- */
+
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.step {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--branco); border: 1px solid var(--borda);
+  border-left: 4px solid var(--ciano); border-radius: var(--r-md);
+  padding: .9rem 1.2rem; box-shadow: var(--sombra-xs);
+}
+.step-num { font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.4rem; color: var(--ciano); line-height: 1; min-width: 2rem; }
+.step-copy h3 { margin-bottom: .15rem; }
+.step-copy p { font-size: .88rem; color: var(--cinza-medio); }
+
+/* ---------- Definições ---------- */
+
+dl.defs dt { font-family: var(--fonte-titulo); font-weight: 700; color: var(--azul-marinho); margin-top: .9rem; font-size: 1rem; }
+dl.defs dt:first-child { margin-top: 0; }
+dl.defs dd { margin: .15rem 0 0; font-size: .95rem; }
+
+/* ---------- Tabela institucional ---------- */
+
+/* Container rolável e focalizável: tabela larga nunca força rolagem da página. */
+.tabela-rolagem { overflow-x: auto; }
+.tabela-rolagem:focus-visible { outline: 2px solid var(--ciano); outline-offset: 2px; }
+
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+thead th {
+  background: var(--azul-marinho); color: var(--branco);
+  font-family: var(--fonte-titulo); font-weight: 700; text-transform: uppercase;
+  letter-spacing: .03em; font-size: .72rem; text-align: left; padding: .6rem .8rem;
+}
+tbody td, tbody th { text-align: left; vertical-align: top; padding: .55rem .8rem; border: 1px solid var(--borda); }
+tbody tr:nth-child(even) { background: var(--cinza-claro); }
+tbody th { font-family: var(--fonte-titulo); color: var(--azul-marinho); font-weight: 700; white-space: nowrap; }
+
+/* ---------- Citação / declaração ---------- */
+
+.statement {
+  font-family: var(--fonte-titulo); font-weight: 700;
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem); line-height: 1.3;
+  color: var(--azul-marinho); border-left: 4px solid var(--ciano); padding-left: 1.5rem;
+}
+.statement strong { color: var(--azul); }
+.quote-meta {
+  font-family: var(--fonte-titulo); font-size: var(--fs-rotulo); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--azul); font-weight: 700; padding-left: 1.7rem;
+}
+
+/* ---------- Figuras e diagramas ---------- */
+
+figure { display: flex; flex-direction: column; }
+figure svg {
+  display: block; margin: 0 auto; width: 100%; height: auto;
+  /* Teto de altura: sem isto o SVG escala pela LARGURA do card e estoura o 100vh
+     em telas de 900px ou menos. O fator é a razão do viewBox de cada figura. */
+  max-width: min(100%, calc(50vh * var(--razao-svg, 1.5333)));
+  border: 1px solid var(--borda); border-radius: var(--r-md); box-shadow: var(--sombra-sm);
+}
+figcaption { font-size: var(--fs-nota); color: var(--cinza-medio); margin-top: .45rem; }
+
+/* ---------- Estatísticas ---------- */
+
+.stats-grid { display: grid; gap: .9rem; }
+.stat-card {
+  background: var(--azul-suave); border: 1px solid var(--borda);
+  border-top: 3px solid var(--ciano); border-radius: var(--r-md);
+  padding: 1.4rem 1.1rem; text-align: center; box-shadow: var(--sombra-xs);
+}
+.stat-value { font-family: var(--fonte-titulo); font-weight: 800; font-size: var(--fs-stat); line-height: 1; color: var(--azul-marinho); }
+
+/* ---------- Auto-verificação ---------- */
+
+.checagem { background: var(--azul-suave); border: 1px solid var(--borda); border-radius: var(--r-lg); padding: 1.4rem 1.6rem; }
+.checagem h3 { color: var(--azul-marinho); margin-bottom: .25rem; }
+
+details {
+  margin: .6rem 0; background: var(--branco); border: 1px solid var(--borda);
+  border-radius: var(--r-md); box-shadow: var(--sombra-xs); overflow: hidden; transition: var(--transicao);
+}
+details:hover, details[open] { border-color: var(--ciano); box-shadow: var(--sombra-sm); }
+summary {
+  cursor: pointer; font-family: var(--fonte-titulo); font-weight: 600; font-size: .92rem;
+  padding: .75rem 1rem; list-style: none; color: var(--azul-marinho); transition: var(--transicao);
+}
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "›"; display: inline-block; margin-right: .55rem; color: var(--ciano); font-weight: 700; transition: transform .2s ease; }
+details[open] summary { color: var(--azul); }
+details[open] summary::before { transform: rotate(90deg); }
+details p { margin: 0 1rem .9rem; border-left: 2px solid var(--ciano); padding-left: .85rem; font-size: .92rem; }
+
+/* ---------- Próximo passo ---------- */
+
+.proximo {
+  background: var(--azul-suave); border: 1px solid var(--borda);
+  border-left: 4px solid var(--ciano); border-radius: var(--r-lg);
+  padding: 1.3rem 1.6rem; transition: var(--transicao);
+}
+.proximo:hover { box-shadow: var(--sombra-sm); }
+.proximo a { color: var(--azul-marinho); }
+
+/* ---------- Fontes ---------- */
+
+.fontes { font-size: .84rem; color: var(--cinza-medio); }
+.fontes ol { padding-left: 1.15rem; margin: 0; }
+.fontes li { margin-bottom: .45rem; font-size: .84rem; }
+
+/* ---------- Botões ---------- */
+
+.cta-row { display: flex; gap: .7rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--fonte-titulo); font-size: .88rem; font-weight: 700;
+  color: var(--branco); background: var(--azul);
+  border: 1px solid transparent; border-radius: var(--r-sm);
+  padding: .65rem 1.3rem; cursor: pointer; text-decoration: none;
+  box-shadow: var(--sombra-xs); transition: var(--transicao);
+}
+.btn:hover { background: var(--azul-marinho); color: var(--branco); box-shadow: var(--sombra-sm); }
+.btn:active { transform: translateY(1px); }
+.btn-secundario { background: transparent; color: var(--azul); border-color: var(--borda); }
+.btn-secundario:hover { background: var(--azul-suave); color: var(--azul-marinho); }
+
+/* ---------- Animação (discreta) ---------- */
+
+.animate {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity var(--anim-dur) var(--anim-ease), transform var(--anim-dur) var(--anim-ease);
+  will-change: opacity, transform;
+}
+.animate.in { opacity: 1; transform: none; }
+.delay-1 { transition-delay: 60ms; }
+.delay-2 { transition-delay: 140ms; }
+.delay-3 { transition-delay: 220ms; }
+.delay-4 { transition-delay: 300ms; }
+.delay-5 { transition-delay: 380ms; }
+
+/* ---------- Navegação por pontos ---------- */
+
+.dot-nav { position: fixed; top: 50%; right: 16px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 9px; z-index: 100; }
+.dot-nav button {
+  width: 10px; height: 10px; padding: 0; border-radius: var(--r-pill);
+  border: 1px solid var(--borda); background: var(--branco);
+  box-shadow: var(--sombra-xs); cursor: pointer; transition: var(--transicao);
+}
+.dot-nav button.active { background: var(--ciano); border-color: var(--ciano); box-shadow: 0 0 0 5px rgba(24,169,213,.16); transform: scale(1.1); }
+.dot-nav button:hover { border-color: var(--ciano); }
+
+:focus-visible { outline: 2px solid var(--ciano); outline-offset: 3px; border-radius: var(--r-sm); }
+summary:focus-visible { outline-offset: -2px; }
+
+/* Texto só para leitores de tela: a região aria-live e o prefixo do contador. */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+/* ---------- Página de índice ---------- */
+
+.indice { max-width: 58rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+.indice .eixo { margin-top: 2.4rem; }
+.indice ol { list-style: none; padding: 0; margin: .9rem 0 0; display: grid; gap: .6rem; }
+.indice li a {
+  display: flex; gap: .9rem; align-items: baseline;
+  background: var(--branco); border: 1px solid var(--borda);
+  border-left: 4px solid var(--ciano); border-radius: var(--r-md);
+  padding: .85rem 1.1rem; text-decoration: none; box-shadow: var(--sombra-xs);
+  transition: var(--transicao);
+}
+.indice li a:hover { box-shadow: var(--sombra-hover); border-color: var(--ciano); transform: translateY(-1px); }
+.indice li .num { font-family: var(--fonte-titulo); font-weight: 800; color: var(--ciano); min-width: 2.1rem; }
+.indice li .tit { font-family: var(--fonte-titulo); font-weight: 600; color: var(--azul-marinho); }
+.indice li .sub { display: block; font-size: .84rem; color: var(--cinza-medio); font-weight: 400; margin-top: .15rem; }
+
+/* ---------- Acessibilidade e movimento ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate { opacity: 1; transform: none; transition: none; }
+  * { transition: none !important; }
+  .fluxo .passo:hover, .proximo:hover, .btn:hover, .dot-nav button.active, .indice li a:hover { transform: none; }
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1100px) {
+  :root { --slide-pad-y: 2rem; --slide-pad-x: 2rem; }
+  .cols-3, .comparison-grid, .cartoes { grid-template-columns: 1fr; }
+  .degrau { margin-left: 0 !important; }
+}
+
+/* Modo leitura — ampliação alta (200% deixa o viewport CSS em ~683×384),
+   telas pequenas e janelas estreitas.
+   Um deck de 100vh não cabe ampliado sem encolher o texto, o que anularia a
+   ampliação. Então o formato muda: o scroll-snap sai, os slides deixam de ser
+   travados em uma tela e a apresentação vira um documento rolável. Nenhum
+   conteúdo se perde e a rolagem continua só na vertical (WCAG 1.4.4/1.4.10). */
+@media (max-height: 620px), (max-width: 900px) {
+  html { scroll-snap-type: none; }
+  .slide {
+    min-height: 0; scroll-snap-align: none; scroll-snap-stop: normal;
+    padding: .9rem .75rem;
+  }
+  .slide-inner { gap: .9rem; }
+  figure svg { max-width: 100%; }
+  /* Controles de projeção somem: aqui é documento, não apresentação — e o botão
+     flutuante cobriria o conteúdo. */
+  .dot-nav, .alternar-notas { display: none; }
+}
+
+/* Telas baixas (projetor 1366×768, notebook 1280×720): aperta o ritmo vertical
+   sem mexer no desktop. Sem isto, as tabelas mais longas passam do 100vh. */
+@media (max-height: 780px) {
+  :root { --slide-pad-y: 1.9rem; }
+  .slide { padding: 1.4rem 1.25rem; }
+  .slide-inner { gap: 1rem; }
+  table { font-size: .82rem; }
+  thead th { padding: .5rem .7rem; }
+  tbody td, tbody th { padding: .45rem .7rem; }
+  .checagem { padding: 1.2rem 1.4rem; }
+  .steps-list { gap: .5rem; }
+  .step { padding: .65rem 1rem; }
+  .step-num { font-size: 1.2rem; min-width: 1.8rem; }
+  .escada { gap: .45rem; }
+  .degrau { padding: .6rem 1rem; }
+  .cartoes { gap: .6rem; }
+  .cartao { padding: .7rem .9rem; }
+  .objetivos { padding: .9rem 1.2rem; }
+  .exit-ticket { padding: .8rem 1.1rem; }
+  .bloco-codigo pre { font-size: .7rem; line-height: 1.48; padding: .6rem .95rem; }
+  .codigo-topo { padding: .4rem .7rem .4rem .9rem; }
+  .saida { padding: .7rem 1rem; }
+}
+
+@media (max-width: 720px) {
+  html { font-size: 15.5px; }
+  :root { --slide-pad-y: 1.5rem; --slide-pad-x: 1.15rem; }
+  .slide { padding: 1.1rem .7rem; }
+  .slide-counter { top: .9rem; right: 1rem; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .dot-nav { right: 7px; }
+  .bloco-selo .selo { width: 2.3em; height: 2.3em; }
+  .slide-inner[style*="--art-x"]::after { width: 4.4rem; right: .75rem; bottom: .75rem; opacity: .88; }
+  .slide-inner[style*="--art-x"] > :last-child { padding-right: 5rem; }
+
+  /* Tela estreita: a tabela vira cartões, em vez de encolher a fonte.
+     O rótulo da coluna vem do data-rotulo emitido pelo gerador. */
+  .tabela-rolagem thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .tabela-rolagem table, .tabela-rolagem tbody, .tabela-rolagem tr, .tabela-rolagem td, .tabela-rolagem th { display: block; width: 100%; }
+  .tabela-rolagem tr {
+    border: 1px solid var(--borda); border-left: 4px solid var(--ciano);
+    border-radius: var(--r-md); margin-bottom: .6rem; padding: .3rem 0; background: var(--branco);
+  }
+  .tabela-rolagem tbody tr:nth-child(even) { background: var(--branco); }
+  .tabela-rolagem td, .tabela-rolagem th { border: 0; padding: .35rem .9rem; }
+  .tabela-rolagem tbody th { font-size: .95rem; padding-top: .6rem; }
+  .tabela-rolagem td::before {
+    content: attr(data-rotulo); display: block;
+    font-family: var(--fonte-titulo); font-weight: 700; font-size: .62rem;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--azul); margin-bottom: .1rem;
+  }
+}
+
+/* ---------- Impressão — o material circula em papel ---------- */
+
+@media print {
+  html { scroll-snap-type: none; font-size: 10.5pt; }
+  body { background: #fff; }
+  .dot-nav { display: none; }
+  .slide { min-height: 0; padding: 0; display: block; break-after: page; }
+  .slide:last-child { break-after: auto; }
+  .slide-inner {
+    width: 100%; box-shadow: none; padding: 0 0 1.2rem;
+    border-radius: 0; border-top: 3px solid var(--azul-marinho);
+  }
+  .animate { opacity: 1 !important; transform: none !important; }
+  details[open] > *, details > * { display: block; }
+  .caixa, .checagem, details, .fluxo .passo, .proximo, .bloco-selo, .cartao,
+  .degrau, .exit-ticket, .objetivos, .stat-card, .comparison-col, .step,
+  figure svg, .selo { box-shadow: none; }
+  .caixa, .checagem, .proximo, .bloco-selo, .step, .cartao, .degrau,
+  .exit-ticket, .objetivos, .comparison-col, table, figure, .fluxo { break-inside: avoid; }
+  .trilha { color: #444; }
+  a { color: #000; }
+  .selo, thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ---------- Quatro layouts-mestre ----------
+   1. master-hero: abertura/síntese, ilustração ampla em campo de cor.
+   2. master-split: texto e imagem em duas colunas equilibradas.
+   3. master-focus: conteúdo/diagrama central, arte como apoio superior.
+   4. master-dense: largura total para cartões e fontes, arte como vinheta. */
+
+.new-edition .master-hero .slide-inner {
+  --art-size: clamp(15rem, 29vw, 22rem);
+  padding: 3.2rem 3.6rem;
+  padding-right: calc(var(--art-size) + 5.5rem);
+  background: linear-gradient(112deg, #fff 0 61%, #e7f6fa 61% 100%);
+}
+.new-edition .master-hero .slide-inner::before {
+  content: ""; position: absolute; inset: 0 0 0 auto; width: 39%;
+  background: radial-gradient(circle at center, rgba(255,255,255,.72), transparent 70%);
+  pointer-events: none;
+}
+.new-edition .master-hero .slide-inner[style*="--art-x"]::after {
+  right: 3rem; width: var(--art-size); box-shadow: none; outline: 0;
+}
+.new-edition .master-hero h1,
+.new-edition .master-hero .caixa { max-width: 43rem; }
+
+.new-edition .master-split .slide-inner {
+  --art-size: clamp(11.5rem, 22vw, 16.5rem);
+  padding-right: calc(var(--art-size) + 5rem);
+}
+.new-edition .master-split .slide-inner[style*="--art-x"]::after {
+  right: 2.5rem; width: var(--art-size);
+}
+
+.new-edition .master-focus .slide-inner {
+  --art-size: 8rem;
+  padding: 2.6rem 3.4rem;
+  padding-top: 7.2rem;
+}
+.new-edition .master-focus .slide-inner[style*="--art-x"]::after {
+  top: 1.35rem; right: 3.2rem; bottom: auto; transform: none;
+  width: var(--art-size); box-shadow: var(--sombra-sm);
+}
+.new-edition .master-focus .section-heading { max-width: calc(100% - 10rem); }
+.new-edition .master-focus .comparison-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.new-edition .master-focus .checagem { width: 100%; }
+.new-edition .master-focus.no-side-art .slide-inner { padding-top: 2.6rem; }
+.new-edition .master-focus.no-side-art .slide-inner::after { display: none; }
+.new-edition .master-focus.no-side-art .section-heading { max-width: none; }
+
+.new-edition .master-dense .slide-inner {
+  padding: 2.35rem 3rem;
+  padding-right: 3rem;
+}
+.new-edition .master-dense .slide-inner[style*="--art-x"]::after {
+  top: 1.2rem; right: 3.3rem; bottom: auto; transform: none;
+  width: 4.6rem; opacity: .78; box-shadow: none;
+}
+.new-edition .master-dense .section-heading { max-width: calc(100% - 6rem); }
+.new-edition .master-dense .cartoes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.new-edition .master-dense .fontes { padding-right: 0; }
+
+@media (max-width: 1100px), (max-height: 760px) {
+  .new-edition .master-hero .slide-inner,
+  .new-edition .master-split .slide-inner {
+    --art-size: 7rem; padding: 2rem 10.5rem 2rem 2.4rem;
+  }
+  .new-edition .master-hero .slide-inner[style*="--art-x"]::after,
+  .new-edition .master-split .slide-inner[style*="--art-x"]::after { right: 1.7rem; }
+  .new-edition .master-focus .slide-inner { padding: 5.8rem 2.2rem 2rem; }
+  .new-edition .master-focus.no-side-art .slide-inner { padding-top: 2rem; }
+  .new-edition .master-dense .slide-inner { padding: 2rem 2.2rem; }
+}
+
+@media (max-width: 720px) {
+  .new-edition .master-hero .slide-inner,
+  .new-edition .master-split .slide-inner,
+  .new-edition .master-focus .slide-inner,
+  .new-edition .master-focus.no-side-art .slide-inner,
+  .new-edition .master-dense .slide-inner {
+    padding: 1.6rem 1.15rem 6.5rem;
+  }
+  .new-edition .master-hero .slide-inner::before { display: none; }
+  .new-edition .master-hero .slide-inner[style*="--art-x"]::after,
+  .new-edition .master-split .slide-inner[style*="--art-x"]::after,
+  .new-edition .master-focus .slide-inner[style*="--art-x"]::after,
+  .new-edition .master-dense .slide-inner[style*="--art-x"]::after {
+    top: auto; right: 1rem; bottom: .8rem; transform: none; width: 5rem;
+  }
+  .new-edition .master-focus.no-side-art .slide-inner { padding-bottom: 1.6rem; }
+  .new-edition .master-dense .cartoes,
+  .new-edition .master-focus .comparison-grid { grid-template-columns: 1fr; }
+  .new-edition .master-focus .section-heading,
+  .new-edition .master-dense .section-heading { max-width: none; }
+}
+
+/* ================================================================
+   NOVA EDIÇÃO — direção visual de apresentação
+   Mantém o conteúdo e a acessibilidade, mas dá às ilustrações papel
+   estrutural: painel editorial, ritmo de palco e hierarquia mais forte.
+   ================================================================ */
+
+.new-edition {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(24,169,213,.10), transparent 30rem),
+    linear-gradient(145deg, #EDF3F8 0%, #F7FAFC 54%, #E8F5F7 100%);
+}
+
+.new-edition .slide { padding: 2.1rem 2rem; }
+.new-edition .slide-inner {
+  --art-size: clamp(10.5rem, 22vw, 17rem);
+  width: min(74rem, 100%);
+  min-height: min(84vh, 46rem);
+  padding: 3rem 3.4rem;
+  padding-right: calc(var(--art-size) + 4.8rem);
+  justify-content: center;
+  border-top: 0;
+  border-left: 7px solid var(--azul-marinho);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 60px rgba(7,22,77,.13), 0 2px 8px rgba(7,22,77,.07);
+}
+
+.new-edition .slide-inner[style*="--art-x"]::after {
+  right: 2.35rem;
+  bottom: 50%;
+  transform: translateY(50%);
+  width: var(--art-size);
+  border: 0;
+  border-radius: 1.1rem;
+  box-shadow: 0 14px 34px rgba(7,22,77,.13);
+  outline: 1px solid rgba(24,169,213,.18);
+}
+
+.new-edition .slide-inner[style*="--art-x"] > :last-child { padding-right: 0; }
+.new-edition .section-heading { max-width: 42rem; }
+.new-edition h1 { font-size: clamp(2rem, 4vw, 3.35rem); max-width: 42rem; }
+.new-edition h2 { font-size: clamp(1.2rem, 2vw, 1.65rem); border-bottom-color: var(--ciano-borda); }
+.new-edition .slide-counter {
+  position: absolute;
+  top: .85rem; left: 50%; right: auto;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: .3rem .72rem;
+  color: var(--azul-marinho); background: var(--azul-suave);
+  border: 1px solid var(--borda); border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.new-edition .title-slide .slide-inner,
+.new-edition .highlight-slide .slide-inner,
+.new-edition .closing-slide .slide-inner {
+  background: linear-gradient(118deg, #FFFFFF 0 65%, #E7F6FA 65% 100%);
+}
+
+.new-edition .diagram-slide .slide-inner,
+.new-edition .cards-slide .slide-inner,
+.new-edition .sources-slide .slide-inner {
+  --art-size: 8rem;
+  padding-right: 12.8rem;
+}
+
+.new-edition .diagram-slide figure svg { max-width: min(100%, 35rem); }
+.new-edition .cartao { background: rgba(255,255,255,.88); }
+.new-edition .comparison-col,
+.new-edition .checagem,
+.new-edition .caixa,
+.new-edition .objetivos { backdrop-filter: blur(2px); }
+
+.new-edition .dot-nav button.active {
+  background: var(--azul-marinho); border-color: var(--azul-marinho);
+  box-shadow: 0 0 0 5px rgba(24,169,213,.2);
+}
+
+@media (max-width: 1100px), (max-height: 760px) {
+  .new-edition .slide-inner {
+    --art-size: 7rem;
+    min-height: 0;
+    padding: 2.2rem 2.2rem 2.2rem 2.5rem;
+    padding-right: 10.5rem;
+  }
+  .new-edition .diagram-slide .slide-inner,
+  .new-edition .cards-slide .slide-inner,
+  .new-edition .sources-slide .slide-inner { --art-size: 5rem; padding-right: 8rem; }
+}
+
+@media (max-width: 720px) {
+  .new-edition .slide { padding: .8rem; }
+  .new-edition .slide-inner {
+    padding: 1.6rem 1.15rem 6.5rem;
+    border-left-width: 4px;
+  }
+  .new-edition .slide-inner[style*="--art-x"]::after {
+    width: 5rem; right: 1rem; bottom: .8rem; transform: none;
+  }
+  .new-edition .diagram-slide .slide-inner,
+  .new-edition .cards-slide .slide-inner,
+  .new-edition .sources-slide .slide-inner { padding-right: 1.15rem; }
+  .new-edition .slide-counter { top: .55rem; }
+}
+
+@media print {
+  .new-edition { background: #fff; }
+  .new-edition .slide { padding: 0; }
+  .new-edition .slide-inner,
+  .new-edition .diagram-slide .slide-inner,
+  .new-edition .cards-slide .slide-inner,
+  .new-edition .sources-slide .slide-inner {
+    min-height: 0; padding: 0 9rem 1.2rem 0; border-left: 0;
+    border-top: 3px solid var(--azul-marinho); box-shadow: none;
+  }
+  .new-edition .slide-inner[style*="--art-x"]::after {
+    width: 7rem; right: .4rem; bottom: auto; top: 1rem; transform: none;
+    box-shadow: none;
+  }
+  .new-edition .slide-counter {
+    top: .35rem; left: 50%; right: auto; transform: translateX(-50%);
+  }
+}
+
+/* A edição-base acima preserva compatibilidade com os slides antigos. Estas
+   regras finais resolvem, somente em tela, a precedência dos novos mestres. */
+@media screen {
+  .new-edition .diagram-slide.master-focus .slide-inner {
+    --art-size: 8rem;
+    padding: 2.6rem 3.4rem;
+  }
+  .new-edition .diagram-slide.master-focus.no-side-art .slide-inner::after { display: none; }
+
+  .new-edition .cards-slide.master-dense .slide-inner,
+  .new-edition .sources-slide.master-dense .slide-inner {
+    --art-size: 4.6rem;
+    padding: 2.35rem 3rem;
+  }
+  .new-edition .cards-slide.master-dense .slide-inner[style*="--art-x"]::after,
+  .new-edition .sources-slide.master-dense .slide-inner[style*="--art-x"]::after {
+    top: 1.2rem; right: 3.3rem; bottom: auto; transform: none;
+    width: 4.6rem; opacity: .78; box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .new-edition .diagram-slide.master-focus .slide-inner,
+  .new-edition .cards-slide.master-dense .slide-inner,
+  .new-edition .sources-slide.master-dense .slide-inner {
+    padding: 1.6rem 1.15rem 6.5rem;
+  }
+  .new-edition .diagram-slide.master-focus.no-side-art .slide-inner { padding-bottom: 1.6rem; }
+  .new-edition .cards-slide.master-dense .slide-inner[style*="--art-x"]::after,
+  .new-edition .sources-slide.master-dense .slide-inner[style*="--art-x"]::after {
+    top: auto; right: 1rem; bottom: .8rem; width: 5rem;
+  }
+}
+
+/* Lição 02: prancha de 5 × 4 células, mantendo os mesmos quatro mestres. */
+.new-edition.lesson-0002 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0002-next-token-sprites.png");
+  background-size: 500% 400%;
+}
+
+/* Pranchas por lição: URLs mantidas no próprio CSS para funcionarem de modo
+   idêntico via file://, servidor local e visualizador incorporado. */
+.new-edition.lesson-0003 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0003-riscos-etica-lgpd-no-judiciario-sprites.png");
+}
+.new-edition.lesson-0004 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0004-anatomia-de-um-bom-prompt-sprites.png");
+}
+.new-edition.lesson-0005 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0005-few-shot-ensinar-pelo-exemplo-sprites.png");
+}
+.new-edition.lesson-0006 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0006-chain-of-thought-peca-para-pensar-sprites.png");
+}
+.new-edition.lesson-0007 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0007-fluxo-seguro-juntando-tudo-sprites.png");
+}
+.new-edition.lesson-0008 .slide-inner[style*="--art-x"]::after {
+  background-image: url("illustrations/0008-padroes-de-prompt-juridico-sprites.png");
+}

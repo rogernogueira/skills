@@ -32,10 +32,14 @@ Reservar um slide para uma função clara. Evitar reduzir fonte para acomodar co
 ## Tipos de slide
 
 - **Hero:** título, missão, promessa, pergunta-guia e imagem principal.
+- **Cenário:** organização fictícia, pessoas, processo, gargalo e consequência.
+- **Vocabulário:** definição curta, exemplo contextual e limite de termos abstratos.
 - **Modelo mental:** diagrama ou comparação simples.
 - **Exemplo:** situação concreta com evidências.
 - **Prática:** instrução, interação e feedback visíveis.
-- **Síntese:** princípios essenciais e bilhete de saída.
+- **Síntese:** princípios essenciais, bilhete de saída e requisitos de conclusão.
+
+Reservar um slide para uma função principal. Ampliar a sequência quando cenário, vocabulário, cálculo, interpretação, prática e feedback disputarem espaço; não reduzir fontes para manter uma contagem fixa.
 
 ## Componentes
 
@@ -60,13 +64,47 @@ Implementar:
 - pontos clicáveis;
 - anúncio de mudança de slide por `aria-live`;
 - feedback imediato em quizzes;
-- `localStorage` apenas para conveniência;
+- `localStorage` apenas para conveniência ou contingência;
+- persistência SCORM quando o trabalho precisar acompanhar o aluno entre sessões;
+- checklist visível do que falta antes da conclusão;
 - botão de impressão;
 - opção de limpar dados com confirmação.
 
 Não bloquear rolagem natural em telas pequenas. Ignorar atalhos quando o foco estiver em `input`, `textarea`, `select`, botão ou link.
 
-## Imagens
+## Ilustrações programáticas
+
+Sempre que a ideia puder ser representada com precisão, preferir HTML, CSS, SVG e JavaScript a uma imagem rasterizada. Usar esses recursos para:
+
+- fluxos e filas;
+- linhas do tempo e janelas;
+- matrizes, quadrantes e árvores;
+- comparações antes/depois;
+- gráficos e distribuições;
+- relações entre variáveis;
+- simulações com parâmetros;
+- destaque progressivo de etapas.
+
+Escolher a tecnologia mais simples que preserve a função pedagógica:
+
+1. **HTML/CSS:** cartões, fluxos, filas, matrizes, barras e comparações estáticas.
+2. **SVG:** diagramas com conexões, escalas, formas ou posicionamento preciso.
+3. **JavaScript:** mudanças de estado, controles, animações explicativas e simulações em que a interação revela uma relação.
+4. **Canvas:** somente quando muitos elementos dinâmicos justificarem a perda de semântica do DOM.
+
+Não adicionar JavaScript apenas para animar decoração. Cada mudança deve responder a uma ação ou tornar causa, sequência, quantidade ou consequência mais compreensível.
+
+Toda ilustração programática deve:
+
+- possuir título, legenda ou texto equivalente;
+- continuar compreensível sem depender apenas de cor ou movimento;
+- oferecer rótulos acessíveis para valores e controles;
+- respeitar `prefers-reduced-motion`;
+- adaptar-se à largura disponível sem corte ou rolagem horizontal desnecessária;
+- produzir versão estável e legível na impressão;
+- manter cálculos e proporções coerentes com o conteúdo e o dataset.
+
+## Imagens rasterizadas
 
 Para muitas vinhetas, gerar uma única prancha quadrada 4×4:
 

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Licoes Interativas"
-  short_description: "Crie conteudos didaticos e HTMLs interativos"
-  default_prompt: "Use $criar-licoes-interativas para transformar este tema em uma licao curta, visual e interativa."
+  display_name: "Lições Interativas"
+  short_description: "Lições didáticas, interativas e persistentes"
+  default_prompt: "Use $criar-licoes-interativas para criar ou revisar esta lição com cenário, vocabulário, prática, gabaritos explicativos e conclusão verificável."

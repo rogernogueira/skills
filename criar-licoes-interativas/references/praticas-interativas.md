@@ -8,6 +8,8 @@ Pedir resposta antes de revelar a explicação. Manter alternativas visualmente 
 
 Usar para conceitos, distinções e decisões rápidas. Evitar perguntas de pura memorização quando o objetivo for aplicação.
 
+Antes de publicar, confirmar que existe uma única resposta defensável, que o gabarito decorre do conteúdo ou dos dados e que cada alternativa recebe uma explicação específica. Distratores devem representar erros plausíveis, não frases obviamente absurdas. Quando a resposta depender de cálculo, testar automaticamente a igualdade entre dataset, número exibido e gabarito.
+
 ## Caça ao erro
 
 Apresentar uma resposta plausível com dois ou três problemas localizáveis. Permitir clicar nos trechos ou marcar uma lista. Revelar o critério e a correção depois da tentativa.
@@ -37,6 +39,8 @@ Usar para aproximar a aprendizagem do trabalho real. Preferir dados fictícios o
 Oferecer dois ou três controles que alterem uma saída visual ou textual. Explicar a relação causal e incluir um desafio, não apenas exploração livre.
 
 Usar para parâmetros, sistemas, probabilidades, custos e trade-offs.
+
+Definir previamente quais condições contrastantes demonstram a aprendizagem. Registrar esses cenários para a conclusão; não considerar o simples movimento de um slider como evidência suficiente.
 
 ## Checklist com progresso
 

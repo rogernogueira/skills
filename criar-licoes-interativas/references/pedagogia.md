@@ -79,6 +79,8 @@ Priorizar legislação oficial, documentação técnica, artigos científicos, l
 
 Criar cada lição como HTML autocontido em `lessons/0001-<slug>.html`. Limitar cada lição a uma vitória tangível e curta. Conectar lições e documentos de referência por links relativos.
 
+Quando houver aplicação profissional ou institucional, começar por um cenário fictício plausível: serviço, pessoas, fluxo atual, gargalo, consequência, decisão apoiada, salvaguardas e condição de não uso. Explicar o vocabulário de domínio antes de exigir que o aluno opere com ele.
+
 Compor uma lição com:
 
 1. pergunta-guia;
@@ -89,6 +91,8 @@ Compor uma lição com:
 6. síntese;
 7. fonte principal;
 8. convite para perguntas.
+
+A contagem de slides não é objetivo pedagógico. Separar funções quando um mesmo slide tentar contextualizar, definir, calcular e avaliar simultaneamente. Remover carga horária e duração estimada dos materiais exibidos; períodos pertencentes ao próprio problema continuam válidos.
 
 ## Registros de aprendizagem
 

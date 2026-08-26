@@ -22,6 +22,9 @@ const warnings = [];
 function requirePattern(pattern, message) {
   if (!pattern.test(html)) errors.push(message);
 }
+function attributes(tag) {
+  return Object.fromEntries([...tag.matchAll(/([\w:-]+)(?:=["']([^"']*)["'])?/g)].map(match => [match[1].toLowerCase(), match[2] ?? ""]));
+}
 
 requirePattern(/<!doctype html>/i, "Adicionar <!doctype html>.");
 requirePattern(/<html[^>]+lang=["']pt-BR["']/i, "Definir lang=\"pt-BR\".");
@@ -31,20 +34,68 @@ requirePattern(/<h1\b/i, "Adicionar um h1.");
 requirePattern(/class=["'][^"']*\bslide\b/i, "Adicionar pelo menos um slide.");
 
 if (/\{\{[A-Z0-9_]+\}\}/.test(html)) errors.push("Substituir todos os marcadores {{...}} do template.");
+if (/carga\s+hor[aá]ria|dura[cç][aã]o\s+estimada|tempo\s+estimado/i.test(html)) {
+  errors.push("Remover carga horária, duração estimada e promessas de tempo.");
+}
 if (!/data-quiz|data-check|data-save|data-answer|class=["'][^"']*(?:simulator|sorting|mission|checklist)/i.test(html)) {
   warnings.push("Incluir ao menos uma prática interativa observável.");
 }
+if (!/data-scenario/i.test(html)) warnings.push("Se houver problema aplicado, reservar apresentação explícita do cenário com data-scenario.");
+if (!/data-vocabulary/i.test(html)) warnings.push("Se houver termos abstratos, incluir vocabulário contextual com data-vocabulary.");
 if (!/aria-live/i.test(html)) warnings.push("Adicionar região aria-live para feedback ou navegação.");
 if (!/prefers-reduced-motion/i.test(html) && !/estilo-slides\.css/i.test(html)) warnings.push("Respeitar prefers-reduced-motion.");
 if (!/@media\s+print/i.test(html) && !/estilo-slides\.css/i.test(html)) warnings.push("Adicionar estilo de impressão.");
 if (!/https?:\/\//i.test(html)) warnings.push("Registrar ao menos uma fonte principal com link.");
 
+const slides = [...html.matchAll(/<section\b[^>]*class=["'][^"']*\bslide\b[^"']*["'][^>]*>/gi)];
+if (slides.length < 5) warnings.push("A sequência tem menos de cinco slides; verifique se contexto, conceito, prática, feedback e síntese estão suficientemente separados.");
+
 const ids = [...html.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]);
 const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
 if (duplicates.length) errors.push(`IDs duplicados: ${duplicates.join(", ")}.`);
 
+for (const match of html.matchAll(/<(?:input|textarea|select)\b[^>]*data-save[^>]*>/gi)) {
+  if (!/\bid=["'][^"']+["']/i.test(match[0])) errors.push("Todo controle com data-save deve possuir ID estável.");
+}
+for (const match of html.matchAll(/<(?:input|textarea|select|div)\b[^>]*data-required[^>]*>/gi)) {
+  if (!/data-requirement-label=["'][^"']+["']/i.test(match[0])) warnings.push("Adicionar data-requirement-label legível a cada requisito de conclusão.");
+}
 for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
   if (!/\balt=["'][^"']*["']/i.test(match[1])) errors.push("Toda imagem <img> deve possuir atributo alt.");
+}
+
+const quizStarts = [...html.matchAll(/<[^>]+data-quiz[^>]*>/gi)];
+quizStarts.forEach((start, index) => {
+  const sectionEnd = html.indexOf("</section>", start.index);
+  const nextQuiz = quizStarts[index + 1]?.index ?? html.length;
+  const end = sectionEnd >= 0 ? Math.min(sectionEnd, nextQuiz) : nextQuiz;
+  const block = html.slice(start.index, end);
+  const quizAttrs = attributes(start[0]);
+  const options = [...block.matchAll(/<button\b[^>]*data-answer[^>]*>/gi)].map(match => ({ tag: match[0], attrs: attributes(match[0]) }));
+  const correct = options.filter(option => Object.hasOwn(option.attrs, "data-correct"));
+  if (options.length < 2) errors.push(`Quiz ${index + 1}: incluir ao menos duas alternativas.`);
+  if (correct.length !== 1) errors.push(`Quiz ${index + 1}: deve existir exatamente uma alternativa data-correct.`);
+  options.forEach((option, optionIndex) => {
+    if (!option.attrs["data-answer"]) errors.push(`Quiz ${index + 1}, alternativa ${optionIndex + 1}: adicionar identificador curto em data-answer.`);
+    const feedbackKey = Object.hasOwn(option.attrs, "data-correct") ? "data-correct-feedback" : "data-incorrect-feedback";
+    if (!option.attrs[feedbackKey] && !option.attrs["data-feedback-text"]) {
+      errors.push(`Quiz ${index + 1}, alternativa ${optionIndex + 1}: adicionar feedback explicativo específico.`);
+    }
+  });
+  if (correct.length === 1 && quizAttrs["data-correct-response"] && correct[0].attrs["data-answer"] !== quizAttrs["data-correct-response"]) {
+    errors.push(`Quiz ${index + 1}: data-correct-response não coincide com a alternativa marcada como correta.`);
+  }
+});
+
+const completionButtons = [...html.matchAll(/<button\b[^>]*data-complete[^>]*>/gi)];
+completionButtons.forEach(button => {
+  if (!/\bdisabled\b/i.test(button[0])) errors.push("O botão data-complete deve iniciar desabilitado.");
+});
+if (completionButtons.length && !/data-completion-message/i.test(html)) errors.push("Adicionar mensagem acessível com data-completion-message.");
+
+if (/data-completion-mode=["']scorm["']/i.test(html)) {
+  requirePattern(/scorm-runtime\.js/i, "Lição em modo SCORM deve carregar scorm-runtime.js.");
+  if (html.indexOf("scorm-runtime.js") > html.indexOf("licao-runtime.js")) errors.push("Carregar scorm-runtime.js antes de licao-runtime.js.");
 }
 
 for (const match of html.matchAll(/(?:src|href)=["']([^"']+)["']/gi)) {
@@ -52,7 +103,15 @@ for (const match of html.matchAll(/(?:src|href)=["']([^"']+)["']/gi)) {
   if (/^(?:https?:|mailto:|tel:|#|data:|javascript:)/i.test(reference)) continue;
   const clean = decodeURIComponent(reference.split(/[?#]/)[0]);
   const resolved = path.resolve(base, clean);
-  if (!fs.existsSync(resolved)) errors.push(`Referência local ausente: ${reference}.`);
+  if (!fs.existsSync(resolved)) {
+    errors.push(`Referência local ausente: ${reference}.`);
+    continue;
+  }
+  if (/\.csv$/i.test(clean)) {
+    const lines = fs.readFileSync(resolved, "utf8").split(/\r?\n/).filter(line => line.trim());
+    const records = Math.max(0, lines.length - 1);
+    if (records <= 30) errors.push(`Dataset aplicado ${reference}: usar mais de 30 registros; encontrados ${records}.`);
+  }
 }
 
 for (const match of html.matchAll(/<script(?![^>]+src=)[^>]*>([\s\S]*?)<\/script>/gi)) {
@@ -63,6 +122,5 @@ for (const match of html.matchAll(/<script(?![^>]+src=)[^>]*>([\s\S]*?)<\/script
 console.log(`Validação: ${file}`);
 errors.forEach(message => console.error(`[erro] ${message}`));
 warnings.forEach(message => console.warn(`[alerta] ${message}`));
-
 if (!errors.length) console.log(`[ok] Sem erros estruturais. ${warnings.length} alerta(s).`);
 process.exit(errors.length ? 1 : 0);

@@ -57,7 +57,7 @@ if (duplicates.length) errors.push(`IDs duplicados: ${duplicates.join(", ")}.`);
 for (const match of html.matchAll(/<(?:input|textarea|select)\b[^>]*data-save[^>]*>/gi)) {
   if (!/\bid=["'][^"']+["']/i.test(match[0])) errors.push("Todo controle com data-save deve possuir ID estável.");
 }
-for (const match of html.matchAll(/<(?:input|textarea|select|div)\b[^>]*data-required[^>]*>/gi)) {
+for (const match of html.matchAll(/<(?:input|textarea|select|div|section|fieldset|form|ul|ol|table)\b[^>]*data-required[^>]*>/gi)) {
   if (!/data-requirement-label=["'][^"']+["']/i.test(match[0])) warnings.push("Adicionar data-requirement-label legível a cada requisito de conclusão.");
 }
 for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
@@ -91,7 +91,30 @@ const completionButtons = [...html.matchAll(/<button\b[^>]*data-complete[^>]*>/g
 completionButtons.forEach(button => {
   if (!/\bdisabled\b/i.test(button[0])) errors.push("O botão data-complete deve iniciar desabilitado.");
 });
-if (completionButtons.length && !/data-completion-message/i.test(html)) errors.push("Adicionar mensagem acessível com data-completion-message.");
+if (completionButtons.length) {
+  const messageTag = /<[^>]*\bdata-completion-message\b[^>]*>/i.exec(html);
+  if (!messageTag) errors.push("Adicionar mensagem acessível com data-completion-message.");
+  else if (!/role=["']status["']/i.test(messageTag[0]) && !/aria-live=/i.test(messageTag[0])) {
+    errors.push("O elemento data-completion-message precisa de role=\"status\" e aria-live=\"polite\".");
+  }
+
+  const checksTag = /<ul\b[^>]*\bdata-completion-checks\b[^>]*>([\s\S]*?)<\/ul>/i.exec(html);
+  if (!checksTag) errors.push("Adicionar a lista data-completion-checks do checklist vivo.");
+  else if (/<li\b/i.test(checksTag[1])) errors.push("Os itens de data-completion-checks devem ser gerados pelo runtime; remover os <li> fixos do HTML.");
+
+  const persistenceTag = /<[^>]*\bdata-persistence-status\b[^>]*>/i.exec(html);
+  if (!persistenceTag) errors.push("Adicionar linha visível de estado da gravação com data-persistence-status.");
+  else if (!/role=["']status["']/i.test(persistenceTag[0]) && !/aria-live=/i.test(persistenceTag[0])) {
+    errors.push("O elemento data-persistence-status precisa de role=\"status\" e aria-live=\"polite\".");
+  }
+
+  const hasPractice = /data-quiz|data-save|data-answer/i.test(html);
+  if (hasPractice && !/\bdata-required\b/i.test(html)) {
+    errors.push("Conclusão liberada sem evidência de prática: marcar as interações obrigatórias com data-required.");
+  }
+  if (!/\bdata-print\b/i.test(html)) warnings.push("Incluir botão Imprimir com data-print no painel de conclusão.");
+  if (!/\bdata-reset\b/i.test(html)) warnings.push("Incluir botão de limpeza com data-reset no painel de conclusão.");
+}
 
 if (/data-completion-mode=["']scorm["']/i.test(html)) {
   requirePattern(/scorm-runtime\.js/i, "Lição em modo SCORM deve carregar scorm-runtime.js.");

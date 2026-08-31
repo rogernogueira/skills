@@ -52,21 +52,23 @@ linguagem natural ("crie uma lição sobre…", "revise esta lição") ou explic
 
 | Caminho | Função |
 |---|---|
-| `SKILL.md` | Fluxo obrigatório: projetar a aprendizagem, implementar, validar, entregar. |
+| `SKILL.md` | Fluxo obrigatório: projetar a aprendizagem, implementar, auditar a conclusão, validar, entregar. |
 | `references/pedagogia.md` | Princípios de aprendizagem e revisão pedagógica. |
 | `references/praticas-interativas.md` | Quizzes, atividades, simuladores, checklists, bilhetes de saída. |
 | `references/cenario-vocabulario-e-dados.md` | Cenário fictício, vocabulário, dataset, gabaritos. |
 | `references/scorm-e-conclusao.md` | Persistência, retomada, critérios de conclusão, empacotamento. |
+| `references/painel-de-conclusao.md` | Etapa 3: inventário das interações, requisitos por evidência, checklist vivo, validação, testes. |
 | `references/sistema-visual.md` | Identidade visual, componentes, acessibilidade, arquivo único e Artifact. |
 | `assets/licao-modelo.html` | Template de oito slides com marcadores `{{...}}`. |
 | `assets/estilo-slides.css`, `assets/componentes-interativos.css` | Casca visual e componentes. |
-| `assets/licao-runtime.js` | Navegação, quizzes, persistência, checklist de conclusão. |
+| `assets/licao-runtime.js` | Navegação, quizzes, persistência, painel de conclusão verificável. |
 | `assets/scorm-runtime.js` | Ponte SCORM 1.2, com degradação silenciosa fora do LMS. |
 | `scripts/init-workspace.mjs` | Cria workspace de autoria com ativos e documentos de planejamento. |
 | `scripts/validate-lesson.mjs` | Valida estrutura, acessibilidade, quizzes, dataset e referências locais. |
 | `scripts/build-standalone.mjs` | Gera versão de arquivo único para publicar como Artifact. |
-| `scripts/test-scorm.mjs` | Testa persistência, conclusão e retomada em nova sessão. |
-| `agents/revisor-licao.md` | Subagente revisor: recalcula contas, contesta gabaritos, confere conclusão e acessibilidade. Só relata. |
+| `scripts/test-completion.mjs` | Testa o portão de conclusão: bloqueio por evidência, revalidação, retomada, limpeza e modo SCORM. |
+| `scripts/test-scorm.mjs` | Testa persistência, conclusão, retomada em nova sessão e bloqueio por falha de commit. |
+| `agents/revisor-licao.md` | Subagente revisor: recalcula contas, contesta gabaritos, audita o painel de conclusão e a acessibilidade. Só relata. |
 
 ## Uso rápido
 
@@ -77,6 +79,7 @@ node "$SKILL/scripts/init-workspace.mjs" ./curso-exemplo
 cp ./curso-exemplo/assets/licao-modelo.html ./curso-exemplo/lessons/0001-tema.html
 # editar a lição conforme o mapa pedagógico
 node "$SKILL/scripts/validate-lesson.mjs" ./curso-exemplo/lessons/0001-tema.html
+node "$SKILL/scripts/test-completion.mjs"
 node "$SKILL/scripts/test-scorm.mjs"
 node "$SKILL/scripts/build-standalone.mjs" ./curso-exemplo/lessons/0001-tema.html
 ```
@@ -100,3 +103,6 @@ Depois dos scripts, pedir a revisão independente: "revise a lição
   com as cores institucionais prevalecendo sobre as paletas padrão delas.
 - Reforçadas as regras de não inventar fatos, calcular números com ferramenta e relatar a
   validação como ela ocorreu, incluindo o que não pôde ser testado no ambiente.
+- Acrescentada a Etapa 3, com `references/painel-de-conclusao.md`, o painel de conclusão no
+  template, a linha de estado da gravação, a revalidação no clique final, a conclusão local
+  persistente e `scripts/test-completion.mjs`.

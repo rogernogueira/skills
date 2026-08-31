@@ -25,10 +25,23 @@
     visited: Array.isArray(sourceState?.visited) ? [...sourceState.visited] : [],
     fields: Object.assign({}, sourceState?.fields || {}),
     exploration: Object.assign({}, sourceState?.exploration || {}),
-    quizzes: Object.assign({}, sourceState?.quizzes || {})
+    quizzes: Object.assign({}, sourceState?.quizzes || {}),
+    completed: sourceState?.completed === true
   };
   const visited = new Set(state.visited);
   let persistenceConfirmed = completionMode !== "scorm" || Boolean(scorm?.connected);
+  const persistenceLine = document.querySelector("[data-persistence-status]");
+  const inLms = Boolean(scorm?.connected);
+
+  function persistenceText() {
+    if (!inLms) return "Salvo apenas neste navegador.";
+    return persistenceConfirmed
+      ? "Respostas salvas no LMS."
+      : "O LMS não confirmou a gravação. Altere ou salve uma resposta antes de concluir.";
+  }
+  function renderPersistence() {
+    if (persistenceLine) persistenceLine.textContent = persistenceText();
+  }
 
   function fieldValue(field) {
     if (field.type === "checkbox" || field.type === "radio") return field.checked;
@@ -52,6 +65,7 @@
     catch (error) {}
   }
   function showSaveNotice(text) {
+    renderPersistence();
     if (!savedNotice) return;
     savedNotice.textContent = text;
     savedNotice.classList.add("visible");
@@ -166,6 +180,7 @@
     const id = quiz.dataset.interactionId || `quiz-${quizIndex + 1}`;
     const feedback = quiz.querySelector("[data-feedback]");
     const options = Array.from(quiz.querySelectorAll("[data-answer]"));
+    if (feedback && !feedback.dataset.initialText) feedback.dataset.initialText = feedback.textContent.trim();
 
     function render(option, restored = false) {
       const correct = option.hasAttribute("data-correct");
@@ -208,16 +223,18 @@
     if (operator === "gte") return actual >= expected;
     return false;
   }
-  document.querySelectorAll("input[type=range][data-explore-rules]").forEach(field => {
-    const rules = field.dataset.exploreRules.split(",").map(value => value.trim()).filter(Boolean);
-    const completed = new Set(state.exploration[field.id] || []);
+  const ranges = Array.from(document.querySelectorAll("input[type=range]"));
+  ranges.forEach((field, index) => {
+    if (!field.id) field.id = `range-${index + 1}`;
+    const rules = (field.dataset.exploreRules || "").split(",").map(value => value.trim()).filter(Boolean);
+    const explored = new Set(state.exploration[field.id] || []);
     field.addEventListener("input", () => {
-      rules.forEach(rule => { if (matchesRule(field.value, rule)) completed.add(rule); });
-      state.exploration[field.id] = [...completed];
+      if (rules.length) rules.forEach(rule => { if (matchesRule(field.value, rule)) explored.add(rule); });
+      else explored.add("touched");
+      state.exploration[field.id] = [...explored];
+      // Range sem data-save não passa pelo listener de persistência dos campos.
+      if (!field.hasAttribute("data-save")) scheduleSave();
     });
-  });
-  document.querySelectorAll("input[type=range]:not([data-explore-rules])").forEach(field => {
-    field.addEventListener("input", () => { state.exploration[field.id] = ["touched"]; });
   });
 
   document.querySelectorAll("[data-min-words]").forEach(field => {
@@ -228,7 +245,7 @@
     field.insertAdjacentElement("afterend", status);
     field.setAttribute("aria-describedby", [field.getAttribute("aria-describedby"), status.id].filter(Boolean).join(" "));
     const render = () => {
-      const words = (field.value.trim().match(/\S+/g) || []).length;
+      const words = wordCount(field.value);
       const ready = words >= minimum;
       status.classList.toggle("complete", ready);
       status.textContent = ready ? `✓ ${words} palavras.` : `▲ ${words} de ${minimum} palavras.`;
@@ -237,60 +254,111 @@
     render();
   });
 
-  function fieldRequirement(field) {
-    const label = field.dataset.requirementLabel || field.closest("label")?.textContent.trim() || field.id;
-    if (field.type === "checkbox" || field.type === "radio") return [field.checked, label];
+  const quizzes = Array.from(document.querySelectorAll("[data-quiz]"));
+
+  function wordCount(value) {
+    return (String(value).trim().match(/\S+/g) || []).length;
+  }
+  function quizId(quiz) {
+    return quiz.dataset.interactionId || `quiz-${quizzes.indexOf(quiz) + 1}`;
+  }
+  function quizCorrect(quiz) {
+    return Boolean(state.quizzes[quizId(quiz)]?.correct);
+  }
+  function fieldSatisfied(field) {
+    if (field.type === "checkbox" || field.type === "radio") return field.checked;
     if (field.type === "range") {
       const rules = (field.dataset.exploreRules || "").split(",").map(value => value.trim()).filter(Boolean);
-      const completed = state.exploration[field.id] || [];
-      return [rules.length ? rules.every(rule => completed.includes(rule)) : completed.includes("touched"), label];
+      const explored = state.exploration[field.id] || [];
+      return rules.length ? rules.every(rule => explored.includes(rule)) : explored.includes("touched");
     }
-    if (field.dataset.correctValue !== undefined) return [field.value === field.dataset.correctValue, label];
-    if (field.dataset.minWords) {
-      const words = (field.value.trim().match(/\S+/g) || []).length;
-      return [words >= Number(field.dataset.minWords), label];
+    if (field.dataset.correctValue !== undefined) return field.value.trim() === field.dataset.correctValue.trim();
+    if (field.dataset.minWords) return wordCount(field.value) >= Number(field.dataset.minWords);
+    return Boolean(field.value.trim());
+  }
+  function fieldLabel(field) {
+    return field.dataset.requirementLabel || field.closest("label")?.textContent.trim() || field.id;
+  }
+
+  // Um requisito por elemento [data-required]. Elemento que não é campo nem quiz vira grupo:
+  // a atividade só conta quando todos os campos e quizzes internos estiverem corretos.
+  function collectRequirements() {
+    const requirements = [];
+    if (document.body.hasAttribute("data-require-all-slides")) {
+      requirements.push([visited.size >= slides.length, `Visitar os ${slides.length} slides`]);
     }
-    return [Boolean(field.value.trim()), label];
+    document.querySelectorAll("[data-required]").forEach(element => {
+      if (element.parentElement?.closest("[data-required]")) return;
+      if (element.matches("[data-quiz]")) {
+        requirements.push([quizCorrect(element), element.dataset.requirementLabel || "Responder corretamente ao quiz"]);
+      } else if (element.matches("input,textarea,select")) {
+        requirements.push([fieldSatisfied(element), fieldLabel(element)]);
+      } else {
+        const groupFields = Array.from(element.querySelectorAll("input,textarea,select"));
+        const groupQuizzes = Array.from(element.querySelectorAll("[data-quiz]"));
+        const filled = groupFields.length || groupQuizzes.length;
+        const done = groupFields.every(fieldSatisfied) && groupQuizzes.every(quizCorrect);
+        requirements.push([Boolean(filled && done), element.dataset.requirementLabel || "Completar a atividade"]);
+      }
+    });
+    if (completionMode === "scorm") {
+      requirements.push([inLms, "Abrir a lição pelo LMS"]);
+      requirements.push([persistenceConfirmed, "Confirmar a gravação no LMS"]);
+    }
+    return requirements;
+  }
+
+  function isCompleted() {
+    return completionMode === "scorm" ? Boolean(scorm?.completed) : state.completed === true;
+  }
+  function checkItem(done, label) {
+    const item = document.createElement("li");
+    item.className = done ? "completion-ok" : "completion-pending";
+    const symbol = document.createElement("span");
+    symbol.setAttribute("aria-hidden", "true");
+    symbol.textContent = done ? "✓" : "○";
+    const situation = document.createElement("span");
+    situation.className = "visually-hidden";
+    situation.textContent = done ? "Cumprido: " : "Pendente: ";
+    const text = document.createElement("span");
+    text.textContent = label;
+    item.append(symbol, situation, text);
+    return item;
   }
 
   function updateCompletion() {
     const button = document.querySelector("[data-complete]");
     const message = document.querySelector("[data-completion-message]");
     if (!button || !message) return;
-    const requirements = [];
-    if (document.body.hasAttribute("data-require-all-slides")) {
-      requirements.push([visited.size >= slides.length, `Visitar os ${slides.length} slides`]);
-    }
-    document.querySelectorAll("[data-required]").forEach(element => {
-      if (element.matches("[data-quiz]")) {
-        const index = Array.from(document.querySelectorAll("[data-quiz]")).indexOf(element);
-        const id = element.dataset.interactionId || `quiz-${index + 1}`;
-        requirements.push([Boolean(state.quizzes[id]?.correct), element.dataset.requirementLabel || "Responder corretamente ao quiz"]);
-      } else if (element.matches("input,textarea,select")) {
-        requirements.push(fieldRequirement(element));
-      }
-    });
-    if (completionMode === "scorm") {
-      requirements.push([Boolean(scorm?.connected), "Abrir a lição pelo LMS"]);
-      requirements.push([persistenceConfirmed, "Confirmar a gravação no LMS"]);
-    }
+    if (!button.dataset.initialLabel) button.dataset.initialLabel = button.textContent.trim();
 
+    const requirements = collectRequirements();
     let list = document.querySelector("[data-completion-checks]");
     if (!list) {
       list = document.createElement("ul");
       list.className = "completion-checks";
       list.setAttribute("data-completion-checks", "");
+      list.setAttribute("aria-label", "Requisitos para concluir");
       message.insertAdjacentElement("afterend", list);
     }
-    list.replaceChildren(...requirements.map(([done, label]) => {
-      const item = document.createElement("li");
-      item.className = done ? "completion-ok" : "completion-pending";
-      item.textContent = `${done ? "✓" : "○"} ${label}`;
-      return item;
-    }));
+    list.replaceChildren(...requirements.map(([done, label]) => checkItem(done, label)));
+    renderPersistence();
+
+    if (isCompleted()) {
+      button.disabled = true;
+      button.textContent = "Lição concluída";
+      message.textContent = inLms
+        ? "Conclusão registrada e confirmada pelo LMS."
+        : "Conclusão registrada neste navegador.";
+      return;
+    }
+
     const pending = requirements.filter(([done]) => !done).length;
     button.disabled = pending > 0;
-    message.textContent = pending ? `${pending} requisito(s) pendente(s).` : "Tudo pronto para concluir.";
+    button.textContent = button.dataset.initialLabel;
+    message.textContent = pending
+      ? `${pending} ${pending === 1 ? "requisito ainda pendente" : "requisitos ainda pendentes"}. Confira a lista abaixo.`
+      : "Todos os requisitos cumpridos. A unidade pode ser concluída.";
   }
 
   fields.forEach(field => {
@@ -302,7 +370,10 @@
 
   document.querySelectorAll("[data-print]").forEach(button => button.addEventListener("click", () => window.print()));
   document.querySelectorAll("[data-reset]").forEach(button => button.addEventListener("click", () => {
-    if (!confirm("Limpar as respostas salvas desta lição?")) return;
+    const scope = inLms
+      ? "Isso apaga respostas, quizzes, explorações e os slides visitados neste navegador e também no LMS, e devolve a unidade para não concluída. Continuar?"
+      : "Isso apaga respostas, quizzes, explorações e os slides visitados salvos neste navegador. Continuar?";
+    if (!confirm(scope)) return;
     fields.forEach(field => {
       if (field.type === "checkbox" || field.type === "radio") field.checked = false;
       else if (field.type === "range") field.value = field.defaultValue;
@@ -312,22 +383,41 @@
     visited.clear();
     state.exploration = {};
     state.quizzes = {};
+    state.completed = false;
     document.querySelectorAll("[data-answer]").forEach(option => option.classList.remove("correct", "incorrect"));
-    document.querySelectorAll("[data-feedback]").forEach(feedback => { feedback.textContent = "Escolha uma alternativa para receber feedback."; });
+    document.querySelectorAll("[data-feedback]").forEach(feedback => {
+      feedback.textContent = feedback.dataset.initialText || "Escolha uma alternativa para receber feedback.";
+    });
+    // Os eventos de limpeza agendam gravação; cancelar antes de apagar, senão o estado volta.
+    clearTimeout(saveTimer);
     try { localStorage.removeItem(storageKey); } catch (error) {}
     persistenceConfirmed = completionMode !== "scorm" || Boolean(scorm?.clearLearnerWork());
     updateCompletion();
   }));
 
+  // Revalidar → gravar → revalidar → só então concluir. O estado disabled do botão não é prova.
+  function refuseCompletion() {
+    updateCompletion();
+    const message = document.querySelector("[data-completion-message]");
+    if (message && completionMode === "scorm" && !persistenceConfirmed) {
+      message.textContent = "O LMS não confirmou a gravação. A unidade não foi concluída. Tente novamente.";
+    }
+  }
   document.querySelectorAll("[data-complete]").forEach(button => button.addEventListener("click", () => {
-    if (!saveNow(false)) return;
-    const completed = completionMode === "scorm" ? Boolean(scorm?.complete()) : true;
-    if (!completed) { persistenceConfirmed = false; updateCompletion(); return; }
-    button.textContent = "Lição concluída";
-    button.disabled = true;
-    document.querySelector("[data-completion-message]").textContent = completionMode === "scorm"
-      ? "Conclusão registrada e confirmada pelo LMS."
-      : "Conclusão registrada neste navegador.";
+    if (isCompleted()) return;
+    if (collectRequirements().some(([done]) => !done)) { refuseCompletion(); return; }
+    saveNow(false);
+    if (collectRequirements().some(([done]) => !done)) { refuseCompletion(); return; }
+    if (completionMode === "scorm" && !scorm?.complete()) {
+      persistenceConfirmed = false;
+      refuseCompletion();
+      return;
+    }
+    if (completionMode !== "scorm") {
+      state.completed = true;
+      saveLocal();
+    }
+    updateCompletion();
   }));
 
   mark(0);

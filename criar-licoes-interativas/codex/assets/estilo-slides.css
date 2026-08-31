@@ -14,7 +14,7 @@
   --branco:       #FFFFFF;
   --cinza-claro:  #F4F6F8;
   --grafite:      #222222;
-  --cinza-medio:  #6B7280;
+  --cinza-medio:  #525A66;   /* texto de apoio: 6,97:1 no branco, 5,62:1 no alerta-suave */
 
   /* Fundos tênues */
   --azul-suave:   #EEF3F8;
@@ -26,6 +26,14 @@
   --alerta:       #B9564E;
   --alerta-suave: #F4E3E1;
   --ok:           #7F9B76;
+
+  /* Companheiros de texto. --ciano, --turquesa e --ok são cores de superfície,
+     borda e realce: como texto sobre fundo claro ficam entre 2,2 e 3,1:1, abaixo
+     até do mínimo de objeto gráfico. --alerta só passa sobre branco puro, não
+     sobre o próprio --alerta-suave. Ver references/sistema-visual.md. */
+  --ciano-texto:  #0E6C8A;   /* 5,95:1 no branco, 4,79:1 no alerta-suave */
+  --alerta-texto: #6E322D;   /* 7,84:1 sobre --alerta-suave */
+  --ok-texto:     #4E6B47;   /* 5,97:1 no branco */
 
   /* Tipografia */
   --fonte-titulo: "Montserrat", "Roboto", Arial, Helvetica, sans-serif;
@@ -131,7 +139,7 @@ img { display: block; max-width: 100%; }
   border-radius: var(--r-sm); padding: .45rem .9rem;
 }
 .crumb a { color: var(--azul); text-decoration: none; border-bottom: 1px dotted var(--azul); }
-.crumb a:hover { color: var(--ciano); border-bottom-color: var(--ciano); }
+.crumb a:hover { color: var(--ciano-texto); border-bottom-color: var(--ciano); }
 
 /* Trilha institucional — rodapé discreto do primeiro slide. Mantém os elos entre
    lição, glossário e índice sem competir com o título na projeção. */
@@ -140,7 +148,7 @@ img { display: block; max-width: 100%; }
   font-size: .7rem; letter-spacing: .04em; color: var(--cinza-medio);
 }
 .trilha a { color: var(--cinza-medio); text-decoration: none; border-bottom: 1px dotted var(--borda); }
-.trilha a:hover { color: var(--ciano); border-bottom-color: var(--ciano); }
+.trilha a:hover { color: var(--ciano-texto); border-bottom-color: var(--ciano); }
 
 .slide-counter {
   position: absolute; top: 1.4rem; right: 1.9rem;
@@ -179,16 +187,41 @@ p + p { margin-top: .7rem; }
 .nota strong { color: var(--azul-marinho); }
 
 a { color: var(--azul); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-a:hover { color: var(--ciano); }
+a:hover { color: var(--ciano-texto); }
 
 strong { font-weight: 700; color: var(--azul-marinho); }
 em.termo { font-family: var(--fonte-titulo); font-style: normal; font-weight: 700; color: var(--azul); }
-sup.cit { font-size: .68rem; color: var(--ciano); font-weight: 700; }
+sup.cit { font-size: .68rem; color: var(--ciano-texto); font-weight: 700; }
 
 code {
   font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   font-size: .9em; background: var(--cinza-claro);
   border: 1px solid var(--borda); border-radius: var(--r-sm); padding: .12em .45em;
+}
+
+/* ---------- Texto sobre superfície escura ----------
+   Regra de elemento vence herança: dentro de um cartão azul-marinho, `strong`
+   continua valendo var(--azul-marinho) — 1,00:1, o texto some — e `code` mantém o
+   próprio fundo claro enquanto herda o branco do cartão. Definir `color` no
+   contêiner não resolve nenhum dos dois.
+
+   Marcar qualquer superfície escura própria com .superficie-escura. Este bloco
+   precisa vir DEPOIS de `em.termo`, que tem a mesma especificidade.
+
+   Cuidado: `thead th` entra aqui porque o padrão da skill é cabeçalho
+   azul-marinho. Lição que repintar `thead th` com fundo claro precisa redeclarar
+   estas cores, ou terá branco sobre claro.
+   Ver references/sistema-visual.md § Contraste e superfícies. */
+:is(.superficie-escura, .marca-conclusao, thead th, .salvo, .btn:hover) :is(strong, b, em, em.termo) {
+  color: var(--branco);
+}
+:is(.superficie-escura, .marca-conclusao, thead th, .salvo, .btn:hover) a {
+  color: var(--branco); text-decoration-color: rgba(255, 255, 255, .6);
+}
+:is(.superficie-escura, .marca-conclusao, thead th, .salvo, .btn:hover) code {
+  background: rgba(255, 255, 255, .14);
+  border-color: rgba(255, 255, 255, .34);
+  color: var(--branco);
 }
 
 .section-heading { display: flex; flex-direction: column; gap: .45rem; }
@@ -239,7 +272,7 @@ h2 .selo, h3 .selo { width: 1.35em; height: 1.35em; vertical-align: -.3em; }
 }
 .objetivos ol { margin: .2rem 0 0; padding-left: 1.2rem; }
 .objetivos li { margin-bottom: .3rem; }
-.objetivos li::marker { color: var(--ciano); font-family: var(--fonte-titulo); font-weight: 700; }
+.objetivos li::marker { color: var(--ciano-texto); font-family: var(--fonte-titulo); font-weight: 700; }
 
 .pergunta-guia {
   font-family: var(--fonte-titulo); font-weight: 600;
@@ -332,7 +365,7 @@ h2 .selo, h3 .selo { width: 1.35em; height: 1.35em; vertical-align: -.3em; }
   border-left: 4px solid var(--alerta); border-radius: var(--r-md);
   padding: .7rem 1rem; font-size: .88rem; color: #6E322D;
 }
-.aviso strong { color: var(--alerta); }
+.aviso strong { color: var(--alerta-texto); }
 
 .prompt-completo { margin: 0; }
 .prompt-completo > summary { font-size: .85rem; }
@@ -361,8 +394,8 @@ h2 .selo, h3 .selo { width: 1.35em; height: 1.35em; vertical-align: -.3em; }
 }
 .marca-fonte      { color: var(--azul-marinho); background: var(--azul-suave);  border: 1px solid var(--azul-marinho); }
 .marca-alegacao   { color: var(--cinza-medio);  background: var(--cinza-claro); border: 1px dashed var(--cinza-medio); }
-.marca-evidencia  { color: #4E6B47;             background: #EEF3EC;           border: 1px solid var(--ok); }
-.marca-inferencia { color: var(--alerta);       background: var(--alerta-suave); border: 1px dashed var(--alerta); }
+.marca-evidencia  { color: var(--ok-texto);      background: #EEF3EC;           border: 1px solid var(--ok); }
+.marca-inferencia { color: var(--alerta-texto); background: var(--alerta-suave); border: 1px dashed var(--alerta); }
 .marca-conclusao  { color: var(--branco);       background: var(--azul-marinho); border: 1px solid var(--azul-marinho); }
 .marca-lacuna     { color: #6B5A16;             background: #FFF8E6;           border: 1px dotted #C9A227; }
 
@@ -432,7 +465,7 @@ body.mostrar-notas .nota-professor .rotulo { color: #8A7320; }
 .comparison-col.accent { background: var(--ciano-suave); border-color: var(--ciano-borda); border-top: 3px solid var(--turquesa); }
 .comparison-col ul { padding-left: 1.05rem; margin: 0; }
 .comparison-col li { margin-bottom: .4rem; }
-.comparison-col li::marker { color: var(--ciano); }
+.comparison-col li::marker { color: var(--ciano-texto); }
 
 /* ---------- Fluxo de passos ---------- */
 
@@ -456,7 +489,7 @@ body.mostrar-notas .nota-professor .rotulo { color: #8A7320; }
   border-left: 4px solid var(--ciano); border-radius: var(--r-md);
   padding: .9rem 1.2rem; box-shadow: var(--sombra-xs);
 }
-.step-num { font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.4rem; color: var(--ciano); line-height: 1; min-width: 2rem; }
+.step-num { font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.4rem; color: var(--ciano-texto); line-height: 1; min-width: 2rem; }
 .step-copy h3 { margin-bottom: .15rem; }
 .step-copy p { font-size: .88rem; color: var(--cinza-medio); }
 
@@ -532,7 +565,7 @@ summary {
   padding: .75rem 1rem; list-style: none; color: var(--azul-marinho); transition: var(--transicao);
 }
 summary::-webkit-details-marker { display: none; }
-summary::before { content: "›"; display: inline-block; margin-right: .55rem; color: var(--ciano); font-weight: 700; transition: transform .2s ease; }
+summary::before { content: "›"; display: inline-block; margin-right: .55rem; color: var(--ciano-texto); font-weight: 700; transition: transform .2s ease; }
 details[open] summary { color: var(--azul); }
 details[open] summary::before { transform: rotate(90deg); }
 details p { margin: 0 1rem .9rem; border-left: 2px solid var(--ciano); padding-left: .85rem; font-size: .92rem; }
@@ -616,7 +649,7 @@ summary:focus-visible { outline-offset: -2px; }
   transition: var(--transicao);
 }
 .indice li a:hover { box-shadow: var(--sombra-hover); border-color: var(--ciano); transform: translateY(-1px); }
-.indice li .num { font-family: var(--fonte-titulo); font-weight: 800; color: var(--ciano); min-width: 2.1rem; }
+.indice li .num { font-family: var(--fonte-titulo); font-weight: 800; color: var(--ciano-texto); min-width: 2.1rem; }
 .indice li .tit { font-family: var(--fonte-titulo); font-weight: 600; color: var(--azul-marinho); }
 .indice li .sub { display: block; font-size: .84rem; color: var(--cinza-medio); font-weight: 400; margin-top: .15rem; }
 

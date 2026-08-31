@@ -106,13 +106,19 @@
         <h2 id="slide-8">Síntese e conclusão</h2>
         <div class="caixa"><p>{{SINTESE_ESSENCIAL}}</p></div>
         <p class="nota">Fonte principal: <a href="{{URL_DA_FONTE}}" target="_blank" rel="noopener noreferrer">{{NOME_DA_FONTE}}</a></p>
-        <div class="completion-gate" data-completion-message role="status" aria-live="polite">Verificando os requisitos…</div>
-        <ul class="completion-checks" data-completion-checks aria-label="Requisitos para concluir"></ul>
-        <div class="button-row">
-          <button type="button" class="btn" data-complete disabled>Concluir lição</button>
-          <button type="button" class="btn btn-secundario" data-print>Imprimir</button>
-          <button type="button" class="btn btn-secundario" data-reset>Limpar respostas salvas</button>
-        </div>
+        <section class="completion-panel" aria-labelledby="completion-title">
+          <p class="completion-eyebrow">Conclusão do módulo</p>
+          <h3 id="completion-title">Confira seu progresso</h3>
+          <p class="completion-message" data-completion-message role="status" aria-live="polite">Verificando os requisitos…</p>
+          <!-- Os itens são gerados pelo runtime a partir dos requisitos reais. Não fixar nada aqui. -->
+          <ul class="completion-checks" data-completion-checks aria-label="Requisitos para concluir"></ul>
+          <p class="persistence-status" data-persistence-status role="status" aria-live="polite"></p>
+          <div class="completion-actions button-row">
+            <button type="button" class="btn" data-complete disabled>Concluir lição</button>
+            <button type="button" class="btn btn-secundario" data-print>Imprimir</button>
+            <button type="button" class="btn btn-secundario" data-reset>Limpar respostas e progresso</button>
+          </div>
+        </section>
       </div>
     </section>
   </main>

@@ -1,11 +1,11 @@
 ---
 name: criar-licoes-interativas
-description: Planejar, criar, revisar e validar lições HTML interativas e responsivas — inclusive pacotes LMS/SCORM e versões publicáveis como Artifact — com cenário didático, vocabulário contextual, dataset fictício, quizzes de feedback explicativo, simuladores, conclusão verificável e persistência de respostas. Usar quando o pedido envolver aula, lição, slide, trilha, curso, módulo, material educacional, quiz, atividade interativa, SCORM ou revisão pedagógica de uma lição existente.
+description: Planejar, criar, revisar e validar lições HTML interativas e responsivas — inclusive pacotes LMS/SCORM e versões publicáveis como Artifact — com cenário didático, vocabulário contextual, dataset fictício, quizzes de feedback explicativo, simuladores, conclusão verificável e persistência de respostas. Usar quando o pedido envolver aula, lição, slide, trilha, curso, módulo, material educacional, quiz, atividade interativa, SCORM, revisão pedagógica de uma lição existente ou auditoria da conclusão de um módulo cujo botão libera sem evidência de aprendizagem.
 ---
 
 # Criar lições interativas
 
-Trabalhar em duas etapas: primeiro projetar a aprendizagem; depois implementar e validar a experiência. Não começar pelo layout.
+Trabalhar em três etapas: projetar a aprendizagem; implementar a experiência; auditar a conclusão verificável. Não começar pelo layout.
 
 ## Roteamento de referências
 
@@ -15,6 +15,7 @@ Ler apenas o que a tarefa exigir:
 - [praticas-interativas.md](references/praticas-interativas.md) ao criar quizzes, atividades, simuladores, checklists ou bilhetes de saída.
 - [cenario-vocabulario-e-dados.md](references/cenario-vocabulario-e-dados.md) quando houver problema aplicado, cenário, termos de domínio, dataset, fórmula ou gabarito dependente de dados.
 - [scorm-e-conclusao.md](references/scorm-e-conclusao.md) quando a lição for destinada a LMS/SCORM, precisar retomar respostas ou tiver conclusão condicionada.
+- [painel-de-conclusao.md](references/painel-de-conclusao.md) ao montar o slide de conclusão e sempre que a tarefa for auditar um módulo existente cuja conclusão dependa apenas de navegação ou de tentativa.
 - [sistema-visual.md](references/sistema-visual.md) antes de criar ou alterar HTML/CSS.
 
 ## Caminhos, scripts e ambiente
@@ -59,6 +60,7 @@ Dataset, quantidade de registros e regra do alvo:
 Contas e gabaritos que precisam ser reproduzidos:
 Prática e feedback:
 Evidências exigidas para conclusão:
+Como cada evidência será verificada no código:
 Interações que precisam persistir:
 Comportamento esperado na retomada:
 Fonte principal:
@@ -95,8 +97,48 @@ node <caminho-da-skill>/scripts/init-workspace.mjs <diretorio-destino>
 5. Tratar sliders como exploração orientada: registrar cenários relevantes, não apenas movimento.
 6. Dar IDs estáveis a todos os campos persistentes.
 7. Usar `localStorage` apenas como conveniência ou contingência, sempre com leitura e escrita protegidas. Em LMS, persistir no estado SCORM e restaurar estado funcional e visual.
-8. Quando houver botão de conclusão, mostrar checklist do que falta e revalidar tudo no clique final.
+8. Quando houver botão de conclusão, montar o painel da Etapa 3 em vez de improvisar regra própria: checklist vivo, linha de estado da gravação e revalidação no clique final.
 9. Garantir foco visível, teclado, contraste, `aria-live`, redução de movimento, texto alternativo e impressão legível.
+
+## Etapa 3 — Auditar a conclusão verificável
+
+Executar sempre que a lição tiver botão de conclusão — na criação e, obrigatoriamente, quando a
+tarefa for revisar ou retrofitar um módulo existente. O detalhamento está em
+[painel-de-conclusao.md](references/painel-de-conclusao.md); esta etapa é o roteiro.
+
+1. Antes de tocar no código, inventariar todos os slides e interações: quizzes, atividades,
+   seletores, campos de texto, checkboxes, simuladores, desafios, exercícios e bilhetes de
+   saída. Para cada um, registrar ID estável, tipo, critério de acerto, obrigatoriedade, local
+   de persistência e comportamento na retomada. Registrar também a regra que hoje libera a
+   conclusão, por escrito, antes de substituí-la.
+2. Derivar os requisitos das evidências reais de aprendizagem já presentes no módulo. Não
+   inventar atividade para engordar a lista nem usar uma quantidade fixa de requisitos.
+   Distinguir visita, tentativa, acerto, completude, exploração e persistência.
+3. Implementar o checklist vivo junto ao botão: contagem do que falta, requisitos em linguagem
+   do estudante, `✓` para cumprido e `○` para pendente, atualização a cada navegação ou
+   mudança de resposta, `role="status"` com `aria-live="polite"`, estado nunca comunicado só
+   por cor, e funcionamento em celular, tablet, desktop, zoom de 200% e impressão.
+4. Manter visível a linha de estado da gravação com as três mensagens distintas: "Salvo no
+   LMS", "O LMS não confirmou a gravação" e "Salvo apenas neste navegador".
+5. Aplicar as regras de validação: visita a slides não libera quando há prática obrigatória;
+   quiz obrigatório exige acerto, não tentativa; atividade com gabarito exige todos os campos
+   corretos; texto obrigatório usa critério objetivo com contagem visível; simulador registra
+   condições significativas, não movimento; resposta desfeita devolve o requisito a pendente; o
+   botão fica desabilitado enquanto houver pendência; no clique final, revalidar tudo.
+6. Concluir em LMS na ordem revalidar → gravar → commit → reler e comparar → só então
+   `completed`. Falha de gravação não conclui e mostra mensagem para tentar novamente.
+7. Fora do LMS, declarar que a conclusão é apenas local; se ela for apresentada como
+   persistente, gravar e restaurar o marcador de módulo concluído.
+8. Reutilizar o runtime compartilhado e o contrato de atributos (`data-required`,
+   `data-requirement-label`, `data-correct-value`, `data-min-words`, `data-explore-rules`,
+   `data-require-all-slides`). Não duplicar lógica de checklist entre módulos nem dentro do
+   HTML de um slide.
+9. Preservar conteúdo pedagógico, identidade visual e alterações existentes não relacionadas à
+   conclusão.
+
+Ao final, relatar: requisitos identificados, como cada um é validado, arquivos modificados,
+comportamento dentro e fora do LMS, testes executados com resultados, limitações e
+inconsistências encontradas.
 
 ## Imagens e ilustrações
 
@@ -138,6 +180,18 @@ Executar após cada lição:
 node <caminho-da-skill>/scripts/validate-lesson.mjs <arquivo.html>
 ```
 
+Quando a lição tiver botão de conclusão, executar também:
+
+```bash
+node <caminho-da-skill>/scripts/test-completion.mjs
+```
+
+Esse teste roda `assets/licao-runtime.js` contra um DOM mínimo e cobre a lista da Etapa 3:
+estado inicial, visita sem prática, tentativa versus acerto, cada requisito isolado, liberação,
+novo bloqueio ao desfazer, revalidação no clique final, retomada, limpeza, modo SCORM e falha de
+gravação. Se a lição tiver lógica de conclusão própria em vez do runtime compartilhado,
+reproduzir esses casos nela.
+
 Quando a lição usar SCORM, executar também:
 
 ```bash
@@ -149,10 +203,17 @@ Além dos scripts:
 1. Verificar precisão conceitual em fontes primárias ou confiáveis.
 2. Conferir dataset, fórmulas, exemplos e gabaritos por cálculo independente.
 3. Acionar todas as práticas e testar respostas corretas, incorretas e incompletas.
-4. Testar 1440×900, 1024×768, 390×844, zoom de 200%, teclado e impressão.
-5. Recarregar e confirmar retomada.
-6. Em SCORM, simular nova sessão e depois testar logout/login no LMS real.
-7. Empacotar somente depois que conteúdo, referências locais, manifesto e testes passarem.
+4. Testar a conclusão pela lista da Etapa 3: estado inicial, visita a todos os slides sem
+   praticar, cumprimento individual de cada requisito, liberação ao cumprir todos, novo
+   bloqueio ao desfazer uma resposta correta, revalidação no clique final, limpeza das
+   respostas e falha de commit impedindo a conclusão.
+5. Calcular o contraste de todo texto contra o fundo herdado, pela receita de
+   [sistema-visual.md](references/sistema-visual.md). Herança e cascata apagam texto
+   sem que validação estrutural, dataset ou revisão de conteúdo percebam.
+6. Testar 1440×900, 1024×768, 390×844, zoom de 200%, teclado e impressão.
+7. Recarregar e confirmar retomada.
+8. Em SCORM, simular nova sessão e depois testar logout/login no LMS real.
+9. Empacotar somente depois que conteúdo, referências locais, manifesto e testes passarem.
 
 Relatar o resultado da validação como ele foi: erros e alertas pendentes explicitamente, e verificações que não puderam ser feitas no ambiente — LMS real, navegadores, impressão — declaradas como não executadas em vez de presumidas.
 
@@ -163,8 +224,9 @@ Relatar o resultado da validação como ele foi: erros e alertas pendentes expli
 Invocar com o agente `revisor-licao` e, quando ele não estiver instalado, com `general-purpose` mais o conteúdo de `agents/revisor-licao.md` no prompt. Informar sempre:
 
 - caminho absoluto do HTML, do dataset e dos runtimes;
-- caminho absoluto de `scripts/validate-lesson.mjs` e a saída que ele já produziu;
-- as evidências que a lição promete exigir para concluir;
+- caminho absoluto de `scripts/validate-lesson.mjs`, `scripts/test-completion.mjs` e `scripts/test-scorm.mjs`, com a saída que cada um já produziu;
+- caminho absoluto de `references/painel-de-conclusao.md`, quando a lição tiver botão de conclusão;
+- as evidências que a lição promete exigir para concluir, com o critério declarado de cada requisito do painel;
 - as fontes citadas;
 - o que já foi conferido, para ele não repetir.
 
@@ -173,7 +235,7 @@ O valor do revisor está em não ter participado da autoria: passar a ele o prob
 Ao receber o laudo:
 
 1. Recalcular por conta própria cada bloqueio antes de aceitá-lo — revisor também erra; achado sem evidência reproduzível não é corrigido às cegas.
-2. Corrigir os bloqueios confirmados, reexecutar `validate-lesson.mjs` e, quando houver correção em conta ou gabarito, submeter novamente à revisão.
+2. Corrigir os bloqueios confirmados, reexecutar `validate-lesson.mjs` — e `test-completion.mjs` quando a correção tocar o portão de conclusão — e, quando houver correção em conta ou gabarito, submeter novamente à revisão.
 3. Relatar ao usuário os bloqueios confirmados, os descartados com a razão e o que segue não verificável no ambiente.
 
 Não delegar a autoria. O revisor não escreve slide, não corrige arquivo e não decide o desenho pedagógico.
@@ -185,7 +247,7 @@ Entregar:
 - mapa pedagógico;
 - HTML e ativos locais;
 - dataset e dicionário quando aplicáveis;
-- explicação dos critérios de conclusão e persistência;
+- explicação dos critérios de conclusão e persistência, com a lista dos requisitos e como cada um é validado;
 - fontes;
 - testes, resultados de validação e laudo da revisão independente;
 - versão de arquivo único e URL do Artifact quando houver publicação;

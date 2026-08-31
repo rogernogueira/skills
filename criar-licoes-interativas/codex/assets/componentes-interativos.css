@@ -26,12 +26,20 @@
 .salvo.visible{opacity:1;transform:none}
 .button-row{display:flex;gap:.55rem;flex-wrap:wrap}
 .completion-gate{padding:.65rem .8rem;border-left:4px solid var(--ciano);border-radius:0 var(--r-sm) var(--r-sm) 0;background:var(--azul-suave);font-weight:700}
+.completion-panel{display:grid;gap:.55rem;padding:.85rem .9rem;border:1px solid var(--borda);border-radius:var(--r-md);background:#fff;box-shadow:var(--sombra-xs)}
+.completion-eyebrow{margin:0;color:var(--azul);font:800 .68rem/1.2 var(--fonte-titulo);letter-spacing:.08em;text-transform:uppercase}
+.completion-panel h3{margin:0}
+.completion-message{margin:0;padding:.5rem .7rem;border-left:4px solid var(--ciano);border-radius:0 var(--r-sm) var(--r-sm) 0;background:var(--azul-suave);font-size:.8rem;font-weight:700}
 .completion-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem .7rem;margin:0;padding:0;list-style:none}
-.completion-checks li{padding:.4rem .55rem;border-radius:var(--r-sm);font-size:.76rem;line-height:1.4}
+.completion-checks li{display:flex;gap:.5rem;align-items:flex-start;padding:.4rem .55rem;border-radius:var(--r-sm);font-size:.76rem;line-height:1.4}
 .completion-ok{background:#edf8f1;color:#31572c}
 .completion-pending{background:#fff6df;color:#62450a}
+.persistence-status{margin:0;padding-top:.5rem;border-top:1px solid var(--borda);color:var(--cinza-medio);font-size:.74rem}
+.persistence-status:empty{display:none}
+.completion-actions button{min-height:2.6rem}
 .field-status{display:block;margin-top:.3rem;color:#7a5200;font-size:.74rem}
 .field-status.complete{color:#31572c}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:720px){.practice-grid,.completion-checks{grid-template-columns:1fr}}
-@media print{.example-button,.dot-nav,.salvo,[data-reset],[data-print],.completion-gate,.completion-checks{display:none!important}.example-panel{display:block!important}.quiz-feedback{min-height:0}}
+@media(max-width:32rem){.completion-actions{display:grid}.completion-actions button{width:100%}}
+@media print{.example-button,.dot-nav,.salvo,[data-reset],[data-print],.completion-gate,.completion-actions{display:none!important}.example-panel{display:block!important}.quiz-feedback{min-height:0}.completion-panel{box-shadow:none;break-inside:avoid}.completion-checks{grid-template-columns:1fr}}

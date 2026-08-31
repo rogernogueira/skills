@@ -18,9 +18,9 @@ const API = {
   LMSFinish: value => { calls.push(["LMSFinish", value]); return "true"; }
 };
 
-function createSession() {
+function createSession(activeApi = API) {
   const listeners = {};
-  const window = { API };
+  const window = { API: activeApi };
   window.parent = window;
   window.opener = null;
   const context = {
@@ -58,7 +58,27 @@ assert.deepEqual(JSON.parse(JSON.stringify(second.window.CourseScorm.state.explo
 assert.equal(second.window.CourseScorm.state.quizzes["q-1"].correct, true);
 assert.ok(second.window.CourseScorm.state.visited.includes(3));
 assert.equal(values["cmi.core.lesson_status"], "completed");
+assert.equal(second.window.CourseScorm.completed, true, "a retomada deve reconhecer a unidade já concluída");
 assert.ok(calls.some(call => call[0] === "LMSCommit"));
 assert.ok(calls.some(call => call[0] === "LMSFinish"));
 
-console.log("SCORM: persistência, conclusão e retomada em nova sessão OK.");
+// Falha de commit não pode gravar nem concluir.
+const failValues = {
+  "cmi.core.lesson_status": "incomplete",
+  "cmi.core.lesson_location": "slide-1",
+  "cmi.suspend_data": "{}"
+};
+const failApi = {
+  LMSInitialize: () => "true",
+  LMSGetValue: key => failValues[key] || "",
+  LMSSetValue: (key, value) => { failValues[key] = value; return "true"; },
+  LMSCommit: () => "false",
+  LMSFinish: () => "true"
+};
+const third = createSession(failApi);
+assert.equal(third.window.CourseScorm.saveLearnerWork(snapshot), false, "sem commit não há gravação confirmada");
+assert.equal(third.window.CourseScorm.complete(), false, "sem gravação confirmada não há conclusão");
+assert.equal(third.window.CourseScorm.completed, false);
+assert.notEqual(failValues["cmi.core.lesson_status"], "completed");
+
+console.log("SCORM: persistência, conclusão, retomada em nova sessão e bloqueio por falha de commit OK.");

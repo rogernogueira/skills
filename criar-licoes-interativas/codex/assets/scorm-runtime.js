@@ -46,6 +46,7 @@
   const locationMatch = /^slide-(\d+)$/.exec(locationValue);
   const resumeLocation = locationMatch ? Number(locationMatch[1]) : 1;
   let persistenceConfirmed = false;
+  let completedStatus = api ? getValue("cmi.core.lesson_status").toLowerCase() === "completed" : false;
 
   if (api) {
     const status = getValue("cmi.core.lesson_status");
@@ -98,7 +99,8 @@
     const statusOk = succeeded(setValue("cmi.core.lesson_status", "completed"));
     const locationOk = succeeded(setValue("cmi.core.lesson_location", "completed"));
     const exitOk = succeeded(setValue("cmi.core.exit", ""));
-    return statusOk && locationOk && exitOk && commit();
+    completedStatus = statusOk && locationOk && exitOk && commit();
+    return completedStatus;
   }
 
   function clearLearnerWork() {
@@ -106,6 +108,7 @@
     state.fields = {};
     state.exploration = {};
     state.quizzes = {};
+    completedStatus = false;
     if (!api) return false;
     setValue("cmi.core.lesson_status", "incomplete");
     setValue("cmi.core.lesson_location", "slide-1");
@@ -137,7 +140,8 @@
     recordQuiz,
     complete,
     clearLearnerWork,
-    get persistenceConfirmed() { return persistenceConfirmed; }
+    get persistenceConfirmed() { return persistenceConfirmed; },
+    get completed() { return completedStatus; }
   };
 
   addEventListener("pagehide", finish);

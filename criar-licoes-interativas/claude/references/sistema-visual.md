@@ -144,6 +144,64 @@ Usar:
 
 Reservar um slide para uma função clara. Evitar reduzir fonte para acomodar conteúdo excessivo; dividir o conteúdo.
 
+## Lição rica (padrão da Lição 05B)
+
+Ativar com `<body class="new-edition licao-rica">`. Os componentes estão no fim de
+`assets/componentes-interativos.css`; o roteiro didático está em [arco-didatico.md](arco-didatico.md).
+
+**Cromo idêntico em todos os slides:**
+
+- `.slide-topo`: `.etapa` (ícone + nome da função: Abertura, Conceito · 1 de 3, Prática…) à
+  esquerda e `.slide-counter` à direita;
+- `.slide-rodape`: `.progresso-slide` (trilho + "Slide N de M") e `.slide-nav` com
+  `[data-nav-prev]` / `[data-nav-next]` (desabilitar o anterior no primeiro e o próximo no último);
+- `.barra-topo` com `[data-progress-fill]`, atualizada pelo runtime;
+- `.skip-link` e `h1`/`h2` com `tabindex="-1"`.
+
+**Cores semânticas** (fixas na lição inteira, sempre com ícone e etiqueta — `.marcador`):
+
+| Papel | Ícone | Texto | Fundo | Contraste |
+|---|---|---|---|---|
+| Conceito | ◆ | `--sem-conceito` #00518F | `--sem-conceito-bg` #EDF3FA | 7,31:1 |
+| Evidência correta | ✓ | `--sem-correto` #1F6B3B | `--sem-correto-bg` #E9F6EC | 5,85:1 |
+| Atenção | ▲ | `--sem-atencao` #8A5300 | `--sem-atencao-bg` #FDF3E0 | 5,75:1 |
+| Risco ou erro | ✕ | `--sem-risco` #98302A | `--sem-risco-bg` #FCEDEB | 6,61:1 |
+| Metadado / etapa | — | `--sem-neutro` #4B5563 | `--sem-neutro-bg` #F1F3F6 | 6,80:1 |
+
+Risco usa também borda tracejada, para não depender da cor. `--cinza-medio` (#525A66) passa acima
+de 6:1 sobre qualquer um desses fundos. O preenchimento ciano das barras de progresso é decorativo:
+a posição está sempre escrita ao lado.
+
+**Componentes da lição rica:**
+
+- `.hero-figura` (abertura com figura) e `.duas-colunas` (figura + texto) — `.figura-licao` com
+  `<figcaption>` descritiva; `--razao-svg` limita a altura pela razão do `viewBox`;
+- `.termo-def` (termo na primeira ocorrência), `.origem-numero` ("De onde vêm os números"),
+  `.ponte` ("Próximo passo"), `.caixa-preta`, `.lt-nota` + `.marcador` ("O que fazer aqui");
+- `.instrucao` ("Como fazer" em três itens);
+- quiz com `.quiz-letra`, `.quiz-corpo`, `.quiz-texto`, `.quiz-porque[data-porque][hidden]`;
+- `.lado-a-lado` com `article.lado-risco | .lado-correto | .lado-atencao`;
+- `.sim-bloco`, `.sim-controles`, `.sim-result[data-nivel]`;
+- `[data-activity]` com `.activity-grid`, `.campo-atividade`, `.campo-nota[data-nota-for]`,
+  `.progresso-atividade`, `[data-check-activity]`, `.revelar-ao-concluir`;
+- `.sintese-lista` numerada.
+
+**Figuras no padrão 05B:**
+
+- uma figura SVG por slide conceitual, desenhada com coordenadas calculadas do dataset;
+- forma + cor + rótulo para cada classe (círculo azul × quadrado marrom), estáveis na lição toda;
+- a mesma figura base evolui entre slides (dados → candidatas → margem → simulador → destaque);
+- rótulos sobre pontos com `paint-order: stroke` e contorno branco, para não sumirem no gráfico;
+- conferir no navegador que rótulos e faixas não se sobrepõem a pontos nem são cortados pelo quadro;
+- CSS específico da lição num arquivo próprio (`assets/<slug>.css`), com prefixo de classe próprio.
+
+**Animação:** finita (< 5 s), só dentro de `@media (prefers-reduced-motion: no-preference)` e
+disparada quando o slide entra em cena; o estado padrão é o final, para que sem JavaScript, com
+movimento reduzido ou na impressão nada fique escondido.
+
+**Densidade:** o cromo e as instruções custam altura. Slides com quiz podem passar da tela;
+medir em 1280×800 e 390×844 e aceitar rolagem apenas onde a prática exige. Não reduzir fonte.
+
 ## Tipos de slide
 
 - **Hero:** título, missão, promessa, pergunta-guia e imagem principal.

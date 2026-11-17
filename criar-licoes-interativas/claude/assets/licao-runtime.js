@@ -117,6 +117,10 @@
       button.classList.toggle("active", key === index);
       button.setAttribute("aria-current", key === index ? "true" : "false");
     });
+    // Lição rica: barra de progresso fixa no alto e seu valor acessível.
+    const barra = document.querySelector("[data-progress-fill]");
+    if (barra?.style) barra.style.width = `${Math.round((number / slides.length) * 100)}%`;
+    barra?.parentElement?.setAttribute("aria-valuenow", String(number));
     const heading = slides[index]?.querySelector("h1,h2");
     if (announcer) announcer.textContent = `Slide ${number} de ${slides.length}${heading ? `: ${heading.textContent.trim()}` : ""}`;
     if (isNew) {
@@ -127,10 +131,46 @@
   }
 
   if ("IntersectionObserver" in window) {
+    // Um limiar fixo de 0,6 tornava a visita IMPOSSÍVEL em slide mais alto que a
+    // tela (um slide de 1200 px numa janela de 600 px nunca mostra 60% de si), e a
+    // conclusão travava no celular. Conta como visto quando o trecho visível cobre
+    // 60% do MENOR entre slide e tela. Correção vinda dos cursos de Docker e
+    // python-dados-web; lições ricas têm slides longos, então ela é obrigatória.
+    function trechoSuficiente(entry) {
+      // DOM mínimo de teste entrega entradas sem geometria: ali isIntersecting decide.
+      if (!entry.intersectionRect || !entry.boundingClientRect) return true;
+      const visivel = entry.intersectionRect.height;
+      const doSlide = entry.boundingClientRect.height || 1;
+      const daTela = (entry.rootBounds && entry.rootBounds.height) || window.innerHeight || 1;
+      return visivel >= 0.6 * Math.min(doSlide, daTela);
+    }
     const slideObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) mark(slides.indexOf(entry.target));
-    }), { threshold: 0.6 });
+      if (entry.isIntersecting && trechoSuficiente(entry)) mark(slides.indexOf(entry.target));
+    }), { threshold: [0, 0.1, 0.25, 0.5, 0.6, 0.75, 1] });
     slides.forEach(slide => slideObserver.observe(slide));
+
+    // Rede de segurança: num slide muito alto a razão de interseção fica abaixo de
+    // todo limiar depois da entrada e o observador cala. Marca por quadro, só
+    // quando o slide corrente muda. Defensivo: o DOM mínimo dos testes não tem
+    // addEventListener global nem requestAnimationFrame.
+    if (typeof window.addEventListener === "function") {
+      const proximoQuadro = typeof window.requestAnimationFrame === "function"
+        ? window.requestAnimationFrame.bind(window)
+        : (funcao => setTimeout(funcao, 16));
+      let ultimoMarcado = -1;
+      let quadroAgendado = false;
+      window.addEventListener("scroll", () => {
+        if (quadroAgendado) return;
+        quadroAgendado = true;
+        proximoQuadro(() => {
+          quadroAgendado = false;
+          const atual = currentSlide();
+          if (atual === ultimoMarcado) return;
+          ultimoMarcado = atual;
+          mark(atual);
+        });
+      }, { passive: true });
+    }
 
     const animationObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -165,6 +205,16 @@
     if (destination !== null) { event.preventDefault(); goTo(destination); }
   });
 
+  // Lição rica: "← Anterior" / "Próximo →" no rodapé de cada slide. O destino é
+  // relativo ao slide que contém o botão, não ao slide mais próximo do topo.
+  document.querySelectorAll("[data-nav-prev],[data-nav-next]").forEach(button => {
+    button.addEventListener("click", () => {
+      const own = slides.indexOf(button.closest(".slide"));
+      const base = own >= 0 ? own : currentSlide();
+      goTo(base + (button.hasAttribute("data-nav-next") ? 1 : -1));
+    });
+  });
+
   document.querySelectorAll("[data-example]").forEach(button => {
     button.addEventListener("click", () => {
       const panel = document.getElementById(button.dataset.example);
@@ -182,23 +232,39 @@
     const options = Array.from(quiz.querySelectorAll("[data-answer]"));
     if (feedback && !feedback.dataset.initialText) feedback.dataset.initialText = feedback.textContent.trim();
 
-    function render(option, restored = false) {
+    const answerOf = option => option.dataset.answer || option.textContent.trim();
+    // Lição rica: cada alternativa traz seu "por quê" em [data-porque], oculto.
+    // Revela-se o motivo de cada alternativa já tentada; ao acertar, o de todas.
+    // Assim o erro é explicado sem entregar o gabarito antes da tentativa certa.
+    function revealReasons(tried, solved) {
+      options.forEach(answer => {
+        const reason = answer.querySelector("[data-porque]");
+        if (!reason) return;
+        if (solved || tried.includes(answerOf(answer))) reason.removeAttribute("hidden");
+        else reason.setAttribute("hidden", "");
+      });
+    }
+
+    function render(option, restored = false, tried = []) {
       const correct = option.hasAttribute("data-correct");
       options.forEach(answer => answer.classList.remove("correct", "incorrect"));
       option.classList.add(correct ? "correct" : "incorrect");
+      revealReasons(tried.length ? tried : [answerOf(option)], correct);
       if (feedback) {
         feedback.textContent = correct
           ? option.dataset.correctFeedback || option.dataset.feedbackText || "Resposta correta."
           : option.dataset.incorrectFeedback || option.dataset.feedbackText || "Resposta incorreta. Revise e tente novamente.";
         if (restored) feedback.textContent += " Resposta restaurada.";
+        feedback.setAttribute("data-nivel", correct ? "correto" : "incorreto");
       }
       return correct;
     }
 
     options.forEach(option => option.addEventListener("click", () => {
-      const correct = render(option);
-      const selected = option.dataset.answer || option.textContent.trim();
-      state.quizzes[id] = { selected, correct, attempted: true };
+      const selected = answerOf(option);
+      const tried = [...new Set([...(state.quizzes[id]?.tried || []), selected])];
+      const correct = render(option, false, tried);
+      state.quizzes[id] = { selected, correct, attempted: true, tried };
       if (scorm?.connected) scorm.recordQuiz({
         id,
         selected,
@@ -210,8 +276,87 @@
     }));
 
     const restored = state.quizzes[id];
-    const restoredOption = restored && options.find(option => (option.dataset.answer || option.textContent.trim()) === restored.selected);
-    if (restoredOption) render(restoredOption, true);
+    const restoredOption = restored && options.find(option => answerOf(option) === restored.selected);
+    if (restoredOption) render(restoredOption, true, restored.tried || []);
+  });
+
+  // Lição rica: atividade de campos com motivo por campo. Cada campo com
+  // data-correct-value pode ter data-porque-ok / data-porque-no e um
+  // [data-nota-for="<id>"]. O botão [data-check-activity] devolve o motivo de
+  // cada campo; com todos corretos, a atividade ganha .concluida, que revela
+  // .revelar-ao-concluir. O requisito de conclusão continua sendo o
+  // data-required do contêiner, avaliado por fieldSatisfied — não este botão.
+  function activityFields(activity) {
+    return Array.from(activity.querySelectorAll("input,select,textarea"))
+      .filter(field => field.dataset.correctValue !== undefined);
+  }
+  function renderActivityProgress(activity) {
+    const all = activityFields(activity);
+    const answered = all.filter(field => String(field.value).trim() !== "").length;
+    const missing = all.length - answered;
+    const line = activity.querySelector("[data-activity-progress]");
+    if (line) line.textContent = `${answered} de ${all.length} campos respondidos${missing ? ` — faltam ${missing}.` : "."}`;
+    const fill = activity.querySelector("[data-activity-fill]");
+    if (fill?.style) fill.style.setProperty?.("--preenchido", `${all.length ? Math.round((answered / all.length) * 100) : 0}%`);
+  }
+  function clearActivity(activity) {
+    activity.classList.remove("concluida");
+    activityFields(activity).forEach(field => {
+      const note = activity.querySelector(`[data-nota-for="${field.id}"]`);
+      if (note) { note.textContent = ""; note.removeAttribute("data-nivel"); }
+    });
+    const feedback = activity.querySelector("[data-activity-feedback]");
+    if (feedback) {
+      feedback.textContent = feedback.dataset.initialText || "";
+      feedback.removeAttribute("data-nivel");
+    }
+    renderActivityProgress(activity);
+  }
+  function checkActivity(activity) {
+    const all = activityFields(activity);
+    let right = 0;
+    all.forEach(field => {
+      const ok = String(field.value).trim() === field.dataset.correctValue.trim();
+      const empty = String(field.value).trim() === "";
+      if (ok) right += 1;
+      const note = activity.querySelector(`[data-nota-for="${field.id}"]`);
+      if (!note) return;
+      if (empty) { note.textContent = "▲ Sem resposta."; note.removeAttribute("data-nivel"); return; }
+      note.textContent = ok
+        ? `✓ ${field.dataset.porqueOk || "Correto."}`
+        : `✕ ${field.dataset.porqueNo || "Revise este campo."}`;
+      note.setAttribute("data-nivel", ok ? "correto" : "incorreto");
+    });
+    const done = all.length > 0 && right === all.length;
+    activity.classList.toggle("concluida", done);
+    const feedback = activity.querySelector("[data-activity-feedback]");
+    if (feedback) {
+      feedback.textContent = done
+        ? `✓ ${right} de ${all.length} corretos. ${activity.dataset.feedbackOk || "Atividade concluída."}`
+        : `${right} de ${all.length} corretos. Leia o motivo sob cada campo marcado com ✕ e tente de novo.`;
+      feedback.setAttribute("data-nivel", done ? "correto" : right ? "parcial" : "incorreto");
+    }
+  }
+  document.querySelectorAll("[data-activity]").forEach(activity => {
+    const feedback = activity.querySelector("[data-activity-feedback]");
+    if (feedback && !feedback.dataset.initialText) feedback.dataset.initialText = feedback.textContent.trim();
+    activityFields(activity).forEach(field => {
+      const onChange = () => {
+        // Mudar uma resposta invalida o retorno anterior daquele campo e o selo de concluída.
+        const note = activity.querySelector(`[data-nota-for="${field.id}"]`);
+        if (note) { note.textContent = ""; note.removeAttribute("data-nivel"); }
+        activity.classList.remove("concluida");
+        renderActivityProgress(activity);
+      };
+      field.addEventListener("change", onChange);
+      field.addEventListener("input", onChange);
+    });
+    activity.querySelectorAll("[data-check-activity]").forEach(button =>
+      button.addEventListener("click", () => checkActivity(activity)));
+    renderActivityProgress(activity);
+    // Retomada: se todos os campos restaurados estão preenchidos, mostrar o retorno.
+    const all = activityFields(activity);
+    if (all.length && all.every(field => String(field.value).trim() !== "")) checkActivity(activity);
   });
 
   function matchesRule(value, rule) {
@@ -385,9 +530,12 @@
     state.quizzes = {};
     state.completed = false;
     document.querySelectorAll("[data-answer]").forEach(option => option.classList.remove("correct", "incorrect"));
+    document.querySelectorAll("[data-porque]").forEach(reason => reason.setAttribute("hidden", ""));
     document.querySelectorAll("[data-feedback]").forEach(feedback => {
       feedback.textContent = feedback.dataset.initialText || "Escolha uma alternativa para receber feedback.";
+      feedback.removeAttribute("data-nivel");
     });
+    document.querySelectorAll("[data-activity]").forEach(clearActivity);
     // Os eventos de limpeza agendam gravação; cancelar antes de apagar, senão o estado volta.
     clearTimeout(saveTimer);
     try { localStorage.removeItem(storageKey); } catch (error) {}

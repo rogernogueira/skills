@@ -53,13 +53,14 @@ linguagem natural ("crie uma lição sobre…", "revise esta lição") ou explic
 | Caminho | Função |
 |---|---|
 | `SKILL.md` | Fluxo obrigatório: projetar a aprendizagem, implementar, auditar a conclusão, validar, entregar. |
+| `references/arco-didatico.md` | Padrão didático, interativo e visual da lição rica (extraído da Lição 05B · SVM). |
 | `references/pedagogia.md` | Princípios de aprendizagem e revisão pedagógica. |
 | `references/praticas-interativas.md` | Quizzes, atividades, simuladores, checklists, bilhetes de saída. |
 | `references/cenario-vocabulario-e-dados.md` | Cenário fictício, vocabulário, dataset, gabaritos. |
 | `references/scorm-e-conclusao.md` | Persistência, retomada, critérios de conclusão, empacotamento. |
 | `references/painel-de-conclusao.md` | Etapa 3: inventário das interações, requisitos por evidência, checklist vivo, validação, testes. |
 | `references/sistema-visual.md` | Identidade visual, componentes, acessibilidade, arquivo único e Artifact. |
-| `assets/licao-modelo.html` | Template de oito slides com marcadores `{{...}}`. |
+| `assets/licao-modelo.html` | Template da lição rica: 14 funções do arco 05B, cromo, quizzes com “por quê”, prática manipulável e transferência, com marcadores `{{...}}`. |
 | `assets/estilo-slides.css`, `assets/componentes-interativos.css` | Casca visual e componentes. |
 | `assets/licao-runtime.js` | Navegação, quizzes, persistência, painel de conclusão verificável. |
 | `assets/scorm-runtime.js` | Ponte SCORM 1.2, com degradação silenciosa fora do LMS. |
@@ -106,3 +107,10 @@ Depois dos scripts, pedir a revisão independente: "revise a lição
 - Acrescentada a Etapa 3, com `references/painel-de-conclusao.md`, o painel de conclusão no
   template, a linha de estado da gravação, a revalidação no clique final, a conclusão local
   persistente e `scripts/test-completion.mjs`.
+- Adotado como padrão o arco da Lição 05B (SVM), em `references/arco-didatico.md`: ancoragem,
+  metáfora antes do termo, personagem contínuo, origem de cada número, degraus de interação
+  (ver → manipular → raciocinar → criticar → transferir → explicar) e figura por slide conceitual.
+  O template passou a ter 14 funções e o cromo da lição rica (`body.licao-rica`); o CSS ganhou os
+  componentes correspondentes; o runtime ganhou navegação do rodapé, barra de progresso, "por
+  quê" por alternativa, atividade com motivo por campo e a correção do limiar de visita em slide
+  mais alto que a tela; o validador ganhou alertas do padrão; o revisor confere o arco.

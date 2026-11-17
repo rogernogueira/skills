@@ -6,108 +6,338 @@
   <title>{{TITULO_DA_LICAO}}</title>
   <link rel="stylesheet" href="../assets/estilo-slides.css">
   <link rel="stylesheet" href="../assets/componentes-interativos.css">
+  <!--
+    MODELO DE LIÇÃO RICA — arco didático da Lição 05B (SVM). Ler references/arco-didatico.md antes
+    de preencher. Os 14 slides são o arco padrão, não uma contagem obrigatória: dividir quando duas
+    funções disputarem o mesmo slide; fundir só quando uma função não existir no tema.
+    Toda figura {{…}} é SVG desenhado para o conteúdo — nunca deixar o placeholder na lição final.
+  -->
 </head>
-<body class="new-edition" data-storage-key="licao-{{SLUG}}" data-completion-mode="local" data-require-all-slides>
+<body class="new-edition licao-rica" data-storage-key="licao-{{SLUG}}" data-completion-mode="local" data-require-all-slides>
+  <a class="skip-link" href="#s1">Ir ao conteúdo</a>
+  <div class="barra-topo" role="progressbar" aria-label="Progresso da lição" aria-valuemin="1" aria-valuemax="14" aria-valuenow="1"><span data-progress-fill></span></div>
   <nav class="dot-nav" aria-label="Navegação entre slides"></nav>
   <div class="visually-hidden" data-announcer aria-live="polite"></div>
-  <div class="salvo" data-saved-notice role="status">Resposta salva</div>
+  <div class="salvo" data-saved-notice role="status">Resposta salva localmente</div>
 
   <main class="apresentacao">
-    <section class="slide title-slide master-hero" aria-labelledby="slide-1" data-slide="1">
+
+    <!-- 1 · ABERTURA E ANCORAGEM: pergunta-guia, vitória observável e o que o estudante já sabe. -->
+    <section class="slide title-slide master-hero" data-slide="1" aria-labelledby="s1">
       <div class="slide-inner">
-        <div class="slide-counter">01 / 08</div>
-        <span class="crumb animate delay-1">{{TRILHA_OU_MODULO}}</span>
-        <h1 id="slide-1" class="animate delay-2">{{TITULO_DA_LICAO}}</h1>
-        <p class="subtitulo animate delay-3">{{PROMESSA_CURTA}}</p>
-        <p class="pergunta-guia animate delay-4">{{PERGUNTA_GUIA}}</p>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Abertura</span><span class="slide-counter">01 / 14</span></div>
+        <div class="hero-figura">
+          <div>
+            <h1 id="s1" tabindex="-1">{{TITULO_CURTO_E_EVOCATIVO}}</h1>
+            <p class="subtitulo">{{SUBTITULO_QUE_NOMEIA_A_TECNICA}}</p>
+            <p class="pergunta-guia">{{PERGUNTA_GUIA_EM_LINGUAGEM_COTIDIANA}}</p>
+            <div class="caixa"><p><strong>Vitória observável:</strong> {{ACOES_OBSERVAVEIS_QUE_A_LICAO_VAI_EXIGIR}}</p></div>
+            <p class="nota"><strong>Você já viu:</strong> {{CONCEITO_ANTERIOR_RETOMADO_EM_UMA_FRASE}} {{O_QUE_ESTA_LICAO_FAZ_DE_DIFERENTE}}</p>
+          </div>
+          <figure class="figura-licao" aria-labelledby="cap-1">
+            <svg viewBox="0 0 320 240" role="img" aria-labelledby="cap-1"><rect x="8" y="8" width="304" height="224" rx="12" fill="#EDF3FA" stroke="#B6CFE6"/><text x="160" y="125" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_DE_ABERTURA}}</text></svg>
+            <figcaption id="cap-1">{{LEGENDA_QUE_DESCREVE_A_FIGURA}}</figcaption>
+          </figure>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 1 de 14"><span class="progresso-preenchido" style="width:7%"></span></span><span class="progresso-texto">Slide 1 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev disabled><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide master-split" aria-labelledby="slide-2" data-slide="2" data-scenario>
+    <!-- 2 · METÁFORA: a ideia central num objeto cotidiano, antes de qualquer termo técnico. -->
+    <section class="slide master-split" data-slide="2" aria-labelledby="s2">
       <div class="slide-inner">
-        <div class="slide-counter">02 / 08</div>
-        <h2 id="slide-2">Problema · {{TITULO_DO_CENARIO}}</h2>
-        <div class="practice-grid">
-          <article class="practice-card"><h3>Onde e com quem?</h3><p>{{ORGANIZACAO_PERSONAGENS_E_SERVICO}}</p></article>
-          <article class="practice-card"><h3>O que está acontecendo?</h3><p>{{PROBLEMA_CONCRETO_E_CONSEQUENCIA}}</p></article>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>A grande metáfora</span><span class="slide-counter">02 / 14</span></div>
+        <h2 id="s2" tabindex="-1">{{TITULO_DA_METAFORA}}</h2>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-2">
+            <svg viewBox="0 0 300 220" role="img" aria-labelledby="cap-2"><rect x="8" y="8" width="284" height="204" rx="12" fill="#E9F6EC" stroke="#A6D3B4"/><text x="150" y="115" text-anchor="middle" font-size="13" fill="#07164D">{{ILUSTRACAO_DA_METAFORA}}</text></svg>
+            <figcaption id="cap-2">{{LEGENDA_DA_METAFORA}}</figcaption>
+          </figure>
+          <div>
+            <div class="caixa">
+              <p>{{O_JEITO_INGENUO_E_O_QUE_A_TECNICA_QUER_A_MAIS}}</p>
+              <p><strong>Por quê:</strong> {{CONSEQUENCIA_QUE_TORNA_A_IDEIA_NECESSARIA}}</p>
+            </div>
+            <p class="ponte"><strong>Próximo passo:</strong> {{FRASE_QUE_LEVA_DA_METAFORA_AO_CENARIO}}</p>
+          </div>
         </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 2 de 14"><span class="progresso-preenchido" style="width:14%"></span></span><span class="progresso-texto">Slide 2 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 3 · CENÁRIO: organização fictícia, pessoa, gargalo, dados, consequências, salvaguardas, não uso. -->
+    <section class="slide master-dense" data-slide="3" data-scenario aria-labelledby="s3">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Cenário fictício</span><span class="slide-counter">03 / 14</span></div>
+        <h2 id="s3" tabindex="-1">{{TITULO_DO_CENARIO_EM_FORMA_DE_PERGUNTA}}</h2>
+        <p>{{ORGANIZACAO_FICTICIA_PERSONAGEM_PROCESSO_ATUAL_GARGALO_E_O_QUE_SE_QUER}}</p>
+        <div class="card-grid cols-2">
+          <article class="practice-card"><h3>Dados disponíveis</h3><p><strong>Atributos:</strong> {{ATRIBUTOS_E_ESCALA}} <strong>Alvo:</strong> {{ALVO}} <strong>Dados:</strong> {{QUANTIDADE_E_IDENTIFICADORES}}</p></article>
+          <article class="practice-card"><h3>Consequências de errar</h3><p>{{ERRO_1_E_CUSTO}} {{ERRO_2_E_CUSTO}} {{QUAL_ERRO_CUSTA_MAIS}}</p></article>
+        </div>
+        <div class="aviso"><strong>Salvaguardas:</strong> {{SALVAGUARDA_LIGADA_AO_CONCEITO}} · {{CONFERENCIA_HUMANA}} · <strong>Não usar</strong> {{CONDICAO_DE_NAO_USO}}</div>
         <p class="nota">Cenário fictício criado para aprendizagem; não representa pessoas ou registros reais.</p>
+        <p class="ponte"><strong>Próximo passo:</strong> {{FRASE_QUE_LEVA_AO_PRIMEIRO_CONCEITO}}</p>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 3 de 14"><span class="progresso-preenchido" style="width:21%"></span></span><span class="progresso-texto">Slide 3 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide master-dense" aria-labelledby="slide-3" data-slide="3">
+    <!-- 4 · CONCEITO 1 DE 3: termo definido na primeira aparição, sobre os dados do cenário, com números. -->
+    <section class="slide master-dense" data-slide="4" data-vocabulary aria-labelledby="s4">
       <div class="slide-inner">
-        <div class="slide-counter">03 / 08</div>
-        <h2 id="slide-3">Como o processo funciona hoje?</h2>
-        <div class="flow-model" aria-label="Fluxo atual do processo">
-          <span>{{ETAPA_ATUAL_1}}</span><b aria-hidden="true">→</b>
-          <span>{{ETAPA_ATUAL_2}}</span><b aria-hidden="true">→</b>
-          <span>{{ETAPA_ATUAL_3}}</span>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Conceito · 1 de 3</span><span class="slide-counter">04 / 14</span></div>
+        <h2 id="s4" tabindex="-1">{{TERMO_1}}: {{O_QUE_ELE_FAZ_EM_POUCAS_PALAVRAS}}</h2>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-4">
+            <svg viewBox="0 0 320 320" role="img" aria-labelledby="cap-4" data-figura="conceito-1"><rect x="8" y="8" width="304" height="304" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="165" text-anchor="middle" font-size="13" fill="#07164D">{{GRAFICO_COM_OS_DADOS_DO_CENARIO}}</text></svg>
+            <figcaption id="cap-4">{{O_QUE_CADA_FORMA_COR_E_EIXO_REPRESENTA}}</figcaption>
+          </figure>
+          <div>
+            <div class="termo-def"><p><strong>{{TERMO_1}}</strong> — {{DEFINICAO_CURTA}} {{EXEMPLO_NO_CENARIO}}</p></div>
+            <p>{{O_QUE_O_GRAFICO_MOSTRA_E_O_CONTRASTE_A_OBSERVAR}}</p>
+            <ul class="key-list">
+              <li><strong>{{CANDIDATO_A}}:</strong> {{NUMERO_CALCULADO_A}}</li>
+              <li><strong>{{CANDIDATO_B}}:</strong> {{NUMERO_CALCULADO_B}}</li>
+              <li><strong>{{CANDIDATO_C}}:</strong> {{NUMERO_CALCULADO_C}}</li>
+            </ul>
+            <div class="button-row"><button type="button" class="btn btn-secundario" data-demo="conceito-1" aria-pressed="false">{{ACAO_DA_DEMONSTRACAO}}</button></div>
+            <p class="lt-nota"><span class="marcador m-conceito"><span class="ic" aria-hidden="true">◆</span>O que fazer aqui</span> {{COMPREENDER_COMPARAR_OU_CALCULAR_E_ONDE_ISSO_SERA_USADO}}</p>
+          </div>
         </div>
-        <div class="aviso"><strong>Gargalo:</strong> {{GARGALO_E_DECISAO_QUE_PRECISA_DE_APOIO}}</div>
-        <div class="caixa"><strong>Limite:</strong> {{SALVAGUARDA_E_CONDICAO_DE_NAO_USO}}</div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 4 de 14"><span class="progresso-preenchido" style="width:29%"></span></span><span class="progresso-texto">Slide 4 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide master-dense" aria-labelledby="slide-4" data-slide="4" data-vocabulary>
+    <!-- 5 · CONCEITO 2 DE 3 + EXEMPLO RESOLVIDO: a regra, de onde vêm os números e o elo com o cenário. -->
+    <section class="slide master-dense" data-slide="5" aria-labelledby="s5">
       <div class="slide-inner">
-        <div class="slide-counter">04 / 08</div>
-        <h2 id="slide-4">Vocabulário para analisar o problema</h2>
-        <div class="practice-grid">
-          <article class="practice-card"><h3>{{TERMO_1}}</h3><p>{{DEFINICAO_EXEMPLO_E_LIMITE_1}}</p></article>
-          <article class="practice-card"><h3>{{TERMO_2}}</h3><p>{{DEFINICAO_EXEMPLO_E_LIMITE_2}}</p></article>
-          <article class="practice-card"><h3>{{TERMO_3}}</h3><p>{{DEFINICAO_EXEMPLO_E_LIMITE_3}}</p></article>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Conceito · 2 de 3</span><span class="slide-counter">05 / 14</span></div>
+        <h2 id="s5" tabindex="-1">{{TERMO_2}}: {{A_REGRA_EM_UMA_FRASE}}</h2>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-5">
+            <svg viewBox="0 0 320 320" role="img" aria-labelledby="cap-5"><rect x="8" y="8" width="304" height="304" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="165" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_DO_CONCEITO_2}}</text></svg>
+            <figcaption id="cap-5">{{LEGENDA_DO_CONCEITO_2}}</figcaption>
+          </figure>
+          <div>
+            <div class="termo-def">
+              <p><strong>{{TERMO_2}}</strong> — {{DEFINICAO_CURTA}}</p>
+              <p><strong>A regra:</strong> {{REGRA_DA_TECNICA}}</p>
+              <p class="origem-numero"><strong>De onde vêm os números:</strong> {{CONTA_PASSO_A_PASSO_COM_OS_DADOS_DO_CENARIO}}</p>
+            </div>
+            <p><strong>No cenário:</strong> {{O_QUE_O_CONCEITO_SIGNIFICA_PARA_A_DECISAO}}</p>
+            <p class="lt-nota"><span class="marcador m-conceito"><span class="ic" aria-hidden="true">◆</span>O que fazer aqui</span> Apenas compreenda: no próximo slide você {{ACAO_DA_PRATICA}}.</p>
+          </div>
         </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 5 de 14"><span class="progresso-preenchido" style="width:36%"></span></span><span class="progresso-texto">Slide 5 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide master-split" aria-labelledby="slide-5" data-slide="5">
+    <!-- 6 · PRÁTICA MANIPULÁVEL: o estudante faz com as mãos o que acabou de ver, até um critério calculado. -->
+    <section class="slide master-dense" data-slide="6" aria-labelledby="s6">
       <div class="slide-inner">
-        <div class="slide-counter">05 / 08</div>
-        <h2 id="slide-5">Modelo mental · {{CONCEITO_CENTRAL}}</h2>
-        <div class="practice-grid">
-          <article class="practice-card"><h3>{{IDEIA_1}}</h3><p>{{EXPLICACAO_1}}</p></article>
-          <article class="practice-card"><h3>{{IDEIA_2}}</h3><p>{{EXPLICACAO_2}}</p></article>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">●</span>Prática</span><span class="slide-counter">06 / 14</span></div>
+        <h2 id="s6" tabindex="-1">Sua vez: {{ACAO_DA_PRATICA}}</h2>
+        <div class="instrucao"><p class="instrucao-titulo"><span aria-hidden="true">→</span> Como fazer</p><ul><li><strong>O que fazer:</strong> {{O_QUE_MANIPULAR_E_COM_QUAL_OBJETIVO}}</li><li><strong>Quanto falta:</strong> o painel mostra {{MEDIDA_ATUAL}} e {{O_QUE_AINDA_IMPEDE}}</li><li><strong>Quando está completo:</strong> {{CRITERIO_NUMERICO_CALCULADO}}. Mover de novo reavalia o requisito.</li></ul></div>
+        <div class="sim-bloco" data-simulador="{{SLUG}}">
+          <figure class="figura-licao" aria-labelledby="cap-6">
+            <svg viewBox="0 0 320 320" role="img" aria-labelledby="cap-6" data-sim-figura><rect x="8" y="8" width="304" height="304" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="165" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_QUE_REAGE_AOS_CONTROLES}}</text></svg>
+            <figcaption id="cap-6">{{LEGENDA_DO_SIMULADOR}}</figcaption>
+          </figure>
+          <div class="sim-controles">
+            <label for="{{SLUG}}-p1"><span>{{PARAMETRO_1}}: <output data-value-for="{{SLUG}}-p1">5</output></span><input id="{{SLUG}}-p1" type="range" min="0" max="10" step="1" value="5" data-save></label>
+            <label for="{{SLUG}}-p2"><span>{{PARAMETRO_2}}: <output data-value-for="{{SLUG}}-p2">5</output></span><input id="{{SLUG}}-p2" type="range" min="0" max="10" step="1" value="5" data-save></label>
+            <div class="sim-result" data-sim-result role="status" aria-live="polite">Mova os controles.</div>
+            <!-- Evidência derivada: o script da lição grava "sim" quando o critério é atingido e "" quando deixa de ser,
+                 e dispara "input". Assim o requisito volta a pendente se o estudante desfizer a solução. -->
+            <input type="hidden" id="{{SLUG}}-sim-valido" data-save data-required data-correct-value="sim" data-requirement-label="{{CRITERIO_EM_LINGUAGEM_DO_ESTUDANTE}} (slide 6)">
+          </div>
         </div>
-        <button type="button" class="example-button" data-example="exemplo-1" aria-expanded="false" aria-controls="exemplo-1">Ver exemplo resolvido</button>
-        <div id="exemplo-1" class="example-panel"><strong>Exemplo resolvido:</strong> {{EXEMPLO_RESOLVIDO_PASSO_A_PASSO}}</div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 6 de 14"><span class="progresso-preenchido" style="width:43%"></span></span><span class="progresso-texto">Slide 6 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide master-focus no-side-art" aria-labelledby="slide-6" data-slide="6">
+    <!-- 7 · CONCEITO 3 DE 3 + QUIZ DE ERRO CONCEITUAL: a pergunta ataca a confusão mais comum. -->
+    <section class="slide master-dense" data-slide="7" aria-labelledby="s7">
       <div class="slide-inner">
-        <div class="slide-counter">06 / 08</div>
-        <h2 id="slide-6">Prática · {{TITULO_DO_QUIZ}}</h2>
-        <div class="quiz-options" data-quiz data-required data-interaction-id="{{SLUG}}-q1" data-correct-response="B" data-requirement-label="Responder corretamente à questão aplicada">
-          <button type="button" class="quiz-option" data-answer="A" data-incorrect-feedback="{{POR_QUE_A_ESTA_INCORRETA}}">{{ALTERNATIVA_A}}</button>
-          <button type="button" class="quiz-option" data-answer="B" data-correct data-correct-feedback="{{POR_QUE_B_ESTA_CORRETA}}">{{ALTERNATIVA_B_CORRETA}}</button>
-          <button type="button" class="quiz-option" data-answer="C" data-incorrect-feedback="{{POR_QUE_C_ESTA_INCORRETA}}">{{ALTERNATIVA_C}}</button>
-          <div class="quiz-feedback" data-feedback role="status" aria-live="polite">Escolha uma alternativa para receber feedback explicativo.</div>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Conceito · 3 de 3</span><span class="slide-counter">07 / 14</span></div>
+        <h2 id="s7" tabindex="-1">{{TERMO_3}}: {{APELIDO_MEMORAVEL}}</h2>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-7">
+            <svg viewBox="0 0 320 320" role="img" aria-labelledby="cap-7"><rect x="8" y="8" width="304" height="304" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="165" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_QUE_DESTACA_O_TERMO_3}}</text></svg>
+            <figcaption id="cap-7">{{LEGENDA_DO_CONCEITO_3}}</figcaption>
+          </figure>
+          <div class="termo-def"><p><strong>{{TERMO_3}}</strong> — {{DEFINICAO_CURTA_COM_ANALOGIA}}</p><p>{{QUAIS_SAO_NO_CENARIO_COM_IDENTIFICADORES_E_VALORES}}</p></div>
         </div>
-      </div>
-    </section>
-
-    <section class="slide master-dense" aria-labelledby="slide-7" data-slide="7">
-      <div class="slide-inner">
-        <div class="slide-counter">07 / 08</div>
-        <h2 id="slide-7">Missão · {{TITULO_DA_MISSAO}}</h2>
-        <div class="checklist">
-          <label class="check-item"><input id="passo-1" type="checkbox" data-save data-required data-requirement-label="{{PASSO_1}}"><span>{{PASSO_1}}</span></label>
-          <label class="check-item"><input id="passo-2" type="checkbox" data-save data-required data-requirement-label="{{PASSO_2}}"><span>{{PASSO_2}}</span></label>
-          <label class="check-item"><input id="passo-3" type="checkbox" data-save data-required data-requirement-label="{{PASSO_3}}"><span>{{PASSO_3}}</span></label>
+        <div class="instrucao"><p class="instrucao-titulo"><span aria-hidden="true">→</span> Como fazer</p><ul><li><strong>O que fazer:</strong> raciocine com a figura: {{PERGUNTA_DE_RACIOCINIO}}</li><li><strong>Quanto falta:</strong> uma escolha; dá para tentar de novo sem penalidade</li><li><strong>Quando está completo:</strong> quando o retorno marca “Correto” e você sabe dizer por quê</li></ul></div>
+        <div data-quiz data-required data-interaction-id="{{SLUG}}-q1" data-correct-response="C" data-requirement-label="Responder corretamente {{O_QUE_A_Q1_VERIFICA}} (slide 7)">
+          <p><strong>{{ENUNCIADO_Q1_DENTRO_DO_CENARIO}}</strong></p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-answer="A" data-incorrect-feedback="{{POR_QUE_A}}"><span class="quiz-letra" aria-hidden="true">A</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_A}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_A}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="B" data-incorrect-feedback="{{POR_QUE_B}}"><span class="quiz-letra" aria-hidden="true">B</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_B}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_B}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="C" data-correct data-correct-feedback="Correto: {{POR_QUE_C}}"><span class="quiz-letra" aria-hidden="true">C</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_C_CORRETA}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_C}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="D" data-incorrect-feedback="{{POR_QUE_D}}"><span class="quiz-letra" aria-hidden="true">D</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_D}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_D}}</span></span></button>
+          </div>
+          <div class="quiz-feedback" data-feedback role="status" aria-live="polite">Escolha uma alternativa: o retorno explica por que ela está correta ou incorreta.</div>
         </div>
-        <div class="registro"><label for="resposta-missao">Registre sua decisão e justificativa</label><textarea id="resposta-missao" data-save data-required data-min-words="40" maxlength="600" data-requirement-label="Escrever uma justificativa com pelo menos 40 palavras" placeholder="{{PLACEHOLDER_DA_RESPOSTA}}"></textarea></div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 7 de 14"><span class="progresso-preenchido" style="width:50%"></span></span><span class="progresso-texto">Slide 7 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
 
-    <section class="slide closing-slide master-hero" aria-labelledby="slide-8" data-slide="8">
+    <!-- 8 · O MUNDO REAL: um caso que quebra o modelo limpo; Lado A (tentação) × Lado B (decisão defensável). -->
+    <section class="slide master-dense" data-slide="8" aria-labelledby="s8">
       <div class="slide-inner">
-        <div class="slide-counter">08 / 08</div>
-        <h2 id="slide-8">Síntese e conclusão</h2>
-        <div class="caixa"><p>{{SINTESE_ESSENCIAL}}</p></div>
-        <p class="nota">Fonte principal: <a href="{{URL_DA_FONTE}}" target="_blank" rel="noopener noreferrer">{{NOME_DA_FONTE}}</a></p>
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>O mundo real</span><span class="slide-counter">08 / 14</span></div>
+        <h2 id="s8" tabindex="-1">E se {{O_CASO_QUE_QUEBRA_O_MODELO_LIMPO}}?</h2>
+        <p>{{O_INTRUSO_COM_VALORES_E_POR_QUE_ELE_E_PLAUSIVEL_NO_CENARIO}}</p>
+        <div class="lado-a-lado">
+          <article class="lado-risco">
+            <h3><span class="marcador m-risco"><span class="ic" aria-hidden="true">✕</span>Lado A</span> {{A_RESPOSTA_TENTADORA}}</h3>
+            <figure class="figura-licao" aria-labelledby="cap-8a"><svg viewBox="0 0 280 240" role="img" aria-labelledby="cap-8a"><rect x="8" y="8" width="264" height="224" rx="10" fill="#FCEDEB" stroke="#EDB6B0"/><text x="140" y="125" text-anchor="middle" font-size="12" fill="#07164D">{{FIGURA_LADO_A}}</text></svg><figcaption id="cap-8a">{{LEGENDA_LADO_A}}</figcaption></figure>
+            <p>{{CUSTO_DO_LADO_A_PARA_OS_CASOS_NOVOS}}</p>
+          </article>
+          <article class="lado-correto">
+            <h3><span class="marcador m-correto"><span class="ic" aria-hidden="true">✓</span>Lado B</span> {{A_DECISAO_DEFENSAVEL}}</h3>
+            <figure class="figura-licao" aria-labelledby="cap-8b"><svg viewBox="0 0 280 240" role="img" aria-labelledby="cap-8b"><rect x="8" y="8" width="264" height="224" rx="10" fill="#E9F6EC" stroke="#A6D3B4"/><text x="140" y="125" text-anchor="middle" font-size="12" fill="#07164D">{{FIGURA_LADO_B}}</text></svg><figcaption id="cap-8b">{{LEGENDA_LADO_B}}</figcaption></figure>
+            <p>{{O_QUE_SE_ACEITA_E_QUEM_PEGA_O_CASO_NA_OPERACAO}}</p>
+          </article>
+        </div>
+        <p class="nota">{{ELO_COM_UMA_LICAO_ANTERIOR}} {{NOME_DO_PARAMETRO_REAL_E_O_QUE_ELE_REGULA}}</p>
+        <div class="instrucao"><p class="instrucao-titulo"><span aria-hidden="true">→</span> Como fazer</p><ul><li><strong>O que fazer:</strong> critique os dois lados pensando nos casos que ainda vão chegar</li><li><strong>Quanto falta:</strong> uma escolha; dá para tentar de novo sem penalidade</li><li><strong>Quando está completo:</strong> quando o retorno marca “Correto”</li></ul></div>
+        <div data-quiz data-required data-interaction-id="{{SLUG}}-q2" data-correct-response="B" data-requirement-label="Responder corretamente {{O_QUE_A_Q2_VERIFICA}} (slide 8)">
+          <p><strong>{{ENUNCIADO_Q2}}</strong></p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-answer="A" data-incorrect-feedback="{{POR_QUE_A}}"><span class="quiz-letra" aria-hidden="true">A</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_A}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_A}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="B" data-correct data-correct-feedback="Correto: {{POR_QUE_B}}"><span class="quiz-letra" aria-hidden="true">B</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_B_CORRETA}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_B}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="C" data-incorrect-feedback="{{POR_QUE_C}}"><span class="quiz-letra" aria-hidden="true">C</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_C}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_C}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="D" data-incorrect-feedback="{{POR_QUE_D}}"><span class="quiz-letra" aria-hidden="true">D</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_D}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_D}}</span></span></button>
+          </div>
+          <div class="quiz-feedback" data-feedback role="status" aria-live="polite">Escolha uma alternativa.</div>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 8 de 14"><span class="progresso-preenchido" style="width:57%"></span></span><span class="progresso-texto">Slide 8 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 9 · LIMITE DA TÉCNICA: mostrar, com um caso construído e um número, onde a ideia simples falha. -->
+    <section class="slide master-dense" data-slide="9" aria-labelledby="s9">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">▲</span>Limite</span><span class="slide-counter">09 / 14</span></div>
+        <h2 id="s9" tabindex="-1">Quando {{A_IDEIA_SIMPLES}} falha</h2>
+        <p>{{SAIMOS_DO_CENARIO_POR_UM_MOMENTO_E_POR_QUE_O_CASO_E_SINTETICO}}</p>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-9"><svg viewBox="0 0 320 300" role="img" aria-labelledby="cap-9" data-figura="limite"><rect x="8" y="8" width="304" height="284" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="155" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_DO_CASO_QUE_A_TECNICA_NAO_RESOLVE}}</text></svg><figcaption id="cap-9">{{LEGENDA_DO_LIMITE}}</figcaption></figure>
+          <div>
+            <div class="button-row"><button type="button" class="btn btn-secundario" data-demo="limite">{{TENTAR_OUTRA_VEZ}}</button></div>
+            <div class="sim-result" data-demo-result="limite" role="status" aria-live="polite">{{INSTRUCAO_DA_DEMONSTRACAO}}</div>
+            <div class="caixa"><p>{{CONCLUSAO_COM_NUMERO_CALCULADO_E_POR_QUE_NAO_E_FALTA_DE_JEITO}}</p></div>
+            <p class="ponte"><strong>Próximo passo:</strong> {{PERGUNTA_QUE_ABRE_A_NOVA_PERSPECTIVA}}</p>
+          </div>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 9 de 14"><span class="progresso-preenchido" style="width:64%"></span></span><span class="progresso-texto">Slide 9 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 10 · NOVA PERSPECTIVA: segunda metáfora, demonstração e caixa-preta declarada; quiz de aplicação. -->
+    <section class="slide master-dense" data-slide="10" aria-labelledby="s10">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Mudando a perspectiva</span><span class="slide-counter">10 / 14</span></div>
+        <h2 id="s10" tabindex="-1">{{NOME_DA_SOLUCAO}}: {{METAFORA_EM_TRES_PALAVRAS}}</h2>
+        <div class="duas-colunas">
+          <div>
+            <div class="caixa"><p>{{METAFORA_FISICA_QUE_RESOLVE_O_LIMITE}}</p><p>{{O_QUE_A_TECNICA_FAZ_COMO_SE_COM_FORMULA_SIMPLES}}</p></div>
+            <div class="button-row"><button type="button" class="btn" data-demo="perspectiva">{{ACAO_DA_DEMONSTRACAO}}</button><button type="button" class="btn btn-secundario" data-demo-desfazer="perspectiva">Voltar</button></div>
+          </div>
+          <figure class="figura-licao" aria-labelledby="cap-10"><svg viewBox="0 0 320 260" role="img" aria-labelledby="cap-10"><rect x="8" y="8" width="304" height="244" rx="12" fill="#EDF3FA" stroke="#B6CFE6"/><text x="160" y="135" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_DA_NOVA_PERSPECTIVA}}</text></svg><figcaption id="cap-10">{{LEGENDA_COM_OS_VALORES_DEPOIS_DA_TRANSFORMACAO}}</figcaption></figure>
+        </div>
+        <div class="caixa-preta"><span class="marcador"><span class="ic" aria-hidden="true">■</span>Caixa-preta</span><p>{{O_QUE_A_TECNICA_FAZ_DE_VERDADE_EM_UMA_FRASE}} {{NOMES_REAIS_E_PADROES}} A matemática fica para {{ONDE_SERA_APROFUNDADO}}.</p></div>
+        <div class="instrucao"><p class="instrucao-titulo"><span aria-hidden="true">→</span> Como fazer</p><ul><li><strong>O que fazer:</strong> aplique a ideia da metáfora: {{PERGUNTA}}</li><li><strong>Quanto falta:</strong> uma escolha; dá para tentar de novo sem penalidade</li><li><strong>Quando está completo:</strong> quando o retorno marca “Correto”</li></ul></div>
+        <div data-quiz data-required data-interaction-id="{{SLUG}}-q3" data-correct-response="D" data-requirement-label="Responder corretamente {{O_QUE_A_Q3_VERIFICA}} (slide 10)">
+          <p><strong>{{ENUNCIADO_Q3}}</strong></p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-answer="A" data-incorrect-feedback="{{POR_QUE_A}}"><span class="quiz-letra" aria-hidden="true">A</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_A}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_A}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="B" data-incorrect-feedback="{{POR_QUE_B}}"><span class="quiz-letra" aria-hidden="true">B</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_B}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_B}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="C" data-incorrect-feedback="{{POR_QUE_C}}"><span class="quiz-letra" aria-hidden="true">C</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_C}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_C}}</span></span></button>
+            <button type="button" class="quiz-option" data-answer="D" data-correct data-correct-feedback="Correto: {{POR_QUE_D}}"><span class="quiz-letra" aria-hidden="true">D</span><span class="quiz-corpo"><span class="quiz-texto">{{ALTERNATIVA_D_CORRETA}}</span><span class="quiz-porque" data-porque hidden><strong>Por quê:</strong> {{POR_QUE_D}}</span></span></button>
+          </div>
+          <div class="quiz-feedback" data-feedback role="status" aria-live="polite">Escolha uma alternativa.</div>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 10 de 14"><span class="progresso-preenchido" style="width:71%"></span></span><span class="progresso-texto">Slide 10 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 11 · QUANDO USAR: brilha quando × cuidado quando, cada item com motivo e elo com o cenário ou lição anterior. -->
+    <section class="slide master-dense" data-slide="11" aria-labelledby="s11">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">■</span>Prós e contras</span><span class="slide-counter">11 / 14</span></div>
+        <h2 id="s11" tabindex="-1">Quando usar {{A_TECNICA_COM_APELIDO}}?</h2>
+        <p>{{IMAGEM_QUE_RESUME_O_PERFIL_DA_TECNICA}}</p>
+        <div class="lado-a-lado">
+          <article class="lado-correto">
+            <h3><span class="marcador m-correto"><span class="ic" aria-hidden="true">✓</span>Brilha quando</span></h3>
+            <ul class="key-list"><li>{{VANTAGEM_1_COM_MOTIVO}}</li><li>{{VANTAGEM_2_COM_MOTIVO}}</li><li>{{VANTAGEM_3_COM_MOTIVO}}</li></ul>
+          </article>
+          <article class="lado-atencao">
+            <h3><span class="marcador m-atencao"><span class="ic" aria-hidden="true">▲</span>Cuidado quando</span></h3>
+            <ul class="key-list"><li>{{LIMITE_1_COM_MOTIVO}}</li><li>{{LIMITE_2_COM_MOTIVO}}</li><li>{{COMPARACAO_COM_TECNICA_ANTERIOR}}</li></ul>
+          </article>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 11 de 14"><span class="progresso-preenchido" style="width:79%"></span></span><span class="progresso-texto">Slide 11 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 12 · TRANSFERÊNCIA: a mesma ideia num contexto novo; campos com motivo e revelação ao acertar tudo. -->
+    <section class="slide master-dense" data-slide="12" aria-labelledby="s12">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">●</span>Mão na massa</span><span class="slide-counter">12 / 14</span></div>
+        <h2 id="s12" tabindex="-1">Desafio: {{PERGUNTA_DO_DESAFIO}}</h2>
+        <p>{{CONTEXTO_NOVO_DIFERENTE_DO_CENARIO_E_O_QUE_DECIDIR}}</p>
+        <div class="duas-colunas">
+          <figure class="figura-licao" aria-labelledby="cap-12"><svg viewBox="0 0 320 320" role="img" aria-labelledby="cap-12"><rect x="8" y="8" width="304" height="304" rx="12" fill="#fff" stroke="#E2E8F0"/><text x="160" y="165" text-anchor="middle" font-size="13" fill="#07164D">{{FIGURA_DO_DESAFIO}}</text></svg><figcaption id="cap-12">{{DESCRICAO_TEXTUAL_COMPLETA_DA_FIGURA}}</figcaption></figure>
+          <div data-activity data-required data-requirement-label="{{DESAFIO_EM_LINGUAGEM_DO_ESTUDANTE}} (slide 12)" data-feedback-ok="{{O_QUE_A_REVELACAO_MOSTRA}}">
+            <div class="instrucao"><p class="instrucao-titulo"><span aria-hidden="true">→</span> Como fazer</p><ul><li><strong>O que fazer:</strong> {{COMO_RACIOCINAR}}</li><li><strong>Quanto falta:</strong> a barra mostra os campos vazios</li><li><strong>Quando está completo:</strong> 3 de 3 corretos — aí a resposta se revela</li></ul></div>
+            <p class="progresso-atividade"><span class="trilho" aria-hidden="true"><i data-activity-fill></i></span><span data-activity-progress role="status" aria-live="polite">0 de 3 campos respondidos — faltam 3.</span></p>
+            <div class="activity-grid">
+              <div class="campo-atividade"><label for="{{SLUG}}-d1">{{PERGUNTA_CAMPO_1}}</label><select id="{{SLUG}}-d1" data-save data-correct-value="{{RESPOSTA_1}}" data-porque-ok="{{MOTIVO_OK_1}}" data-porque-no="{{MOTIVO_NO_1}}" aria-describedby="nota-{{SLUG}}-d1"><option value="">Escolha…</option><option>{{OPCAO_1}}</option><option>{{OPCAO_2}}</option><option>{{OPCAO_3}}</option></select><span class="campo-nota" id="nota-{{SLUG}}-d1" data-nota-for="{{SLUG}}-d1"></span></div>
+              <div class="campo-atividade"><label for="{{SLUG}}-d2">{{PERGUNTA_CAMPO_2}}</label><select id="{{SLUG}}-d2" data-save data-correct-value="{{RESPOSTA_2}}" data-porque-ok="{{MOTIVO_OK_2}}" data-porque-no="{{MOTIVO_NO_2}}" aria-describedby="nota-{{SLUG}}-d2"><option value="">Escolha…</option><option>Sim</option><option>Não</option></select><span class="campo-nota" id="nota-{{SLUG}}-d2" data-nota-for="{{SLUG}}-d2"></span></div>
+              <div class="campo-atividade"><label for="{{SLUG}}-d3">{{PERGUNTA_CAMPO_3}}</label><select id="{{SLUG}}-d3" data-save data-correct-value="{{RESPOSTA_3}}" data-porque-ok="{{MOTIVO_OK_3}}" data-porque-no="{{MOTIVO_NO_3}}" aria-describedby="nota-{{SLUG}}-d3"><option value="">Escolha…</option><option>Sim</option><option>Não</option></select><span class="campo-nota" id="nota-{{SLUG}}-d3" data-nota-for="{{SLUG}}-d3"></span></div>
+            </div>
+            <button type="button" class="btn" data-check-activity>Verificar os 3 campos</button>
+            <div class="quiz-feedback" data-activity-feedback role="status" aria-live="polite">Responda os 3 campos e clique em verificar: cada campo devolve o motivo.</div>
+            <div class="caixa revelar-ao-concluir"><p>{{REVELACAO_QUE_FECHA_O_DESAFIO}}</p></div>
+          </div>
+        </div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 12 de 14"><span class="progresso-preenchido" style="width:86%"></span></span><span class="progresso-texto">Slide 12 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 13 · SÍNTESE + BILHETE: uma linha por conceito, com o apelido; bilhete dirigido ao personagem; resposta-modelo depois. -->
+    <section class="slide master-focus no-side-art" data-slide="13" aria-labelledby="s13">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">◆</span>Síntese</span><span class="slide-counter">13 / 14</span></div>
+        <h2 id="s13" tabindex="-1">O que fica desta lição</h2>
+        <ol class="sintese-lista">
+          <li><strong>{{APELIDO_1}}.</strong> {{PRINCIPIO_1}}</li>
+          <li><strong>{{APELIDO_2}}.</strong> {{PRINCIPIO_2}}</li>
+          <li><strong>{{APELIDO_3}}.</strong> {{PRINCIPIO_3}}</li>
+          <li><strong>{{APELIDO_4}}.</strong> {{PRINCIPIO_4}}</li>
+        </ol>
+        <div class="registro"><label for="{{SLUG}}-bilhete">Bilhete de saída: explique a {{PERSONAGEM}} {{O_QUE_EXPLICAR}} e {{O_QUE_FAZER_COM_O_CASO_DUVIDOSO}}.</label><textarea id="{{SLUG}}-bilhete" data-save data-required data-min-words="25" data-requirement-label="Escrever o bilhete de saída com pelo menos 25 palavras (slide 13)" placeholder="{{PERSONAGEM}}, …"></textarea></div>
+        <div class="button-row"><button type="button" class="example-button" data-example="modelo-{{SLUG}}" aria-expanded="false" aria-controls="modelo-{{SLUG}}">Comparar com uma resposta-modelo (depois de escrever)</button></div>
+        <div id="modelo-{{SLUG}}" class="example-panel">“{{RESPOSTA_MODELO_DIRIGIDA_AO_PERSONAGEM}}”</div>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 13 de 14"><span class="progresso-preenchido" style="width:93%"></span></span><span class="progresso-texto">Slide 13 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next>Próximo <span aria-hidden="true">→</span></button></div></div>
+      </div>
+    </section>
+
+    <!-- 14 · FONTES E CONCLUSÃO: fontes primárias, ponte para a próxima lição e painel vivo. -->
+    <section class="slide closing-slide master-hero" data-slide="14" aria-labelledby="s14">
+      <div class="slide-inner">
+        <div class="slide-topo"><span class="etapa"><span class="etapa-icone" aria-hidden="true">✦</span>Fecho</span><span class="slide-counter">14 / 14</span></div>
+        <h2 id="s14" tabindex="-1">Fontes e conclusão</h2>
+        <ul class="fontes">
+          <li><a href="{{URL_DA_FONTE_PRIMARIA}}" target="_blank" rel="noopener noreferrer">{{NOME_DA_FONTE_E_O_QUE_ELA_SUSTENTA}}<span class="visually-hidden"> (abre em nova janela)</span></a></li>
+        </ul>
+        <p class="ponte">{{O_QUE_FICOU_PARA_A_PROXIMA_LICAO_E_ONDE}}</p>
         <section class="completion-panel" aria-labelledby="completion-title">
-          <p class="completion-eyebrow">Conclusão do módulo</p>
+          <p class="completion-eyebrow">Conclusão da lição</p>
           <h3 id="completion-title">Confira seu progresso</h3>
           <p class="completion-message" data-completion-message role="status" aria-live="polite">Verificando os requisitos…</p>
           <!-- Os itens são gerados pelo runtime a partir dos requisitos reais. Não fixar nada aqui. -->
@@ -119,11 +349,15 @@
             <button type="button" class="btn btn-secundario" data-reset>Limpar respostas e progresso</button>
           </div>
         </section>
+        <div class="slide-rodape"><p class="progresso-slide"><span class="progresso-trilho" role="img" aria-label="Progresso: slide 14 de 14"><span class="progresso-preenchido" style="width:100%"></span></span><span class="progresso-texto">Slide 14 de 14</span></p><div class="slide-nav"><button type="button" class="btn-nav" data-nav-prev><span aria-hidden="true">←</span> Anterior</button><button type="button" class="btn-nav" data-nav-next disabled>Próximo <span aria-hidden="true">→</span></button></div></div>
       </div>
     </section>
   </main>
 
   <script src="../assets/scorm-runtime.js"></script>
   <script src="../assets/licao-runtime.js"></script>
+  <!-- Script próprio da lição (simulador do slide 6 e demonstrações data-demo): ../assets/{{SLUG}}.js.
+       Deve: desenhar a figura a partir dos dados; atualizar <output> e [data-sim-result]; gravar "sim" ou ""
+       em #{{SLUG}}-sim-valido e disparar "input"; manter o estado final visível sem JS e na impressão. -->
 </body>
 </html>

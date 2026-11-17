@@ -50,6 +50,31 @@ if (!/https?:\/\//i.test(html)) warnings.push("Registrar ao menos uma fonte prin
 const slides = [...html.matchAll(/<section\b[^>]*class=["'][^"']*\bslide\b[^"']*["'][^>]*>/gi)];
 if (slides.length < 5) warnings.push("A sequência tem menos de cinco slides; verifique se contexto, conceito, prática, feedback e síntese estão suficientemente separados.");
 
+// Lição rica (padrão 05B, references/arco-didatico.md): alertas, não erros — a lição pode ter
+// razão para fugir do arco, mas a fuga precisa ser decisão, não esquecimento.
+if (/\blicao-rica\b/.test(html)) {
+  const semCromo = slides.filter((match, index) => {
+    const body = html.slice(match.index, slides[index + 1]?.index);
+    return !/class=["'][^"']*\bslide-topo\b/.test(body) || !/data-nav-next/.test(body);
+  }).length;
+  if (semCromo) warnings.push(`Lição rica: ${semCromo} slide(s) sem .slide-topo ou rodapé com data-nav-next.`);
+  const quizBlocks = html.split(/(?=<[^>]+\bdata-quiz\b)/).slice(1);
+  const answers = [];
+  quizBlocks.forEach(block => {
+    const options = (block.match(/<[^>]+\bdata-answer\b[^>]*>/g) || []).length;
+    const reasons = (block.match(/\bdata-porque\b/g) || []).length;
+    if (options && reasons < options) warnings.push("Lição rica: todo quiz precisa de um [data-porque] por alternativa.");
+    const correct = (block.match(/<[^>]+\bdata-answer=["']?([^"'\s>]*)["']?[^>]*\bdata-correct\b/) || [])[1];
+    if (correct) answers.push(correct);
+  });
+  if (answers.length >= 2 && new Set(answers).size === 1) warnings.push(`Lição rica: o gabarito de todos os quizzes está na mesma posição (${answers[0]}); variar.`);
+  const praticas = (html.match(/\sdata-(?:quiz|activity|simulador)(?=[\s=>])/g) || []).length;
+  const instrucoes = (html.match(/class=["'][^"']*\binstrucao\b/g) || []).length;
+  if (instrucoes < praticas) warnings.push(`Lição rica: ${praticas} prática(s) e só ${instrucoes} instrução(ões) "Como fazer".`);
+  if (!/class=["'][^"']*\bfigura-licao\b|<svg\b/i.test(html)) warnings.push("Lição rica: nenhuma figura; desenhar ao menos uma por slide conceitual.");
+  if (!/Próximo passo/.test(html)) warnings.push("Lição rica: nenhuma ponte \"Próximo passo\" entre slides.");
+}
+
 const ids = [...html.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]);
 const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
 if (duplicates.length) errors.push(`IDs duplicados: ${duplicates.join(", ")}.`);

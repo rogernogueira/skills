@@ -43,3 +43,146 @@
 @media(max-width:720px){.practice-grid,.completion-checks{grid-template-columns:1fr}}
 @media(max-width:32rem){.completion-actions{display:grid}.completion-actions button{width:100%}}
 @media print{.example-button,.dot-nav,.salvo,[data-reset],[data-print],.completion-gate,.completion-actions{display:none!important}.example-panel{display:block!important}.quiz-feedback{min-height:0}.completion-panel{box-shadow:none;break-inside:avoid}.completion-checks{grid-template-columns:1fr}}
+
+/* ============================================================================
+   LIÇÃO RICA — cromo, cores semânticas, figuras e práticas da Lição 05B (SVM)
+   Ativar com <body class="new-edition licao-rica">. Ver references/arco-didatico.md
+   e a seção "Lição rica" de references/sistema-visual.md.
+   Cores semânticas estáveis em toda a lição, sempre com ícone e etiqueta:
+     azul ◆ conceito · verde ✓ evidência correta · âmbar ▲ atenção · vermelho ✕ risco
+   ============================================================================ */
+:root{
+  --sem-conceito:#00518F;--sem-conceito-bg:#EDF3FA;--sem-conceito-borda:#B6CFE6;
+  --sem-correto:#1F6B3B;--sem-correto-bg:#E9F6EC;--sem-correto-borda:#A6D3B4;
+  --sem-atencao:#8A5300;--sem-atencao-bg:#FDF3E0;--sem-atencao-borda:#E9CB8C;
+  --sem-risco:#98302A;--sem-risco-bg:#FCEDEB;--sem-risco-borda:#EDB6B0;
+  --sem-neutro:#4B5563;--sem-neutro-bg:#F1F3F6;--sem-neutro-borda:#D3D9E0;
+  --foco:#0B69C7;
+}
+.licao-rica a:focus-visible,.licao-rica button:focus-visible,.licao-rica select:focus-visible,
+.licao-rica textarea:focus-visible,.licao-rica input:focus-visible,.licao-rica [tabindex]:focus-visible{outline:3px solid var(--foco);outline-offset:2px;border-radius:var(--r-sm)}
+.skip-link{position:fixed;left:.5rem;top:-5rem;z-index:999;padding:.7rem;background:#fff;color:var(--azul-marinho)}
+.skip-link:focus{top:.5rem}
+
+/* Casca: a lição rica não reserva coluna para vinheta e alinha o conteúdo ao topo. */
+.new-edition.licao-rica .slide-inner{padding-right:3.2rem;justify-content:flex-start;gap:.85rem}
+.new-edition.licao-rica .master-hero .slide-inner{padding-right:3.2rem}
+.new-edition.licao-rica .master-focus .slide-inner{padding-top:2.2rem}
+.new-edition.licao-rica h1,.new-edition.licao-rica .master-hero h1{max-width:none}
+
+/* Cabeçalho e rodapé idênticos em todos os slides */
+.slide-topo{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:.45rem;border-bottom:1px solid var(--borda)}
+.new-edition .slide-topo .slide-counter,.slide-topo .slide-counter{position:static;transform:none}
+.etapa{display:inline-flex;align-items:center;gap:.4rem;padding:.18rem .6rem;border:1px solid var(--sem-neutro-borda);border-radius:var(--r-sm);background:var(--sem-neutro-bg);color:var(--azul-marinho);font:800 .68rem/1.4 var(--fonte-titulo);letter-spacing:.06em;text-transform:uppercase}
+.slide-rodape{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--borda)}
+.progresso-slide{display:flex;align-items:center;gap:.55rem;margin:0;font:700 .7rem var(--fonte-titulo);color:var(--cinza-medio);letter-spacing:.04em}
+.progresso-trilho{display:block;width:clamp(6rem,18vw,12rem);height:6px;border-radius:999px;background:var(--borda);overflow:hidden}
+.progresso-preenchido{display:block;height:100%;background:var(--ciano)}
+.slide-nav{display:flex;gap:.45rem}
+.btn-nav{display:inline-flex;align-items:center;gap:.35rem;min-height:36px;padding:.3rem .75rem;border:1px solid var(--borda);border-radius:var(--r-pill);background:#fff;color:var(--azul);font:700 .74rem var(--fonte-titulo);cursor:pointer}
+.btn-nav:hover:not(:disabled){border-color:var(--ciano);background:var(--azul-suave);color:var(--azul-marinho)}
+.btn-nav:disabled{opacity:.4;cursor:not-allowed}
+.barra-topo{position:fixed;top:0;left:0;width:100%;height:4px;z-index:130;background:var(--borda)}
+.barra-topo span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--azul-marinho),var(--ciano));transition:width .25s ease}
+
+/* Marcadores semânticos: cor + ícone + etiqueta, nunca só cor */
+.marcador{display:inline-flex;align-items:center;gap:.34rem;padding:.16rem .55rem;border:1px solid var(--sem-neutro-borda);border-radius:999px;background:var(--sem-neutro-bg);color:var(--sem-neutro);font:800 .68rem/1.4 var(--fonte-titulo);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.marcador .ic{font-size:.92em;line-height:1}
+.m-conceito{border-color:var(--sem-conceito-borda);background:var(--sem-conceito-bg);color:var(--sem-conceito)}
+.m-correto{border-color:var(--sem-correto-borda);background:var(--sem-correto-bg);color:var(--sem-correto)}
+.m-atencao{border-color:var(--sem-atencao-borda);background:var(--sem-atencao-bg);color:var(--sem-atencao)}
+.m-risco{border-color:var(--sem-risco-borda);background:var(--sem-risco-bg);color:var(--sem-risco);border-style:dashed}
+.lt-nota{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:0;font-size:.8rem;color:var(--cinza-medio)}
+
+/* Texto didático: termo definido, origem do número, ponte e caixa-preta */
+.licao-rica .termo-def{padding:.6rem .8rem;border:1px solid var(--sem-conceito-borda);border-left:4px solid var(--sem-conceito);border-radius:0 var(--r-md) var(--r-md) 0;background:var(--sem-conceito-bg)}
+.licao-rica .termo-def strong:first-child{color:var(--sem-conceito)}
+.origem-numero{font-size:.84rem}
+.origem-numero strong{color:var(--azul-marinho)}
+.ponte{margin:0;font-size:.86rem}
+.ponte strong{color:var(--azul-marinho)}
+.caixa-preta{display:grid;gap:.3rem;padding:.55rem .75rem;border:1px dashed var(--sem-neutro-borda);border-radius:var(--r-md);background:var(--sem-neutro-bg);font-size:.8rem;color:var(--grafite)}
+.caixa-preta>.marcador{width:fit-content}
+.key-list{display:grid;gap:.3rem;margin:0;padding-left:1.1rem}
+.key-list li{font-size:.88rem}
+
+/* "Como fazer": o que fazer, quanto falta, quando está completo */
+.instrucao{padding:.6rem .85rem;border:1px solid var(--sem-conceito-borda);border-left:4px solid var(--sem-conceito);border-radius:0 var(--r-md) var(--r-md) 0;background:var(--sem-conceito-bg)}
+.instrucao-titulo{display:flex;align-items:center;gap:.4rem;margin:0 0 .3rem;font:800 .7rem var(--fonte-titulo);letter-spacing:.08em;text-transform:uppercase;color:var(--sem-conceito)}
+.instrucao ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.28rem 1rem;margin:0;padding-left:1.1rem}
+.instrucao li{font-size:.8rem;line-height:1.45}
+.duas-colunas .instrucao ul,.sim-bloco .instrucao ul{grid-template-columns:1fr}
+.instrucao li strong{color:var(--azul-marinho)}
+
+/* Figura ao lado do texto e comparação lado a lado */
+.duas-colunas{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:1.2rem;align-items:start}
+.hero-figura{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:1.5rem;align-items:center}
+.figura-licao{margin:0;text-align:center}
+.figura-licao svg{display:block;width:100%;max-width:min(26rem,calc(52vh * var(--razao-svg,1)));height:auto;margin:0 auto}
+.figura-licao figcaption{margin-top:.4rem;font-size:var(--fs-nota);color:var(--cinza-medio)}
+.lado-a-lado{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.lado-a-lado>article{display:grid;gap:.45rem;align-content:start;padding:.7rem .85rem;border:1px solid var(--borda);border-left:4px solid var(--sem-neutro-borda);border-radius:var(--r-md);background:#fff}
+.lado-a-lado>article.lado-correto{border-left-color:var(--sem-correto)}
+.lado-a-lado>article.lado-risco{border-left-color:var(--sem-risco);border-left-style:dashed}
+.lado-a-lado>article.lado-atencao{border-left-color:var(--sem-atencao)}
+.lado-a-lado h3{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem}
+.lado-a-lado .figura-licao svg{max-width:min(18rem,calc(34vh * var(--razao-svg,1)))}
+
+/* Quiz com letra e "por quê" por alternativa */
+.licao-rica .quiz-option{align-items:center;gap:.7rem;padding:.5rem .7rem}
+.quiz-letra{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.6rem;height:1.6rem;border:1px solid var(--borda);border-radius:50%;background:var(--cinza-claro);font:800 .78rem var(--fonte-titulo);color:var(--azul-marinho)}
+.quiz-corpo{display:grid;gap:.25rem}
+.quiz-porque{font-size:.76rem;line-height:1.45;color:var(--cinza-medio)}
+.quiz-porque[hidden]{display:none}
+.licao-rica .quiz-option.correct{border-width:2px;border-color:var(--sem-correto);background:var(--sem-correto-bg)}
+.licao-rica .quiz-option.correct .quiz-letra{background:var(--sem-correto);border-color:var(--sem-correto);color:#fff}
+.licao-rica .quiz-option.incorrect{border-width:2px;border-style:dashed;border-color:var(--sem-risco);background:var(--sem-risco-bg)}
+.licao-rica .quiz-option.incorrect .quiz-letra{background:var(--sem-risco);border-color:var(--sem-risco);color:#fff}
+.quiz-feedback[data-nivel="correto"]{border-left-color:var(--sem-correto);background:var(--sem-correto-bg)}
+.quiz-feedback[data-nivel="incorreto"]{border-left-color:var(--sem-risco);background:var(--sem-risco-bg)}
+.quiz-feedback[data-nivel="parcial"]{border-left-color:var(--sem-atencao);background:var(--sem-atencao-bg)}
+
+/* Atividade de campos com motivo por campo */
+.activity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem .9rem}
+.campo-atividade{display:grid;gap:.3rem;align-content:start}
+.campo-atividade label{font:800 .8rem var(--fonte-titulo);color:var(--azul-marinho)}
+.campo-atividade select{min-height:2.4rem;padding:.35rem .5rem;border:1px solid #c9d4df;border-radius:.4rem;background:#fff;font:inherit;font-size:.84rem}
+.campo-nota{display:block;font-size:.74rem;line-height:1.4;color:var(--cinza-medio)}
+.campo-nota[data-nivel="correto"]{color:var(--sem-correto)}
+.campo-nota[data-nivel="incorreto"]{color:var(--sem-risco)}
+.progresso-atividade{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:0;font:700 .76rem var(--fonte-titulo);color:var(--azul-marinho)}
+.progresso-atividade .trilho{display:block;width:clamp(5rem,14vw,9rem);height:6px;border-radius:999px;background:var(--borda);overflow:hidden}
+.progresso-atividade .trilho i{display:block;height:100%;width:var(--preenchido,0%);background:var(--ciano);transition:width .2s ease}
+[data-activity].concluida{border-radius:var(--r-md);box-shadow:0 0 0 2px var(--sem-correto-borda)}
+.revelar-ao-concluir{display:none}
+[data-activity].concluida .revelar-ao-concluir,.concluida-externa .revelar-ao-concluir{display:block}
+
+/* Simulador e demonstração */
+.sim-bloco{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:start}
+.sim-controles{display:grid;gap:.6rem}
+.sim-controles label{display:grid;gap:.25rem;font:700 .8rem var(--fonte-titulo);color:var(--azul-marinho)}
+.sim-controles input[type=range]{width:100%;accent-color:var(--azul)}
+.sim-result{padding:.6rem .8rem;border-left:4px solid var(--ciano);border-radius:0 var(--r-sm) var(--r-sm) 0;background:var(--azul-suave);font-weight:700;font-size:.86rem}
+.sim-result[data-nivel="correto"]{border-left-color:var(--sem-correto);background:var(--sem-correto-bg)}
+.sim-result[data-nivel="atencao"]{border-left-color:var(--sem-atencao);background:var(--sem-atencao-bg)}
+.sim-result[data-nivel="risco"]{border-left-color:var(--sem-risco);background:var(--sem-risco-bg)}
+
+/* Síntese numerada e resposta-modelo */
+.sintese-lista{display:grid;gap:.4rem;margin:0;padding-left:1.3rem}
+.sintese-lista li{font-size:.9rem}
+.sintese-lista strong{color:var(--azul-marinho)}
+
+@media(max-width:900px){
+  .duas-colunas,.hero-figura,.lado-a-lado,.sim-bloco,.activity-grid{grid-template-columns:1fr}
+  .instrucao ul{grid-template-columns:1fr}
+  .slide-rodape{justify-content:center}
+  .new-edition.licao-rica .slide-inner,.new-edition.licao-rica .master-hero .slide-inner{padding-right:1.4rem}
+}
+@media print{
+  .barra-topo,.slide-nav,.skip-link{display:none!important}
+  .quiz-porque,.revelar-ao-concluir{display:block!important}
+  .instrucao,.lado-a-lado>article,.figura-licao{break-inside:avoid}
+}
+@media (prefers-reduced-motion: reduce){
+  .barra-topo span,.progresso-atividade .trilho i{transition:none}
+}

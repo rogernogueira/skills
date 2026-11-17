@@ -11,6 +11,7 @@ Trabalhar em três etapas: projetar a aprendizagem; implementar a experiência; 
 
 Ler apenas o que a tarefa exigir:
 
+- [arco-didatico.md](references/arco-didatico.md) em toda criação de lição e em toda reescrita ou revisão pedagógica: é o padrão didático, interativo e visual da skill (extraído da Lição 05B · SVM) e o roteiro de `assets/licao-modelo.html`.
 - [pedagogia.md](references/pedagogia.md) em toda criação ou revisão substancial.
 - [praticas-interativas.md](references/praticas-interativas.md) ao criar quizzes, atividades, simuladores, checklists ou bilhetes de saída.
 - [cenario-vocabulario-e-dados.md](references/cenario-vocabulario-e-dados.md) quando houver problema aplicado, cenário, termos de domínio, dataset, fórmula ou gabarito dependente de dados.
@@ -35,6 +36,8 @@ Ler apenas o que a tarefa exigir:
 6. Planejar exemplo resolvido, recuperação ativa, prática aplicada, feedback e síntese.
 7. Definir antes da implementação as evidências que liberam a conclusão. Distinguir visita, tentativa, acerto, completude, exploração e persistência.
 8. Remover carga horária, duração estimada e promessas de tempo. Manter apenas períodos pertencentes ao problema estudado.
+9. Desenhar o arco da lição rica descrito em [arco-didatico.md](references/arco-didatico.md): ancoragem no que o estudante já viu; metáfora cotidiana antes do termo técnico; um personagem que atravessa a lição do cenário ao bilhete; um apelido memorável por conceito; a conta de cada número no próprio slide; um caso real que quebra o modelo limpo; o limite da técnica; caixas-pretas declaradas; um desafio de transferência em contexto novo.
+10. Planejar a interação em degraus — ver (demonstração), manipular (prática com critério numérico), raciocinar (quiz de erro conceitual), criticar (Lado A × Lado B), transferir (contexto novo) e explicar (bilhete ao personagem) — e listar os erros conceituais mais comuns que os quizzes vão atacar.
 
 Perguntar ao usuário somente quando leituras diferentes do pedido levariam a lições materialmente diferentes — público, nível, uso em LMS ou tema do cenário. Nos demais casos, decidir, registrar a suposição no mapa pedagógico e seguir.
 
@@ -53,8 +56,15 @@ Organização, personagens e papéis fictícios:
 Processo atual e gargalo:
 Decisão que receberá apoio:
 Consequências, salvaguardas e condição de não uso:
-Vocabulário que precisa ser explicado:
-Conceitos essenciais:
+Ancoragem (o que o estudante já viu e o que esta lição faz de diferente):
+Metáfora central e segunda metáfora, se houver:
+Vocabulário que precisa ser explicado (slide da primeira ocorrência):
+Conceitos essenciais e apelido de cada um:
+Erros conceituais comuns que os quizzes vão atacar:
+Caso real que quebra o modelo limpo:
+Limite da técnica e como será demonstrado:
+Caixas-pretas declaradas e onde serão aprofundadas:
+Desafio de transferência (contexto novo):
 Exemplo resolvido:
 Dataset, quantidade de registros e regra do alvo:
 Contas e gabaritos que precisam ser reproduzidos:
@@ -64,8 +74,9 @@ Como cada evidência será verificada no código:
 Interações que precisam persistir:
 Comportamento esperado na retomada:
 Fonte principal:
-Ilustrações didáticas em HTML/CSS/SVG/JS:
-Quantidade e função dos slides:
+Ilustrações didáticas em HTML/CSS/SVG/JS (uma por slide conceitual, com função e dados de origem):
+Codificação visual estável (forma, cor e rótulo de cada classe):
+Quantidade e função dos slides (mapear para o arco de arco-didatico.md):
 Destino: arquivo local, pacote SCORM ou Artifact:
 ```
 
@@ -91,14 +102,16 @@ A quantidade de slides é consequência da progressão. Ampliar quando isso sepa
 node <caminho-da-skill>/scripts/init-workspace.mjs <diretorio-destino>
 ```
 
-2. Partir de `assets/licao-modelo.html`, adaptando a sequência ao mapa pedagógico.
-3. Usar slides curtos com `scroll-snap`, contador, navegação por pontos e teclado. Reservar uma função principal por slide.
-4. Incluir ao menos uma prática que meça a vitória observável e ofereça tentativa, feedback e revisão.
-5. Tratar sliders como exploração orientada: registrar cenários relevantes, não apenas movimento.
-6. Dar IDs estáveis a todos os campos persistentes.
-7. Usar `localStorage` apenas como conveniência ou contingência, sempre com leitura e escrita protegidas. Em LMS, persistir no estado SCORM e restaurar estado funcional e visual.
-8. Quando houver botão de conclusão, montar o painel da Etapa 3 em vez de improvisar regra própria: checklist vivo, linha de estado da gravação e revalidação no clique final.
-9. Garantir foco visível, teclado, contraste, `aria-live`, redução de movimento, texto alternativo e impressão legível.
+2. Partir de `assets/licao-modelo.html` — a lição rica de 14 funções, com `body.new-edition.licao-rica` — adaptando a sequência ao mapa pedagógico. Substituir todo `{{…}}`; nenhum placeholder pode chegar à lição final.
+3. Usar slides com `scroll-snap`, navegação por pontos e teclado e o cromo da lição rica em todos eles: `.slide-topo` (etapa + contador), `.slide-rodape` (progresso + `data-nav-prev`/`data-nav-next`) e `.barra-topo`. Reservar uma função principal por slide.
+4. Desenhar cada figura em SVG a partir dos dados do cenário, em `.duas-colunas` ao lado do texto que a nomeia; manter forma, cor e rótulo de cada classe iguais do começo ao fim e fazer a mesma figura evoluir entre slides conceituais. Simulador e demonstrações (`data-demo`) ficam num script próprio da lição, em `assets/<slug>.js`.
+5. Incluir ao menos uma prática que meça a vitória observável e ofereça tentativa, feedback e revisão. Na lição rica: prática manipulável com critério numérico, três quizzes de 4 alternativas com `[data-porque]` e gabaritos em posições diferentes, e um desafio de transferência com motivo por campo.
+6. Tratar sliders como exploração orientada: registrar cenários relevantes, não apenas movimento. Quando o critério depender de mais de um controle, gravar uma evidência derivada (`input` oculto com `data-correct-value`) recalculada a cada movimento.
+7. Dar a cada prática a instrução "Como fazer" (o que fazer · quanto falta · quando está completo) e a cada slide conceitual o "O que fazer aqui" com o verbo cognitivo.
+8. Dar IDs estáveis a todos os campos persistentes.
+9. Usar `localStorage` apenas como conveniência ou contingência, sempre com leitura e escrita protegidas. Em LMS, persistir no estado SCORM e restaurar estado funcional e visual.
+10. Quando houver botão de conclusão, montar o painel da Etapa 3 em vez de improvisar regra própria: checklist vivo, linha de estado da gravação e revalidação no clique final.
+11. Garantir foco visível, teclado, contraste, `aria-live`, redução de movimento, texto alternativo e impressão legível. Animações finitas, só com `prefers-reduced-motion: no-preference`, com o estado final como padrão.
 
 ## Etapa 3 — Auditar a conclusão verificável
 
@@ -210,7 +223,7 @@ Além dos scripts:
 5. Calcular o contraste de todo texto contra o fundo herdado, pela receita de
    [sistema-visual.md](references/sistema-visual.md). Herança e cascata apagam texto
    sem que validação estrutural, dataset ou revisão de conteúdo percebam.
-6. Testar 1440×900, 1024×768, 390×844, zoom de 200%, teclado e impressão.
+6. Testar 1440×900, 1280×800, 1024×768, 390×844, 360×640, zoom de 200%, teclado e impressão. Lição rica tem slides mais altos que a tela: percorrer a lição inteira nesses tamanhos e confirmar que "Visitar os N slides" é cumprido, que nenhum placeholder `{{…}}` restou e que nenhuma figura ou legenda sobrepõe pontos ou texto.
 7. Recarregar e confirmar retomada.
 8. Em SCORM, simular nova sessão e depois testar logout/login no LMS real.
 9. Empacotar somente depois que conteúdo, referências locais, manifesto e testes passarem.
@@ -226,6 +239,7 @@ Invocar com o agente `revisor-licao` e, quando ele não estiver instalado, com `
 - caminho absoluto do HTML, do dataset e dos runtimes;
 - caminho absoluto de `scripts/validate-lesson.mjs`, `scripts/test-completion.mjs` e `scripts/test-scorm.mjs`, com a saída que cada um já produziu;
 - caminho absoluto de `references/painel-de-conclusao.md`, quando a lição tiver botão de conclusão;
+- caminho absoluto de `references/arco-didatico.md`, quando a lição for rica (`body.licao-rica`);
 - as evidências que a lição promete exigir para concluir, com o critério declarado de cada requisito do painel;
 - as fontes citadas;
 - o que já foi conferido, para ele não repetir.

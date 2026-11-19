@@ -1,0 +1,105 @@
+{
+  "execucao": {
+    "titulo": "Dependências e execução",
+    "campos": {
+      "fastapi": "Versão do FastAPI",
+      "pydantic": "Versão e geração do Pydantic (v1/v2)",
+      "orm": "ORM e versão",
+      "driver": "Driver do banco e modo síncrono/assíncrono",
+      "comando": "Comando efetivo de inicialização",
+      "workers_configurados": "Workers configurados por réplica",
+      "workers_observados": "Workers ativos por réplica e instante de coleta",
+      "limites": "Flags de limite e timeout do servidor"
+    }
+  },
+  "entrada": {
+    "titulo": "Ponto de entrada",
+    "campos": {
+      "instancia": "Módulo, factory ou instância FastAPI",
+      "cors": "Política CORS",
+      "middlewares": "Middlewares e ordem de execução",
+      "excecoes": "Tratadores de exceção",
+      "ciclo": "Lifespan ou eventos de startup/shutdown"
+    }
+  },
+  "banco": {
+    "titulo": "Banco de dados e dependências",
+    "campos": {
+      "engine": "Criação da engine e escopo",
+      "fabrica": "Fábrica de sessões (sessionmaker)",
+      "pool": "Tipo, tamanho, overflow e timeout do pool",
+      "sessao": "Abertura, yield, encerramento e rollback da sessão",
+      "globais": "Objetos globais, ciclo de vida e compartilhamento por processo"
+    }
+  },
+  "rotas": {
+    "titulo": "Amostra de rotas, serviços e schemas",
+    "campos": {
+      "selecao": "Método, rota e motivo da seleção",
+      "assinatura": "Assinatura def/async def",
+      "depends": "Parâmetros Depends",
+      "resposta": "response_model e schema de saída",
+      "tarefas": "Uso de BackgroundTasks",
+      "servico": "Serviço ou repositório chamado",
+      "operacao": "Consulta ao banco ou chamada externa",
+      "modelo": "Modelo ORM e mapeamento",
+      "schema": "Schemas Pydantic de entrada e saída"
+    }
+  },
+  "acesso": {
+    "titulo": "Autenticação e autorização",
+    "campos": {
+      "identidade": "Dependência que valida o usuário atual",
+      "recurso": "Autorização sobre o recurso específico"
+    }
+  },
+  "http": {
+    "titulo": "Clientes HTTP e integrações",
+    "campos": {
+      "cliente": "Destinos lógicos e cliente HTTP",
+      "ciclo": "Reutilização, fechamento e escopo do cliente",
+      "timeouts": "Timeouts de conexão, leitura, escrita e pool",
+      "retries": "Política de retries",
+      "circuito": "Circuit breaker e critérios de abertura/recuperação"
+    }
+  },
+  "protecao": {
+    "titulo": "Proteção contra abuso e configuração",
+    "campos": {
+      "taxa": "Rate limiting, chave e janela",
+      "payload": "Limite de payload/upload e camada que o aplica",
+      "settings": "Carregamento das configurações de ambiente",
+      "memoizacao": "Ciclo de vida das configurações (ex.: lru_cache)"
+    }
+  },
+  "tarefas": {
+    "titulo": "Filas, cache e tarefas assíncronas",
+    "campos": {
+      "broker": "Broker/backend e conexões (Redis/RabbitMQ)",
+      "executor": "Worker ou executor (Celery/ARQ)",
+      "enfileirar": "Produtor, fila, tarefa pesada e consumidor",
+      "conexoes": "Criação, reutilização e fechamento do cliente de cache",
+      "serializacao": "Serialização e desserialização das entradas em cache",
+      "ttl": "Tempo de validade do cache do serviço",
+      "invalidacao": "Gatilho e alcance da invalidação no serviço"
+    }
+  },
+  "proxy": {
+    "titulo": "Proxy reverso e balanceador",
+    "campos": {
+      "camada": "Produto e rota do proxy/balanceador",
+      "timeouts": "Timeouts de leitura e escrita",
+      "corpo": "Limite do corpo da requisição",
+      "encaminhamento": "Repasse e confiança de X-Forwarded-For e X-Forwarded-Proto"
+    }
+  },
+  "recursos": {
+    "titulo": "Recursos e escalabilidade",
+    "campos": {
+      "vcpu": "vCPUs solicitadas, limitadas e escopo",
+      "ram": "Memória RAM solicitada, limitada e escopo",
+      "replicas": "Número e escopo das réplicas",
+      "autoscaling": "Autoscaling, limites mínimo/máximo e métrica-alvo"
+    }
+  }
+}

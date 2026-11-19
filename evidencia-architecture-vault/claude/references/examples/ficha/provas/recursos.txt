@@ -1,0 +1,5 @@
+# Trecho do serviço api em compose.yaml da implantação didática
+services:
+  api:
+    cpus: "1.5"
+    mem_limit: 512m

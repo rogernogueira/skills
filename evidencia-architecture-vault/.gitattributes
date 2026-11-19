@@ -1,0 +1,4 @@
+# Preserve the original bytes of evidence and signed snapshots on every platform.
+claude/** text eol=lf
+claude/references/examples/** -text !eol
+*.zip binary

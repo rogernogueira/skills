@@ -1,0 +1,9 @@
+# Trecho do arquivo app.py do exemplo sintético
+@asynccontextmanager
+async def lifespan(app):
+    async with httpx.AsyncClient(timeout=httpx.Timeout(5.0, connect=1.0)) as client:
+        app.state.http = client
+        yield
+
+app = FastAPI(lifespan=lifespan)
+app.include_router(coletas.router)

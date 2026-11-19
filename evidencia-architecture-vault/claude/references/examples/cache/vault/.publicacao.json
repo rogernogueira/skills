@@ -1,0 +1,39 @@
+{
+  "chave": "b79dd6a0e0a5b8d991d87aed93e24e61b482351743c58bcf666a40a79b11ff50",
+  "arquivos": {
+    "af-get-estrategia.md": "9ebdc641e2e3f3cd520b3f7226cfa9723b881f6129bc180d31847b50c630e46c",
+    "af-get-invalidacao.md": "65bcc076860e92d7e4748ef9a3cf5d7bea99a976f9a96d1ff442008386b5db6f",
+    "af-get-ttl.md": "6fe13d9e2803768876f5b76d3f18f079880ce60f6b3de7329e9a162cd6dd3e13",
+    "af-get-uso.md": "e75f73bc7a556179dc813ca0dbe650867d2c02d68775ef84c62780cbf3b53ed2",
+    "af-post-estrategia.md": "e06de719f1350395c868680d29fe178487f5d054afbe9d73d21bcf8dc36536ef",
+    "af-post-invalidacao.md": "f8cad60ffe986ba969232e0a54973c05c69af66cbf7f958f595ff8a1259bff43",
+    "af-post-ttl.md": "8b5c93c88cc92507200932778458257f36cd4ca0e53375f16fa8106f8fc18297",
+    "af-post-uso.md": "82d3b79a9110ecc945c4f85dc0913e5ee0d578057191c5c77e3fb00542aa11f0",
+    "Cache por rota.md": "509eca7814d8cec491e4b5318ded19b5e6cf0a48b061e350f21a29806ed8b489",
+    "cmp-api-coletas.md": "f6861a31193c6eef3cbc8790276efa7a019f301706cbd5fb564dc5cff5169681",
+    "ev-get-estrategia-estrutura.md": "bafd0b9c436a21279ca8b39184be3c67542b5db03f874f5de7b404f3a3b32835",
+    "ev-get-estrategia-fluxo.md": "4f1aea1048003dc436f08f5ec8616a3cbf5a9ac98916109937a15ec51409ec6b",
+    "ev-get-estrategia-rota.md": "37ca3e0a65584faab672e6ad0e012be2ae1738da3aedf3c8469b8df3707f3449",
+    "ev-get-invalidacao-escrita.md": "80ae3147367477f25e72df45989afdcb55428123590ea785c713c2afca6d36a1",
+    "ev-get-invalidacao-leitura.md": "3236c5285b35fe84f53dcaf389385cdaa0089c6ac9e97c318ed57a4093f01ec5",
+    "ev-get-invalidacao-rota.md": "4f6f7e9ff987f8ce4dcb57b235bb3b744595d85734793d5062a9b3ece1cc94ce",
+    "ev-get-ttl-prazo.md": "97d6e1d167f1fc52d3d41215105252acde7e8a3e0bbdba043b4aaf703ab4d4cf",
+    "ev-get-ttl-relogio.md": "b236181c411db838231a69476312bbe83c1b322b764b67df210b27fa03e26bb0",
+    "ev-get-ttl-rota.md": "43cb843d4147b4ec002187e54d754c048a3c153676f650e93140d013265b5f61",
+    "ev-get-uso-leitura.md": "f4bd1ce770b8cc090acd8c507c46fa0c6c185b685c974d6599b850e35710952a",
+    "ev-get-uso-rota.md": "fc29f4ce4acb9baf9d458f0d93942c4df57ac2549f26a59917e3e56a78a8870b",
+    "ev-post-estrategia-resposta.md": "04312adce8140522a187c7f50273f58ff12d87fe733f902920fe38a81fea2e3c",
+    "ev-post-estrategia-rota.md": "4db3623df68dac8ae11baaf4854121e13131e256fd95b9d05ec762f2e24b77b9",
+    "ev-post-invalidacao-resposta.md": "55e46179cb6d6b20647f3e59e97f2bfb304d2cd360b11e6242ff2216b9444838",
+    "ev-post-invalidacao-rota.md": "1af9c379b831059fbc2ae8121df6b87be325319e7b039440745412a2f3498881",
+    "ev-post-ttl-resposta.md": "cd350fd06666aec3cbe5646fd34d5f1d9300ed3b2d05a27cbbd5636fb1dfee21",
+    "ev-post-ttl-rota.md": "8f333ab14d05f7a634252d2b4d1f89323f2267107bad97647535b2ac0c5604f3",
+    "ev-post-uso-resposta.md": "35c4b8e0b35b000735cefa89b34cacb2ac1a68368a79c92771599e6e6af63e92",
+    "ev-post-uso-rota.md": "3715fe66b006758cb68b73579261873e2b461a07edfb49a95c80c4910e737e36",
+    "Mapa.md": "433f09018cc3157c9d515f288708c2003e1124ed6c4d59862a52f5ad09092376",
+    "provas/coletas.txt": "94780a5c2572bf8de3f620bff01910625c3e51a502576ffaf5ebc87de75e854c"
+  },
+  "perguntas": [
+    "Quais arquivos ou extratos completam a ficha de [[cmp-api-coletas]] no plano configurado? Ver campos a verificar em: Dependências e execução, Ponto de entrada, Banco de dados e dependências, Amostra de rotas, serviços e schemas, Autenticação e autorização, Clientes HTTP e integrações, Proteção contra abuso e configuração, Filas, cache e tarefas assíncronas, Proxy reverso e balanceador, Recursos e escalabilidade."
+  ]
+}

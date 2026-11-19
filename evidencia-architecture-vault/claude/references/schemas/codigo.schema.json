@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Trecho do arquivo-fonte original",
+  "type": "object",
+  "required": [
+    "repositorio",
+    "caminho",
+    "linha_inicial",
+    "linha_final",
+    "tipo"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "repositorio": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "caminho": {
+      "type": "string",
+      "pattern": "^(?![A-Za-z]:)(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\\\r\\n]+$"
+    },
+    "linha_inicial": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "linha_final": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "implementacao",
+        "teste"
+      ]
+    }
+  }
+}

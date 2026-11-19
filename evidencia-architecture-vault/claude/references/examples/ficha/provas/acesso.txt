@@ -1,0 +1,5 @@
+# Trecho do arquivo acesso.py do exemplo sintético
+async def exigir_acesso_ao_repositorio(usuario, repo_id, db):
+    vinculo = await vinculos.para_usuario_e_repositorio(db, usuario.id, repo_id)
+    if vinculo is None:
+        raise HTTPException(status_code=403)

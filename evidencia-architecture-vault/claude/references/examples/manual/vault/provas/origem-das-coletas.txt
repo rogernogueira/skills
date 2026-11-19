@@ -1,0 +1,4 @@
+Sobre a procedência dos números: o HarvestBoard **não** guarda cópia dos dados
+de coleta. Repositórios, coletas, diagnósticos e registros vêm do Harvester a
+cada requisição, com cache. O que é do HarvestBoard são as contas, os perfis, o
+vínculo entre gestor e repositório, as notificações e as solicitações.

@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Leitura de uma fonte vinculada a uma proposição",
+  "type": "object",
+  "required": [
+    "id",
+    "afirmacao",
+    "papel",
+    "leitura",
+    "ambiente",
+    "plano",
+    "fonte",
+    "origem_dado",
+    "metodo",
+    "localizador",
+    "versao_fonte",
+    "coletado_por",
+    "coletado_em",
+    "transformacao",
+    "arquivo",
+    "sha256",
+    "linha_inicial",
+    "linha_final"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "codigo": { "$ref": "codigo.schema.json" },
+    "id": {
+      "type": "string",
+      "pattern": "^ev-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "afirmacao": {
+      "type": "string",
+      "pattern": "^af-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "papel": {
+      "type": "string",
+      "enum": [
+        "direta",
+        "indicio",
+        "contraria"
+      ]
+    },
+    "leitura": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "ambiente": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "plano": {
+      "type": "string",
+      "enum": [
+        "documentado",
+        "configurado",
+        "observado"
+      ]
+    },
+    "fonte": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "origem_dado": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "metodo": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "localizador": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "versao_fonte": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "coletado_por": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "coletado_em": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "transformacao": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "arquivo": {
+      "type": "string",
+      "pattern": "^provas/(?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+\\.(?:txt|json|yaml|md|csv)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "linha_inicial": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "linha_final": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

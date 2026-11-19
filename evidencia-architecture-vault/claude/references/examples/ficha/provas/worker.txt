@@ -1,0 +1,10 @@
+# worker.py do exemplo sintético: processo dedicado à fila coletas
+from arq import run_worker
+from tarefas import processar_coleta
+
+class WorkerSettings:
+    functions = [processar_coleta]
+    queue_name = "coletas"
+
+if __name__ == "__main__":
+    run_worker(WorkerSettings)

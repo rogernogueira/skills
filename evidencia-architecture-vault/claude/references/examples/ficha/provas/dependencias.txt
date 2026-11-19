@@ -1,0 +1,5 @@
+# requirements.txt do exemplo sintético
+fastapi>=0.115,<1
+pydantic>=2,<3
+sqlalchemy[asyncio]>=2,<3
+asyncpg>=0.29,<1

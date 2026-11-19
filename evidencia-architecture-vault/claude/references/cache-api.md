@@ -1,0 +1,23 @@
+# Levantamento de cache por rota a partir do código
+
+Faça a leitura para cada componente de classe `api` no plano `configurado`. Comece na tabela de rotas, no decorator ou no registro do framework. Reconstrua método e caminho completo, incluindo prefixos de versão e de montagem. Siga a execução pelo middleware, handler e serviço até o adaptador de cache. Registre a camada (por exemplo, `aplicacao`, `gateway` ou `http-cliente`) e eventuais condições por perfil, status da resposta ou configuração. Um inventário descreve um ambiente e uma revisão coerente.
+
+| Campo | Pergunta a responder no código |
+|---|---|
+| Uso | A rota consulta, preenche ou ignora o cache? Para quais respostas? Separe o cache da resposta de uma rota do cache usado ao chamar outro serviço. |
+| Estratégia | Em um acerto, de onde vêm os dados? Em uma falta, quem busca e quem grava? Identifique a chave lógica e se a entrada é por usuário, repositório ou consulta. Mostre as linhas que implementam esse fluxo. |
+| TTL | Qual expressão determina o prazo, em qual unidade e a partir de qual instante? Acertos renovam o vencimento? Siga a constante até sua definição e confira a unidade esperada pelo adaptador. Quando o valor vier do ambiente, registre o nome da variável, a unidade e o padrão definido no código. A duração efetiva fica pendente enquanto depender de um valor externo. |
+| Invalidação | Qual evento dispara a remoção, substituição ou troca de versão? Qual chave ou conjunto de chaves é atingido? Siga a função de escrita até a remoção e a função de leitura até a chave correspondente. Diferencie expiração por tempo de invalidação antecipada. |
+
+**Limite da evidência.** Use trechos de código para todos os campos, inclusive hipóteses e divergências. Contratos descritivos, manuais, cabeçalhos capturados, logs e medições podem sugerir onde procurar. A ficha exige trechos do repositório. Para confirmar um mecanismo, cite a implementação executável que vincula a rota à política. Testes automatizados podem complementar a leitura. Considere middleware global, wrappers e regras específicas que substituam o padrão antes de afirmar que o cache está desativado. Um valor zero só recebe interpretação após conferir sua semântica no adaptador.
+
+Se a própria implementação emitir diretrizes HTTP, registre a diretiva e a camada a que se aplica. Por exemplo, `s-maxage` descreve frescor em caches compartilhados. O TTL de um cache interno precisa de evidência no adaptador interno. [RFC 9111, seção 5.2.2.10](https://www.rfc-editor.org/rfc/rfc9111.html#section-5.2.2.10)
+
+## Registrar no inventário
+
+1. Para cada proposição, use `tipo: cache_rota` com o ID da API em `origem`, além de `metodo_http`, `rota` parametrizada, `camada`, `campo` e `valor`. Os campos previstos são `uso`, `estrategia`, `ttl` e `invalidacao`. Quando só a rota estiver localizada, use `campo: operacao`, descreva o vínculo ao handler em `valor` e use `camada: a-identificar` se necessário. A ficha mostra os campos sem afirmação como pendentes. Para um campo comprovadamente inaplicável, registre o motivo e a evidência como nas demais afirmações.
+2. Anexe as leituras que, juntas, comprovam método, caminho, camada e campo. Use uma evidência para o vínculo da rota e outras para o middleware, o adaptador e o gatilho de invalidação quando estiverem em arquivos diferentes. Guarde a cópia mínima de linhas seguras em `provas/*.txt`. Reserve apenas linhas que possam ser reproduzidas literalmente. Se contiverem segredos, selecione linhas alternativas ou registre a lacuna.
+3. Em cada evidência, preencha `codigo.repositorio` (nome lógico da pasta), `codigo.caminho` relativo ao repositório, `codigo.linha_inicial`, `codigo.linha_final` e `codigo.tipo` (`implementacao` ou `teste`). Em `versao_fonte`, use `sha256:` seguido do digest do arquivo-fonte inteiro. Em `sha256`, guarde o digest do extrato distribuído. Os campos de linha fora de `codigo` referem-se ao extrato. Se disponível, registre também o commit em `localizador`.
+4. Use `--fontes` para indicar a pasta que contém os repositórios autorizados. Por padrão, o validador procura em `fontes/<repositorio>/<caminho>` ao lado do inventário. A validação lê a fonte e compara a versão e as linhas com o extrato. Para reproduzir uma fotografia antiga, use a revisão correspondente. A geração publica os extratos no vault e mantém o checkout no local original.
+
+Para uma política condicional, descreva os ramos em `valor` e aponte a prova de cada ramo. Se duas fontes do mesmo recorte se contradisserem, reúna as leituras em uma única afirmação divergente. A nota **Cache por rota** leva a cada afirmação e às evidências correspondentes. A data `valido_ate` rege a revisão do conhecimento. A duração da entrada de cache fica em `campo: ttl`.

@@ -1,0 +1,40 @@
+{
+  "chave": "24c655165e0968c85556ea54a5362f5de00ec7bb016939f39b0e355f0cf59c79",
+  "arquivos": {
+    "af-consumo.md": "21668c46a6fe55b15da3091a76818ea5d0fafea42f46d8728241ab528040c1fc",
+    "af-execucao.md": "9b935dc19c441ce39fec8bfb3700e2bc12a4f6dc4ad2004971896eb13cebfbdd",
+    "af-gravacao.md": "01975f7b7b7df8e4c271206e2bad88f24f7af0272dea15ea8302c1363049c64a",
+    "af-modelo.md": "3d9100716b187cf8950a7d0502f0a0dcd2ad01a57961b87f842bec4322353b54",
+    "af-profundidade.md": "841297eedcc84d51438a67c696c709ec9c3a6c69580d305806e204ea041af7ae",
+    "af-rede.md": "7b61402b768f387667b70847b6eaf343c76ec13632702874343460addc35b407",
+    "af-replicas.md": "57c86bc2b9c9eef1f332d5862979befdb6c5636516afb1257eb7fb9c8bb2d163",
+    "Cache por rota.md": "4dad665e665d52e02d997c6b3f96acbcfa9c603092ebdc1abb11caf6deb13ee7",
+    "cmp-acervo.md": "86edff4053ac8bbe2e9998c9cdc9679b56989a1829cb254de590b383548866e7",
+    "cmp-coleta.md": "eafed71ea537883675425ed1512ab227d7a85fef8fbea868da171850458977fc",
+    "cmp-host.md": "daafa732f400b65b6f71baaa36a445831ecbe4cf7bfcf23c4acec87862bc5550",
+    "cmp-ingestao.md": "54ad6bae77aa0230ae9bf0b2e69a95988ae42aaead6b9075d8803d2c095aea41",
+    "cmp-modelo.md": "89102f749bc68a2d4945c48a609cedd90aeddb3338c93bcf8348ac5bcfe650d7",
+    "cmp-rede.md": "6a3a543ffdba3f044af8c547c75293060885609579120835380b2a28bea4716f",
+    "cmp-trabalhador.md": "665f4573d30a0b13236d3df04a358a692ce05b850c96efd3e5a845923eb6b7d9",
+    "cmp-triagem.md": "04e981c41af1dfda18ab2cf39891cbdb2871d6153e9bc29d09a5a39dd510e769",
+    "ev-consumo.md": "47ec1bcc39191ac76bdee79d32ff6fad1fd4d5ad52e219d194d79a3c786d1610",
+    "ev-execucao.md": "58d768561dc3c8c3b9b5cfc5253d7c20a5553ac0706cdb5ee7e8cbdd2e5a255a",
+    "ev-gravacao.md": "4ceae4b90f5fa87f785a90c1a04651f6d765f5e92c89bf8f39b15b811c03eafc",
+    "ev-modelo.md": "e4f221e84020af362e714e01af476e1ee4c8e3df3972eabd383797b5b44c1460",
+    "ev-profundidade.md": "902bce69e225032fa8ad6f1ffaf3cde7bcb08e1687aba3f72854395a0b3d9ee0",
+    "ev-rede.md": "787e8a6290a030113ef15bee56e6116c404667c632e4c03a6fdd3635fd7cd704",
+    "ev-replicas-sonda.md": "9d47968b6465fc72959df98f27a0529ea1271ba95101f3c7a6ec6cb2e7848414",
+    "ev-replicas.md": "f9e5ada41b4625e3317da92168a66ba541b2bf81ab371fd55f2776633e3f0cf8",
+    "Mapa.md": "7eae2a81e2a8fab6da1cba7827f2efbdb7c63d16e2bbbf2f7ad66ceb47f0895f",
+    "provas/eventos.txt": "8fc6e65d664718147bc32bc1b07e4207d169ca7e7967ecb7979337b3bc6b0ab8",
+    "provas/sonda.txt": "381d8647a145e3ada6a5cc6b0edbc4d285f71897417b1dc9b62081315763a66a"
+  },
+  "perguntas": [
+    "Qual fonte atual permite revisar [[af-modelo]] de cmp-triagem (inferencia)?",
+    "Qual fonte atual permite revisar [[af-replicas]] de cmp-triagem (divergente)?",
+    "Qual fonte atual permite revisar [[af-profundidade]] de cmp-coleta (obsoleta)?",
+    "Quais arquivos ou extratos completam a ficha de [[cmp-triagem]] no plano observado? Ver campos a verificar em: Dependências e execução, Ponto de entrada, Banco de dados e dependências, Amostra de rotas, serviços e schemas, Autenticação e autorização, Clientes HTTP e integrações, Proteção contra abuso e configuração, Filas, cache e tarefas assíncronas, Proxy reverso e balanceador, Recursos e escalabilidade.",
+    "Quais arquivos ou extratos completam a ficha de [[cmp-ingestao]] no plano observado? Ver campos a verificar em: Dependências e execução, Ponto de entrada, Banco de dados e dependências, Amostra de rotas, serviços e schemas, Autenticação e autorização, Clientes HTTP e integrações, Proteção contra abuso e configuração, Filas, cache e tarefas assíncronas, Proxy reverso e balanceador, Recursos e escalabilidade.",
+    "Qual repositório e revisão contêm as rotas de cmp-ingestao neste recorte?"
+  ]
+}

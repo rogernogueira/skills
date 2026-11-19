@@ -1,0 +1,2 @@
+SIMULAÇÃO | sonda independente | lote LAB-07 | dados fictícios
+09:06Z | inventário de processos | réplicas ativas de triagem = 1 | instante de referência 09:06Z

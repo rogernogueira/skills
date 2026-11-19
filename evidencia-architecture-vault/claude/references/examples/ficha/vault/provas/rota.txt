@@ -1,0 +1,5 @@
+# Trecho do arquivo coletas.py do exemplo sintético
+@router.get("/repositorios/{id}/coletas", response_model=list[ColetaSaida])
+async def listar_coletas(id: int, usuario=Depends(get_current_user), db=Depends(get_db)):
+    await exigir_acesso_ao_repositorio(usuario, id, db)
+    return await consultas.listar_por_repositorio(db, id)

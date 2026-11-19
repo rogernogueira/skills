@@ -1,0 +1,2 @@
+# Procfile do exemplo sintético
+web: uvicorn app:app --host 0.0.0.0 --port 8000 --workers 2 --limit-concurrency 80 --timeout-keep-alive 5

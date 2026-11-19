@@ -1,0 +1,7 @@
+# Trecho do arquivo database.py do exemplo sintético
+engine = create_async_engine(settings.db_url, pool_size=4, max_overflow=2)
+sessoes = async_sessionmaker(engine, expire_on_commit=False)
+
+async def get_db():
+    async with sessoes() as sessao:
+        yield sessao

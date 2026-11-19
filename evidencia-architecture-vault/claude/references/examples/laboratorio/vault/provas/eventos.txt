@@ -1,0 +1,8 @@
+SIMULAÇÃO | EvidencIA | laboratório isolado | lote LAB-07 | dados fictícios
+09:00Z | runtime | contêiner trabalhador-01 executado em host-lab | em execução
+09:01Z | runtime | contêiner trabalhador-01 ligado à rede rede-coleta | associação ativa
+09:02Z | entrega | serviço triagem confirmou consumo da mensagem sintética 17 da fila coleta
+09:03Z | métrica | fila coleta | profundidade máxima = 12 mensagens entre 09:00Z e 09:03Z
+09:04Z | triagem | inicialização solicitada com perfil classificador-demo | revisão carregada desconhecida
+09:05Z | acesso | API de ingestão gravou o registro de teste lote-07 no armazenamento acervo
+09:06Z | contador do serviço | réplicas ativas de triagem = 2 | instante de referência 09:06Z

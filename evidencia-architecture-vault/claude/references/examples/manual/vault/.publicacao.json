@@ -1,0 +1,15 @@
+{
+  "chave": "4a4f7d4f0c8c55dd5851f1621aa77cc9c14ba1ef209d77b5d0c3e58d53f0cb0b",
+  "arquivos": {
+    "af-consulta-harvester.md": "ee607103bc5c420776edf466899aa2c16f1c4ab7ed838465ef77494f9262f378",
+    "cmp-harvestboard.md": "22180b76aabd2aae62159d4e708ddf13330e6260b4bd1d11c893feabc14db910",
+    "cmp-harvester.md": "f9a44b2fe570d2626e036cd8b0296b0d687024e674ed31d5566927b372f532e0",
+    "ev-origem-coleta.md": "6f7985933d7fc30bfdadbe01ec4c06d49a026df8493c4c56e8f87fa3900436f8",
+    "Mapa.md": "7027defbf602aeb45867b8c10a8ecb527692bdb2a0f7ae8eaba93ed4d71842f5",
+    "provas/origem-das-coletas.txt": "c7cad7071bb747cfc65dba9cddb6c432e1e6e921219e72c071cda4a9198f019f"
+  },
+  "perguntas": [
+    "Quais arquivos ou extratos completam a ficha de [[cmp-harvestboard]] no plano documentado? Ver campos a verificar em: Dependências e execução, Ponto de entrada, Banco de dados e dependências, Amostra de rotas, serviços e schemas, Autenticação e autorização, Clientes HTTP e integrações, Proteção contra abuso e configuração, Filas, cache e tarefas assíncronas, Proxy reverso e balanceador, Recursos e escalabilidade.",
+    "Quais arquivos ou extratos completam a ficha de [[cmp-harvester]] no plano documentado? Ver campos a verificar em: Dependências e execução, Ponto de entrada, Banco de dados e dependências, Amostra de rotas, serviços e schemas, Autenticação e autorização, Clientes HTTP e integrações, Proteção contra abuso e configuração, Filas, cache e tarefas assíncronas, Proxy reverso e balanceador, Recursos e escalabilidade."
+  ]
+}

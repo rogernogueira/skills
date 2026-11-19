@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Uma proposição por registro",
+  "oneOf": [
+    { "$ref": "cache-rota.schema.json" },
+    {
+      "type": "object",
+      "required": [
+        "id",
+        "origem",
+        "estado",
+        "confianca",
+        "criterio",
+        "revisado_por",
+        "revisado_em",
+        "valido_de",
+        "valido_ate",
+        "tipo",
+        "relacao",
+        "destino"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^af-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "origem": {
+          "type": "string",
+          "pattern": "^cmp-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "estado": {
+          "type": "string",
+          "enum": [
+            "confirmada",
+            "inferencia",
+            "divergente",
+            "obsoleta"
+          ]
+        },
+        "confianca": {
+          "type": "string",
+          "enum": [
+            "alta",
+            "media",
+            "baixa"
+          ]
+        },
+        "criterio": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revisado_por": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revisado_em": {
+          "type": "string",
+          "format": "date"
+        },
+        "valido_de": {
+          "type": "string",
+          "format": "date"
+        },
+        "valido_ate": {
+          "type": "string",
+          "format": "date"
+        },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "dependencia"
+          ]
+        },
+        "relacao": {
+          "type": "string",
+          "enum": [
+            "consulta",
+            "executa_em",
+            "conecta_a",
+            "chama_api",
+            "publica_em",
+            "consome_de",
+            "carrega_modelo",
+            "le_de",
+            "grava_em",
+            "monta",
+            "depende_de"
+          ]
+        },
+        "destino": {
+          "type": "string",
+          "pattern": "^cmp-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "id",
+        "origem",
+        "estado",
+        "confianca",
+        "criterio",
+        "revisado_por",
+        "revisado_em",
+        "valido_de",
+        "valido_ate",
+        "tipo",
+        "chave",
+        "valor"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^af-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "origem": {
+          "type": "string",
+          "pattern": "^cmp-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "estado": {
+          "type": "string",
+          "enum": [
+            "confirmada",
+            "inferencia",
+            "divergente",
+            "obsoleta"
+          ]
+        },
+        "confianca": {
+          "type": "string",
+          "enum": [
+            "alta",
+            "media",
+            "baixa"
+          ]
+        },
+        "criterio": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revisado_por": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revisado_em": {
+          "type": "string",
+          "format": "date"
+        },
+        "valido_de": {
+          "type": "string",
+          "format": "date"
+        },
+        "valido_ate": {
+          "type": "string",
+          "format": "date"
+        },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "propriedade"
+          ]
+        },
+        "chave": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]*$"
+        },
+        "valor": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    }
+  ]
+}

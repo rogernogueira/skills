@@ -1,0 +1,9 @@
+# Trecho de nginx.conf da implantação didática
+location /repositorios/ {
+    client_max_body_size 4m;
+    proxy_read_timeout 20s;
+    proxy_send_timeout 10s;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_pass http://api_coletas;
+}

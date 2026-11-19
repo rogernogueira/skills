@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Afirmação sobre o cache de uma operação de API",
+  "type": "object",
+  "required": [
+    "id",
+    "origem",
+    "tipo",
+    "metodo_http",
+    "rota",
+    "camada",
+    "campo",
+    "valor",
+    "estado",
+    "confianca",
+    "criterio",
+    "revisado_por",
+    "revisado_em",
+    "valido_de",
+    "valido_ate"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^af-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "origem": {
+      "type": "string",
+      "pattern": "^cmp-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "cache_rota"
+      ]
+    },
+    "metodo_http": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]*$"
+    },
+    "rota": {
+      "type": "string",
+      "pattern": "^/(?!/)[^\\s?#`|]*$"
+    },
+    "camada": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "campo": {
+      "type": "string",
+      "enum": [
+        "operacao",
+        "uso",
+        "estrategia",
+        "ttl",
+        "invalidacao"
+      ]
+    },
+    "valor": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "estado": {
+      "type": "string",
+      "enum": [
+        "confirmada",
+        "inferencia",
+        "divergente",
+        "obsoleta"
+      ]
+    },
+    "confianca": {
+      "type": "string",
+      "enum": [
+        "alta",
+        "media",
+        "baixa"
+      ]
+    },
+    "criterio": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "revisado_por": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "revisado_em": {
+      "type": "string",
+      "format": "date"
+    },
+    "valido_de": {
+      "type": "string",
+      "format": "date"
+    },
+    "valido_ate": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# Trecho do arquivo consultas.py do exemplo sintético
+async def listar_por_repositorio(db, repo_id):
+    stmt = select(Coleta).where(Coleta.repositorio_id == repo_id)
+    return (await db.scalars(stmt)).all()
